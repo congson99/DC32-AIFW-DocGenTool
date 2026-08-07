@@ -1,0 +1,5 @@
+.claude/settings.local.json
+project/*
+!project/project_config.md
+workspace/
+.DS_Store
