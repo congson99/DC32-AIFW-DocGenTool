@@ -34,6 +34,8 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
      Please fill these in before running /publish.
      ```
 6. Check `workspace/<folder-name>/ba_doc_<slug>.md` exists — if missing, stop: "BA Doc not found. Run `/package <Feature Name>` first."
+7. Check all nine files under `workspace/<folder-name>/docs/` exist (`brief_<slug>.md`, `dependencies_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md`) — if any are missing, stop: "`<file>` not found. Run `/package <Feature Name>` again to regenerate the BA Doc and its source files."
+8. Read `workspace/<folder-name>/input/env_<slug>.md` and check for an "AI Doc folder" entry under "Confluence output pages" — if missing or still a placeholder, stop: "`AI Doc folder` is not set in env_<slug>.md. Add a Confluence page link to publish role-specific AI Docs under."
 
 ---
 
@@ -43,7 +45,27 @@ Publish the contents of `workspace/<folder-name>/ba_doc_<slug>.md` to the Conflu
 
 ---
 
-## Step 2 — Execute Task Automation
+## Step 2 — Publish Role-Specific AI Docs
+
+This always runs — it is not configurable via Task Automation. Create or update three child pages under the "AI Doc folder" page (from `env_<slug>.md`), one per role, each assembled from the already-generated files in `workspace/<folder-name>/docs/`:
+
+| Page title | Sections included, in order |
+|---|---|
+| `AI Doc for BE - <Feature Name>` | Brief, Dependencies, Acceptance Criteria, Business Rules, Data Definition, Messages |
+| `AI Doc for FE - <Feature Name>` | Brief, Dependencies, Acceptance Criteria, Business Rules, Data Definition, Navigation, Flow, UI Behavior, Messages |
+| `AI Doc for Mobile - <Feature Name>` | Brief, Dependencies, Acceptance Criteria, Business Rules, Data Definition, Navigation, Flow, UI Behavior, Messages |
+
+For each role page:
+1. Concatenate the full content of each listed section's source file, in the order shown, separated by `---` — same assembly style as `/package`.
+2. Renumber the `## N. <Title>` heading of each included section sequentially starting from `1`, in the order it appears on that page (e.g. for the BE page, Messages was `## 9. Messages` in the source file and becomes `## 6. Messages`). FE and Mobile include all nine sections in their original order, so their numbering is unchanged. This follows the same renumbering rule described under "Section numbering on split pages" in Step 3 below.
+3. Check whether a child page with that exact title already exists under the "AI Doc folder" page:
+   - **Exists** → update its content.
+   - **Does not exist** → create it as a new child page under "AI Doc folder".
+4. Track success or failure per page for the Summary.
+
+---
+
+## Step 3 — Execute Task Automation
 
 Read `project/project_config.md` and locate the `## 4. Task Automation` section. Parse all action entries within that section (stop at the next `## ` heading or end of file).
 
@@ -53,7 +75,7 @@ For each action listed, execute it using the appropriate MCP tools and any relev
 
 ---
 
-## Step 3 — Clear Feature (optional)
+## Step 4 — Clear Feature (optional)
 
 Ask the user:
 > "Do you want to clear the feature folder `workspace/<folder-name>/`? (yes/no)"
@@ -76,6 +98,9 @@ After all steps are complete, display:
 | Step | Result |
 |---|---|
 | Publish BA Doc | <result> |
+| AI Doc for BE | <result> |
+| AI Doc for FE | <result> |
+| AI Doc for Mobile | <result> |
 | <action 1 from Task Automation> | <result> |
 | <action 2 from Task Automation> | <result> |
 | ... | ... |
