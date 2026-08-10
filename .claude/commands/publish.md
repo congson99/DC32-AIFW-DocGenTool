@@ -43,6 +43,11 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 
 Publish the contents of `workspace/<folder-name>/ba_doc_<slug>.md` to the Confluence page listed under "Confluence output pages: BA Doc" in `env_<slug>.md`. This always runs — it is not configurable via Task Automation.
 
+Before the converted content, insert a native Confluence Table of Contents macro so the page opens with a full-level heading outline, no bullets or numbers. Use `contentFormat: "html"` and prepend this node ahead of the rest of the body:
+```html
+<div data-type="extension" data-extension-key="toc" data-extension-type="com.atlassian.confluence.macro.core" data-parameters='{"macroParams":{"minLevel":{"value":"1"},"maxLevel":{"value":"6"},"style":{"value":"none"}}}'></div>
+```
+
 ---
 
 ## Step 2 — Publish Role-Specific AI Docs
