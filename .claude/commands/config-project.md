@@ -188,5 +188,5 @@ Still placeholder (skipped): <list anything left unfilled, or "none">
 ```
 Next:
 1. Commit and push project/project_config.md to a branch for this project, then share that branch with the rest of the team — so they can just clone it and reuse this same config instead of running /config-project themselves. Only commit/push if the user explicitly confirms — never do it automatically. If the user gives a branch name, automatically prefix it with `project/` (e.g. the user says "inventory" → create/use branch `project/inventory`) without asking — don't create the branch under the bare name they gave.
-2. Run /start <Feature Name> to begin a feature.
+2. In this same clone, check out the BA Doc or QA Doc tool branch for this project (`git checkout dev/BA` or `git checkout dev/QA`) — project/context/ and project/reference/ just synced above are gitignored, so they carry over automatically. Only project_config.md needs restoring there, since it's the one tracked file: `git show project/<name>:project/project_config.md > project/project_config.md`. Then run /start <Feature Name> to begin a feature.
 ```
