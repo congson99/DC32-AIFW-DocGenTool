@@ -8,8 +8,8 @@ v1.0
 
 1. [Overview](#1-overview)
 2. [How to Start](#2-how-to-start)
-   1. [Prepare Context](#21-prepare-context)
-   2. [Setup Environment](#22-setup-environment)
+   2.1. [Prepare Context](#21-prepare-context)
+   2.2. [Setup Environment](#22-setup-environment)
 3. [Available Commands](#3-available-commands)
 4. [Folder Structure](#4-folder-structure)
 
@@ -32,7 +32,7 @@ v1.0
 
 ---
 
-### 2.1 Prepare Context
+### 2.1. Prepare Context
 
 - **Confluence space** — a dedicated Confluence space to host this project's context and reference docs going forward.
 - **Atlassian connection** (mandatory) — a link to any Jira ticket or Confluence page in your workspace, just to establish the connection.
@@ -49,19 +49,19 @@ v1.0
 
 ---
 
-### 2.2 Setup Environment
+### 2.2. Setup Environment
 
 1. **Install VS Code** — install [VS Code](https://code.visualstudio.com/), or any other IDE that supports the Claude Code extension (e.g. JetBrains IDEs).
 2. **Clone this branch and open it in VS Code**
-   1. Go to https://github.com/congson99/DC32-AIFW-DocGenTool, find the branch for the **Project Configuration Tool** version you need, and clone it.
-   2. Open VS Code
-   3. Go to **File → Open Folder**
-   4. Select the cloned folder
+   - Go to https://github.com/congson99/DC32-AIFW-DocGenTool, find the branch for the **Project Configuration Tool** version you need, and clone it.
+   - Open VS Code
+   - Go to **File → Open Folder**
+   - Select the cloned folder
 3. **Install the Claude Code extension in VS Code**
-   1. Go to **Extensions** (Ctrl+Shift+X / Cmd+Shift+X)
-   2. Search for **Claude Code**
-   3. Click **Install**
-   4. Click the **Claude** icon in the VS Code sidebar (or use the keyboard shortcut shown after install) to open the panel
+   - Go to **Extensions** (Ctrl+Shift+X / Cmd+Shift+X)
+   - Search for **Claude Code**
+   - Click **Install**
+   - Click the **Claude** icon in the VS Code sidebar (or use the keyboard shortcut shown after install) to open the panel
 
 ---
 
