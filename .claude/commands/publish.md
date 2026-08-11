@@ -49,7 +49,7 @@ Read `project/project_config.md` and locate the `## 4. Task Automation` section.
 
 For each action listed, execute it using the appropriate MCP tools and any relevant values from `env_<slug>.md`. Track the result of each action for the Summary.
 
-**Section numbering on split pages:** When an action publishes only a subset of QA Doc sections (e.g. "Publish section Test Cases ... to its own confluence output page") to its own standalone Confluence page, renumber the section headings sequentially starting from `1` in the order they appear on that page — do not carry over their original QA Doc numbering (e.g. `2. Test Cases` becomes `1. Test Cases`). This applies only to the heading number published to Confluence; the numbering inside `workspace/<folder-name>/` source files and the full `qa_doc_<slug>.md` stays unchanged.
+**Section numbering on split pages:** When an action publishes only a subset of QA Doc sections (e.g. "Publish section Test Cases ... to its own confluence output page") to its own standalone Confluence page that starts fresh (no prior content on that page), renumber the section headings sequentially starting from `1` in the order they appear on that page — do not carry over their original QA Doc numbering (e.g. `2. Test Cases` becomes `1. Test Cases`). When an action instead appends sections to a page that already has content, read that page's current highest top-level section number first and number the newly appended sections to continue sequentially from it, per that action's own description. This applies only to the heading number published to Confluence; the numbering inside `workspace/<folder-name>/` source files and the full `qa_doc_<slug>.md` stays unchanged.
 
 ---
 

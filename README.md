@@ -1,6 +1,6 @@
 # DC32 QA Documentation Claude Tool
 
-v2.1
+v1.0
 
 ---
 
@@ -93,10 +93,12 @@ Used as part of the regular per-feature QA document generation flow.
 |---|---|
 | `/start <Feature Name>` | Initialize feature folder, env file, and context file |
 | `/investigate <Feature Name>` | Read the feature's Source BA Doc and distill it into a Test Basis file, asking the user for anything missing |
+| `/resolve-assumptions <Feature Name>` | Identify unclear points in the Test Basis/Source BA Doc and get the user to confirm or resolve every one of them before any generation begins |
 | `/gen-test-scenarios <Feature Name>` | Generate Test Scenarios from the Test Basis |
 | `/gen-test-cases <Feature Name>` | Generate Test Cases from the Test Scenarios |
-| `/gen-doc <Feature Name>` | Run gen-test-scenarios, gen-test-cases, and package back-to-back |
 | `/package <Feature Name>` | Package Test Scenarios and Test Cases into a single QA Doc |
+| `/review-spec <Feature Name>` | Review AC, Business Rules, Flow, and Test Scenarios for quality, completeness, and coverage |
+| `/gen-doc <Feature Name>` | Run resolve-assumptions, gen-test-scenarios, gen-test-cases, package, and review-spec back-to-back |
 | `/publish <Feature Name>` | Publish QA Doc to Confluence and update Jira status |
 
 ### Other Commands
@@ -128,11 +130,15 @@ AI-FW-Doc-Generation/
 │   ├── project_config.md                  ← project config (tracked — committed unconfigured; run /config-project to set it up locally per project)
 │   ├── context/                           ← domain overview, modules, user stories (not committed)
 │   └── reference/                         ← spec sheets, Confluence exports (not committed)
+│       ├── business-rules/                ← principles + shared references for Business Rules
+│       ├── ui-behavior/                   ← principles + shared references for UI Behavior
+│       ├── navigation/                    ← shared navigation patterns
+│       ├── messages/                      ← shared message templates and wording conventions
 │       ├── test-scenarios/                ← principles + shared references for Test Scenarios
 │       └── test-cases/                    ← principles + shared references for Test Cases
 └── workspace/                             ← per-feature working area (not committed)
     └── <feature-name>/
-        ├── input/                         ← env_<slug>.md, context_<slug>.md, test_basis_<slug>.md
-        ├── docs/                          ← generated QA doc sections (Test Scenarios, Test Cases)
+        ├── input/                         ← env_<slug>.md, context_<slug>.md, test_basis_<slug>.md, assumptions_<slug>.md
+        ├── docs/                          ← generated QA doc sections (Test Scenarios, Test Cases, Spec Review)
         └── qa_doc_<slug>.md               ← final packaged document
 ```

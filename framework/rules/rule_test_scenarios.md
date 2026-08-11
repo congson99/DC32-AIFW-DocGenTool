@@ -37,8 +37,8 @@ For every `[Needs Clarification]` item, ask the user directly and resolve it bef
 - Title: `S<N> — <short business-readable title>`.
 - Body: `Given` / `When` / `Then` / `And` lines, active voice, present tense, concise.
 - One objective per scenario.
-  - Good: "Reject duplicate Warehouse Code"
-  - Avoid: "Reject duplicate Warehouse Code and invalid Address" (two objectives merged)
+  - Good: "Reject duplicate `<Field>`"
+  - Avoid: "Reject duplicate `<Field>` and invalid `<Other Field>`" (two objectives merged)
 
 ---
 

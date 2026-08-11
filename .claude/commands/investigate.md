@@ -45,28 +45,27 @@ You are a Senior QA Engineer distilling an existing BA Doc into a single Test Ba
 
 Write all descriptive content in the Test Basis file in the Document language noted during Pre-flight Check — keep section headings (e.g. `## Feature Overview`) in English.
 
-Create `workspace/<folder-name>/input/test_basis_<slug>.md` by going through every section of the template, one section at a time — never fill a section into the file without the user confirming it first, no matter how clearly it seems derivable from the BA Doc. Nothing gets written silently, including `## Feature Overview`.
+The Source BA Doc is trusted as the authoritative input — do not ask the user to confirm, review, or approve content that is derivable from it. Create `workspace/<folder-name>/input/test_basis_<slug>.md` by deriving every section directly and writing it in, silently. Only ask the user about a section when the BA Doc and loaded context are genuinely silent on it (see Step 2) — this is the sole case where a question is warranted.
 
-**Step 1 — Section-by-section draft and confirm**
+**Step 1 — Auto-derive every section**
 
 For each section, in template order:
-1. Research and draft a proposed answer:
-   - Base it primarily on the fetched Source BA Doc, mapping its sections regardless of their exact original headings (e.g. a Brief's Goal/Scope feeds Feature Overview; a Dependencies section or a Flow's Entry preconditions feed Preconditions/Dependencies; Business Rules plus Data Definition's field validation rules plus an AC "Validation" group feed Business Rules & Validations; a Flow's Main/Alternate/Exception paths feed Flow; a UI Behavior doc plus a Messages doc feed UI Behavior & Messages; an AC "Access Control" group or an explicit Permissions section feeds Permissions).
-   - Fill gaps using the loaded context files (shared project context) and reasonable domain patterns only when the BA Doc itself is silent.
-   - Present the draft as a starting point, not a final answer — make clear it's a guess the user should confirm, edit, or reject, not a stated fact.
-   - If there is genuinely nothing in the BA Doc or context to draft from, skip the draft and just ask the open question instead.
-2. Ask the user about that section as its own separate question — never batch multiple sections into one message.
+- Derive the content primarily from the fetched Source BA Doc, mapping its sections regardless of their exact original headings (e.g. a Brief's Goal/Scope feeds Feature Overview; a Dependencies section or a Flow's Entry preconditions feed Preconditions/Dependencies; Business Rules plus Data Definition's field validation rules plus an AC "Validation" group feed Business Rules & Validations; a Flow's Main/Alternate/Exception paths feed Flow; a UI Behavior doc plus a Messages doc feed UI Behavior & Messages; an AC "Access Control" group or an explicit Permissions section feeds Permissions). When the Source BA Doc carries its own IDs (e.g. AC1, R1), keep those IDs inline next to each derived item.
+- Fill gaps using the loaded context files (shared project context) and reasonable domain patterns when the BA Doc itself is silent but a reasonable default exists.
+- Write the derived content directly into that section of the file — no confirmation step.
+- If there is genuinely nothing in the BA Doc, context, or reasonable domain pattern to derive from for a section → leave that section's placeholder text as-is for now and add it to the gap list for Step 2.
 
-Prefix every question with its running position out of the fixed total, e.g. "Question 2/7: ..." (translate "Question" into the conversation's language) — same convention as `/config-project` and `/start`. The total is the fixed number of sections in the template (currently 7: Feature Overview, Preconditions / Dependencies, Business Rules & Validations, Flow, UI Behavior & Messages, Permissions, Notes / Open Questions).
+**Step 2 — Ask only about genuine gaps**
 
-Ask each question in the language the user is currently chatting in — but the drafted content itself must be written in the Document language noted during Pre-flight Check, since it goes straight into `test_basis_<slug>.md` if confirmed (only the question's surrounding phrasing/framing follows the chat language, not the draft content). Format like:
-> Question 1/7: **Feature Overview** — Based on the Source BA Doc's Brief, here's a draft (written in the Document language): <summary>. Reply "confirm" (or "ok") to keep this as-is, give corrections/additions, or say "skip" to leave it for later.
+After Step 1, if any sections were added to the gap list, ask about each one individually, one per message — never batch multiple sections into one message. Prefix each question with its running position out of the total number of gaps found (not the fixed 7), e.g. "Question 1/2: ..." (translate "Question" into the conversation's language). Format like:
+> Question 1/2: **Permissions** — The Source BA Doc doesn't specify this. <open question about what's needed>
 
 After each answer:
-- "confirm"/"ok"/similar → write the drafted content into that section as-is.
-- Corrections or additions → merge them into the draft, favoring the user's input wherever it conflicts with the draft, then write the merged result.
-- "skip" or blank → keep the original placeholder text for that section, unwritten.
-- Then move on to the next section's question, until every section in the template has been asked about.
+- An answer → write it into that section (in the Document language).
+- "skip" or blank → keep the placeholder text for that section, unwritten.
+- Then move to the next gap's question, until every gap has been asked about.
+
+If Step 1 finds no gaps, skip Step 2 entirely and go straight to Confirm below.
 
 Template:
 

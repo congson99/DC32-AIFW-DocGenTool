@@ -38,17 +38,18 @@ You are connecting to the MCP servers configured for this project.
 
 5. After the user confirms they've authorized, re-check the entries that failed. Repeat step 4 if any are still failing.
 
-6. Update `project/project_config.md` with the MCP connect timestamp:
-   - Get the current date and time at the moment connection completes.
+6. Update `project/project_config.md` with the MCP connect timestamp, tracked per server (not one shared timestamp):
+   - Get the current date and time at the moment each entry's connection completes.
    - Check if a `## 0. Status` section already exists in the file:
-     - **If it exists** → update or add the `Latest MCP connect:` line in place with the new timestamp.
-     - **If it does not exist** → insert the following block right after the guidance blockquote and its `---` separator near the top of the file, before `## 1. Project Setup` (with one blank line before the next section):
+     - **If it exists** → under its `Latest MCP connect:` line, update or add a `- <server-name>: YYYY/MM/DD HH:MM:SS` line for each server that was just (re)connected, leaving other servers' lines untouched.
+     - **If it does not exist** → insert the following block right after the guidance blockquote and its `---` separator near the top of the file, before `## 1. Project Setup` (with one blank line before the next section), with one line per connected server:
        ```
        ## 0. Status
-       Latest MCP connect: YYYY/MM/DD HH:MM:SS
+       Latest MCP connect:
+       - <server-name>: YYYY/MM/DD HH:MM:SS
        ---
        ```
-   - Use the format `YYYY/MM/DD HH:MM:SS` for the timestamp.
+   - Use the format `YYYY/MM/DD HH:MM:SS` for each timestamp.
 
 7. Report results:
    ```

@@ -25,6 +25,7 @@ You are a Senior QA Engineer helping the user configure `project/project_config.
    ### MCP Config
 
    - Atlassian: <confluence-mcp-url>
+   - Figma: <figma-url>
 
    ### Language
 
@@ -36,27 +37,40 @@ You are a Senior QA Engineer helping the user configure `project/project_config.
 
    ### Context
 
+   ### Business Rules — Principles
+
+   - project/reference/business-rules/principles/<filename>.md
+     url: <confluence-page-url>
+
+   ### Business Rules — Shared References
+
+   - project/reference/business-rules/shared-references/<filename>.md
+     url: <confluence-page-url>
+
+   ### UI Behavior — Principles
+
+   - project/reference/ui-behavior/principles/<filename>.md
+     url: <confluence-page-url>
+
+   ### UI Behavior — Shared References
+
+   - project/reference/ui-behavior/shared-references/<filename>.md
+     url: <confluence-page-url>
+
+   ### Navigation
+
+   - project/reference/navigation/<filename>.md
+     url: <confluence-page-url>
+
+   ### Messages
+
+   - project/reference/messages/<filename>.md
+     url: <confluence-page-url>
+
    ### Test Scenarios — Principles
 
    - project/reference/test-scenarios/principles/<filename>.md
      url: <confluence-page-url>
-
-   ### Test Scenarios — Shared References
-
-   - project/reference/test-scenarios/shared-references/<filename>.md
-     url: <confluence-page-url>
-
-   ### Test Cases — Principles
-
-   - project/reference/test-cases/principles/<filename>.md
-     url: <confluence-page-url>
-
-   ### Test Cases — Shared References
-
-   - project/reference/test-cases/shared-references/<filename>.md
-     url: <confluence-page-url>
-
-   ### Test Cases — UI References
 
    ---
 
@@ -87,11 +101,32 @@ You are a Senior QA Engineer helping the user configure `project/project_config.
    ### Confluence
 
    `````
-3. Read the file and check each section for unfilled placeholders (pattern `<...>`): `## 1. Project Setup` (covering Project Name, MCP Config, Language), `## 2. Context Sync`, `## 3. Task Environment`, `## 4. Task Automation`.
+3. If step 2 above just reset the file to the skeleton (i.e. this is a brand-new project setup, not a partially-configured one) → before starting the Q&A, ask the user:
+   > "Does this project already have a BA `project_config.md` configured? If so, give me that branch name (or paste the full content of the file) so I can reuse the Project Name, Atlassian connection, Language, and shared Context instead of asking again. Otherwise say 'no' and I'll ask these directly."
+
+   - **User gives a branch name** → run `git show <branch>:project/project_config.md` to fetch its content. If the branch or file doesn't exist, tell the user and ask again for a branch name or pasted content.
+   - **User pastes the file content directly** → use it as-is.
+   - **User says "no"/"skip"/there is none** → proceed with the normal Q&A below, asking every field directly. Do not import anything.
+
+   When BA config content is available (from either source), extract and copy directly into this project's `project/project_config.md` — do not ask the user to re-confirm these values, and do not copy anything beyond what's listed below:
+   - `### Project Name` value → this project's `### Project Name`.
+   - `### MCP Config` → only the `- Atlassian: <url>` line. Ignore any `- Figma:` line from the BA file — BA projects never have one (Figma is QA-specific).
+   - `### Language` value → this project's `### Language`.
+   - `## 2. Context Sync` → this project's skeleton already carries the same 7 categories as the BA file (`Context`, `Business Rules — Principles`, `Business Rules — Shared References`, `UI Behavior — Principles`, `UI Behavior — Shared References`, `Navigation`, `Messages`), followed by this project's own 1 QA-specific category that the BA file has no equivalent for (`Test Scenarios — Principles`). For each of the 7 shared categories, copy that category's entries verbatim from the BA file into the matching category here. Leave the QA-specific category untouched — it gets filled in normally via the Q&A below.
+   - If any of these fields in the BA file is itself still an unfilled placeholder (e.g. `<project-name>`), skip importing that one field only — leave it to be asked normally in the Q&A below.
+
+   Immediately after importing (whether the import succeeded fully or only partially), ask the **MCP Config — Figma** question right here, before moving on to the rest of the Q&A — do not wait for it to come up at its normal position in sub-question (c) below. Since a BA config never carries a Figma entry, this project's Figma connection always still needs to be asked for on import, and asking it right away keeps it next to the rest of the MCP Config setup instead of resurfacing later out of context:
+   > "Does this project use Figma for UI designs? If so, share a Figma file or project link (or say 'skip' if not used)."
+   - If the user gives a link → add `- Figma: <url>` under `### MCP Config`, then verify it the same way as the Atlassian entry — follow `.claude/commands/connect-mcp.md`'s connection-check/authorize steps for this entry until it connects, re-asking for a corrected link if needed.
+   - If the user says "skip"/"no"/there is no Figma → leave `- Figma: <figma-url>` as-is; it will be treated as an unfilled placeholder and asked about normally later if the flow reaches sub-question (c) again (it won't, since this counts as having been asked).
+
+   After importing (and asking Figma as above), these fields count as already filled in: the Q&A below will skip asking about them per the "skip a question if already filled in" rule. `MCP Config — Atlassian` still goes through its own live connection check in sub-question (b) below even when imported, since a Claude session's MCP authorization state is independent of the file content. The 5 QA-specific Context Sync categories are never filled in by the import, so their questions in the Q&A below still get asked normally.
+
+4. Read the file and check each section for unfilled placeholders (pattern `<...>`): `## 1. Project Setup` (covering Project Name, MCP Config, Language), `## 2. Context Sync`, `## 3. Task Environment`, `## 4. Task Automation`.
    - **Exception:** in `## 3. Task Environment`'s code block, the `<jira-ticket-url>` and `<confluence-page-url>` values are always meant to stay as placeholders — they're per-feature values `/start` (and `/investigate`, for Source BA Doc) fill in later, never set at the project level. Do NOT count these as "unfilled" — only check whether the Confluence output page **labels** (e.g. "QA Doc", "Spec") are real (not literally `<label>` placeholder text).
    - If no placeholders remain anywhere in the file (accounting for the exception above) → stop the normal Q&A flow and instead ask the user which of these two they want:
      - **(a) Set up a brand-new project** — tell them: "This project is already configured. To start a new project from scratch, run `/clear-project` first (it resets project_config.md to blank and clears workspace/), then run `/config-project` again." Do not run `/clear-project` yourself — it needs its own separate confirmation.
-     - **(b) Add or change something in the current config** — ask them what they want to add or update (which section/category, e.g. "add a Test Cases reference doc" or "change the Jira status"). Once they say what, go straight to updating that specific part of `project/project_config.md` for them (skip the full 12-question sequence — just handle the one thing they asked about, using the same phrasing/format conventions as the matching question below), then confirm what changed. Then follow steps 2-3 of "After the last question" below (continue into `/sync-project`, then report the "Next" block) — a quick edit still needs those same follow-through steps, not just the full Q&A flow.
+     - **(b) Add or change something in the current config** — ask them what they want to add or update (which section/category, e.g. "add a Test Cases reference doc" or "change the Jira status"). Once they say what, go straight to updating that specific part of `project/project_config.md` for them (skip the full 14-question sequence — just handle the one thing they asked about, using the same phrasing/format conventions as the matching question below), then confirm what changed. Then follow steps 2-3 of "After the last question" below (continue into `/sync-project`, then report the "Next" block) — a quick edit still needs those same follow-through steps, not just the full Q&A flow.
    - Note which sections/categories still have placeholders — skip anything already filled in when asking below.
 
 ## Steps
@@ -100,7 +135,9 @@ Ask ONE question at a time, in the order below. After each answer, immediately u
 
 Ask every question as a plain chat message — never use a multiple-choice/select UI (e.g. an AskUserQuestion-style tool) for any question in this flow. Answers here are free-text (names, URLs, lists of `<name>: <url>` pairs, descriptions of actions) and don't fit fixed options; a select UI forces the user into predefined choices when they need to paste arbitrary text.
 
-Prefix every question with its running position out of the fixed total, e.g. "Question 3/12: ..." (translate "Question" into the conversation's language). The total is always **12** — the fixed count of individual questions across the whole flow (4 in Project Setup: Project Name, MCP Config — Atlassian, MCP Config — Figma, Language; 6 in Context Sync: Context, Test Scenarios Principles, Test Scenarios Shared References, Test Cases Principles, Test Cases Shared References, Test Cases UI References; 0 in Task Environment — no question asked, uses defaults; 2 in Task Automation: Jira actions, Confluence actions). MCP Config — Figma is optional but still asked and still consumes a number (an answer of "skip" is a valid, counted answer) — it is not skipped in the display the way an already-filled-in field would be. Skipped questions (already filled in) do not get asked and do not consume a number in the display — the running position simply jumps to the next number that is actually asked (e.g. 2/12 → 4/12 if question 3 was skipped).
+Prefix every question with its running position out of the fixed total, e.g. "Question 3/14: ..." (translate "Question" into the conversation's language). The total is always **14** — the fixed count of individual questions across the whole flow (4 in Project Setup: Project Name, MCP Config — Atlassian, MCP Config — Figma, Language; 8 in Context Sync: Context, Business Rules Principles, Business Rules Shared References, UI Behavior Principles, UI Behavior Shared References, Navigation, Messages, Test Scenarios Principles; 0 in Task Environment — no question asked, uses defaults; 2 in Task Automation: Jira actions, Confluence actions). MCP Config — Figma is optional but still asked and still consumes a number (an answer of "skip" is a valid, counted answer) — it is not skipped in the display the way an already-filled-in field would be. Skipped questions (already filled in) do not get asked and do not consume a number in the display — the running position simply jumps to the next number that is actually asked (e.g. 2/14 → 4/14 if question 3 was skipped).
+
+Note: `Test Scenarios — Shared References`, `Test Cases — Principles`, `Test Cases — Shared References`, and `Test Cases — UI References` are not part of this Q&A flow — they were removed by explicit user request. Never ask about them; their category headings stay out of the skeleton entirely.
 
 Ask every question in the language the user is currently chatting in — the phrasing/examples below are written in English as reference templates only; translate them into the conversation's language rather than asking in English if the user isn't chatting in English.
 
@@ -127,30 +164,37 @@ Ask every question in the language the user is currently chatting in — the phr
       > BRD: https://confluence.example.com/wiki/spaces/PROJ/BRD — Business requirements: full scope, objectives, stakeholders
       > roadmap: https://confluence.example.com/wiki/spaces/PROJ/roadmap — Release phases and feature timeline
 
-   b. **Test Scenarios — Principles** — general principles used when designing test scenarios:
+   b. **Business Rules — Principles** — general principles used when writing business rules:
+      > Does the project have a doc describing general principles for writing Business Rules (not the rules themselves, but the guidelines for how to write/derive them)? Send me the link with a short name. Example:
+      > rule-principles: https://confluence.example.com/wiki/spaces/PROJ/rule-principles
+
+   c. **Business Rules — Shared References** — rule groups reused across many features:
+      > Does the project have a doc defining rules shared across many features (e.g. Email format, Phone Number format, Pagination)? Send me the link with a short name. Example:
+      > general-business-rules: https://confluence.example.com/wiki/spaces/PROJ/general-business-rules
+
+   d. **UI Behavior — Principles** — general UI behavior principles:
+      > Does the project have a doc describing general UI behavior principles (e.g. how validation timing or page headers should generally work)? Send me the link with a short name. Example:
+      > ui-principles: https://confluence.example.com/wiki/spaces/PROJ/ui-principles
+
+   e. **UI Behavior — Shared References** — UI behavior groups reused across many screens:
+      > Does the project have a doc defining shared UI behavior for common components (e.g. Table, Edit Form, Sidebar)? Send me the link with a short name. Example:
+      > ui-rules: https://confluence.example.com/wiki/spaces/PROJ/ui-rules
+
+   f. **Navigation** — shared navigation patterns and conventions:
+      > Does the project have a doc describing shared navigation conventions (e.g. button naming, confirmation dialog rules, the app's page/dialog map)? Send me the link with a short name. Example:
+      > navigation-patterns: https://confluence.example.com/wiki/spaces/PROJ/navigation-patterns
+
+   g. **Messages** — shared message wording templates:
+      > Does the project have a doc defining shared message wording conventions (e.g. standard phrasing for errors/success messages)? Send me the link with a short name. Example:
+      > message-format: https://confluence.example.com/wiki/spaces/PROJ/message-format
+
+   h. **Test Scenarios — Principles** — general principles used when designing test scenarios:
       > Does the project have a doc describing general principles for writing Test Scenarios (not the scenarios themselves, but the guidelines for how to derive/group them)? Send me the link with a short name. Example:
       > scenario-principles: https://confluence.example.com/wiki/spaces/PROJ/scenario-principles
 
-   c. **Test Scenarios — Shared References** — scenario patterns reused across many features:
-      > Does the project have a doc defining test scenario patterns shared across many features (e.g. standard permission-denial scenarios, standard pagination/search scenarios)? Send me the link with a short name. Example:
-      > general-test-scenarios: https://confluence.example.com/wiki/spaces/PROJ/general-test-scenarios
-
-   d. **Test Cases — Principles** — general principles used when writing test cases:
-      > Does the project have a doc describing general principles for writing Test Cases (e.g. step-writing conventions, how test data should be chosen)? Send me the link with a short name. Example:
-      > test-case-principles: https://confluence.example.com/wiki/spaces/PROJ/test-case-principles
-
-   e. **Test Cases — Shared References** — reusable test case building blocks:
-      > Does the project have a doc defining test data or test steps reused across many features (e.g. standard login steps, standard test accounts/data sets)? Send me the link with a short name. Example:
-      > shared-test-data: https://confluence.example.com/wiki/spaces/PROJ/shared-test-data
-
-   f. **Test Cases — UI References** — shared Figma frames for standardized UI states:
-      > Does the project have a Figma frame or file defining standardized UI pages used across features (e.g. Error Page, No Permission Page, 404 Page)? Send me the Figma link with a short name. Example:
-      > common-pages: https://www.figma.com/design/abc123/Common-Pages
-
-   For each entry the user gives, derive the local file path as `project/context/<kebab-case-name>.md` for category (a), or `project/reference/<category-subfolder>/<kebab-case-name>.md` for categories (b)-(e) — matching the subfolder already shown in the file's placeholder line for that category. Then add the entry under that category's heading in `## 2. Context Sync`, before asking about the next category:
+   For each entry the user gives, derive the local file path as `project/context/<kebab-case-name>.md` for category (a), or `project/reference/<category-subfolder>/<kebab-case-name>.md` for categories (b)-(h) — matching the subfolder already shown in the file's placeholder line for that category. Then add the entry under that category's heading in `## 2. Context Sync`, before asking about the next category:
    - For category (a) **Context**, each entry is a `<name>: <url> — <description>` triple. Add it as three lines: `- <local-file-path>`, `  url: <url>`, `  desc: <description>`. If the user gives a name/url without a description, ask a quick follow-up for it before adding the entry — every Context entry must carry a `desc:` so a QA can tell what it's for without opening the file.
-   - For categories (b)-(e), each entry is a `<name>: <url>` pair as before — add it as `- <local-file-path>` / `  url: <url>` (no `desc:` line; the category heading itself already states the purpose).
-   - For category (f) **Test Cases — UI References**, each entry is a single line `- <name>: <figma-url>` directly under the heading — no local file path and no separate `url:` line, since Figma content isn't synced to a local file; it's read live via Figma MCP when needed.
+   - For categories (b)-(h), each entry is a `<name>: <url>` pair as before — add it as `- <local-file-path>` / `  url: <url>` (no `desc:` line; the category heading itself already states the purpose).
 
    A category can end up with zero, one, or many entries.
 
@@ -181,6 +225,6 @@ Still placeholder (skipped): <list anything left unfilled, or "none">
 3. After `/sync-project` finishes, report:
 ```
 Next:
-1. Commit and push project/project_config.md to a branch for this project, then share that branch with the rest of the team — so they can just clone it and reuse this same config instead of running /config-project themselves. Only commit/push if the user explicitly confirms — never do it automatically. If the user gives a branch name, automatically prefix it with `project/` (e.g. the user says "inventory" → create/use branch `project/inventory`) without asking — don't create the branch under the bare name they gave.
+1. Save a copy of project/project_config.md and share it with the rest of the team — so they can drop it into their own project/project_config.md instead of running /config-project themselves.
 2. Run /start <Feature Name> to begin a feature.
 ```

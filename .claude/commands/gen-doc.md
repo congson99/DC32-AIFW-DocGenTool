@@ -1,6 +1,6 @@
 ---
 name: "Generate Doc"
-description: "Run gen-test-scenarios, gen-test-cases, and package sequentially, without pausing for review between steps. Usage: /gen-doc <Feature Name>"
+description: "Run resolve-assumptions, gen-test-scenarios, gen-test-cases, package, and review-spec sequentially, without pausing for review between steps (except resolve-assumptions, which always pauses for user confirmation). Usage: /gen-doc <Feature Name>"
 ---
 
 You are a Senior QA Engineer running the full QA document generation pipeline for a feature, back-to-back.
@@ -24,26 +24,31 @@ You are a Senior QA Engineer running the full QA document generation pipeline fo
 
 Run the following commands in order, back-to-back, using `<Feature Name>` as the argument for each. For each one, read and follow its full instructions from its command file:
 
+0. `.claude/commands/resolve-assumptions.md` → `assumptions_<slug>.md`
 1. `.claude/commands/gen-test-scenarios.md` → `test_scenarios_<slug>.md`
 2. `.claude/commands/gen-test-cases.md` → `test_cases_<slug>.md`
 3. `.claude/commands/package.md` → `qa_doc_<slug>.md`
+4. `.claude/commands/review-spec.md` → `spec_review_<slug>.md`
 
 Rules while running the pipeline:
-- Do not stop between steps to ask for review or confirmation of a generated file — feed each freshly generated file forward as input context to the next step, exactly as that step's own instructions already expect, and move on immediately.
-- Only pause if a step's own instructions call for asking the user something genuinely necessary to proceed (e.g. a missing detail it cannot derive from the Test Basis or prior generated artifacts, or a conflict it's instructed to surface). Ask that question, wait for the answer, then resume the pipeline from that same step.
+- Step 0 (`resolve-assumptions`) is a hard gate — by design, it always pauses to get the user to confirm or resolve every identified item, one at a time. Do not skip or rush this; do not proceed to Step 1 until `assumptions_<slug>.md` has been written with every item resolved.
+- For steps 1–4, do not stop between steps to ask for review or confirmation of a generated file — feed each freshly generated file forward as input context to the next step, exactly as that step's own instructions already expect, and move on immediately.
+- Only pause a step 1–4 if its own instructions call for asking the user something genuinely necessary to proceed that is specific to that step (e.g. a new detail that only surfaces at the Test Case level) — the general Assumptions & Gaps pass already happened in Step 0 and should not be re-litigated. Ask that question, wait for the answer, then resume the pipeline from that same step.
 - If a step's own pre-flight check fails (e.g. an unexpected missing prerequisite file) → stop the whole pipeline and report exactly which file is missing and which command produces it.
-- Do not skip a step's own internal checks (placeholder checks, conflict checks, reference-folder lookups, etc.) — run each command exactly as its file specifies, just without the "pause for user review before continuing" behavior described for it in README.md.
+- Do not skip a step's own internal checks (placeholder checks, conflict checks, reference-folder lookups, etc.) — run each command exactly as its file specifies, just without the "pause for user review before continuing" behavior described for it in README.md (Step 0 is the one designed exception to that).
 
 ## Final Report
 
-Once all 3 steps complete:
+Once all 5 steps complete:
 
 ```
+✓ assumptions_<slug>.md
 ✓ test_scenarios_<slug>.md
 ✓ test_cases_<slug>.md
 ✓ qa_doc_<slug>.md
+✓ spec_review_<slug>.md
 
-Feature "<Feature Name>" fully generated and packaged.
+Feature "<Feature Name>" fully generated, packaged, and reviewed.
 ```
 
 If any questions were asked mid-pipeline, note which sections were affected before the final report.

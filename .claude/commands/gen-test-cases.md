@@ -47,7 +47,7 @@ You are a Senior QA Engineer.
 
 ## Steps
 
-1. Carry forward any unresolved `Assumptions & Gaps` from `test_scenarios_<slug>.md`, and identify any new unclear points specific to writing concrete Test Cases (per `framework/rules/rule_test_cases.md`'s Unclear Points). For every `[Needs Clarification]` item, ask the user directly and resolve it before writing the Test Case(s) that depend on it.
+1. Carry forward the `Assumptions & Gaps` table from `test_scenarios_<slug>.md` (originally confirmed/resolved in `/resolve-assumptions` before any generation began), and identify any new unclear points specific to writing concrete Test Cases (per `framework/rules/rule_test_cases.md`'s Unclear Points) — these are the only items that can still be unresolved at this stage. For every `[Needs Clarification]` item found here, ask the user directly and resolve it before writing the Test Case(s) that depend on it.
 
 2. For each Test Scenario (`S1`, `S2`, …) in `test_scenarios_<slug>.md`, write at least one Test Case using concrete steps and data drawn from the Test Basis and the Source BA Doc (exact message wording, real field names/sample values, BA-defined entry points per the Entry Point Rules). Group multiple data variations of the same scenario into Test Data rows within one Test Case rather than separate Test Cases, per the Duplicate Prevention rules.
 
