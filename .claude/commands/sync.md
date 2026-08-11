@@ -74,7 +74,7 @@ Skipped (no URL): <count> entries
    - Check if a `## 0. Status` section already exists in the file:
      - **If it exists and already has a `Latest sync:` line** → update that line in place with the new timestamp.
      - **If it exists but has no `Latest sync:` line yet** (e.g. the section currently only has a `Latest MCP connect:` block from a prior `/connect-mcp` run) → add a `Latest sync: YYYY/MM/DD HH:MM:SS` line as the first line inside the section, right after `## 0. Status` and before `Latest MCP connect:`.
-     - **If the `## 0. Status` section does not exist at all** → insert the following block right after the guidance blockquote and its `---` separator near the top of the file, before `## 1. Project Setup` (with one blank line before the next section) — the same placement used by `/connect-mcp`:
+     - **If the `## 0. Status` section does not exist at all** → insert the following block right after the `# Project Config` title (with one blank line before the next section), before `## 1. Project Setup` — the same placement used by `/connect-mcp`:
        ```
        ## 0. Status
        Latest sync: YYYY/MM/DD HH:MM:SS

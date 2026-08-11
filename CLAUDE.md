@@ -22,11 +22,11 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 | `/config` | Interactively build project_config.md via Q&A (the only supported way to configure it) |
 | `/connect-mcp` | Connect to MCP servers listed in project_config.md |
 | `/sync` | Fetch Confluence pages into local project files |
-| `/clear` | Delete synced context/reference files and reset project_config.md to its unconfigured state |
+| `/reset` | Delete synced context/reference files and reset project_config.md to its unconfigured state |
 
 ## Handoff to the documentation tools
 
-This branch only produces the configuration — it does not generate BA or QA documents itself. Neither `dev/BA` nor `dev/QA` carries `/config`, `/connect-mcp`, `/sync`, or `/clear` — those commands live only here. Once `project/project_config.md` is configured and `/sync` has been run:
+This branch only produces the configuration — it does not generate BA or QA documents itself. Neither `dev/BA` nor `dev/QA` carries `/config`, `/connect-mcp`, `/sync`, or `/reset` — those commands live only here. Once `project/project_config.md` is configured and `/sync` has been run:
 
 1. Share `project/project_config.md` with the team — save/send the file directly, or publish its content to a Confluence page (`/config` offers to do this automatically at the end of setup).
 2. Each team member checks out the doc-gen branch (`git checkout dev/BA` or `git checkout dev/QA`) and saves the shared config as `project/project_config.md` there — it's the one tracked file a plain branch switch resets to its unconfigured state.

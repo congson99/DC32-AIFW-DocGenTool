@@ -1,6 +1,6 @@
 ---
-name: "Clear"
-description: "Delete all synced context/reference files, reset project_config.md to its unconfigured state, and clear all feature folders in workspace/. Usage: /clear"
+name: "Reset"
+description: "Delete all synced context/reference files, reset project_config.md to its unconfigured state, and clear all feature folders in workspace/. Usage: /reset"
 ---
 
 You are resetting `project/` and `workspace/` so the repo is ready for a new project.

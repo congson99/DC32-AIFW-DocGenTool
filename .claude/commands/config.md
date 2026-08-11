@@ -5,14 +5,18 @@ description: "Interactively fill in project/project_config.md by asking the user
 
 You are helping the user configure `project/project_config.md` for this project through Q&A, one question at a time, instead of the user editing the file by hand. This config is shared by both the BA Doc and QA Doc generation tools (on their own branches) — fill it in once here for the whole project.
 
+## Interaction Language
+
+Before anything else (before Pre-flight), ask the user which language to interact in for this session, using an AskUserQuestion-style select box with options "English" and "Tiếng Việt" (a free-text "Other" option is offered automatically). This is the one exception to "never use a select UI" below — it's a one-off preference pick, not one of the 14 counted questions, and doesn't get a running-position prefix.
+
+Use the chosen language for every message, question, and confirmation for the rest of the session — translate the English templates in this file into it rather than inferring the interaction language from what the user types.
+
 ## Pre-flight
 
 1. Check `project/project_config.md` exists — if not, stop and inform: "project/project_config.md not found. See README.md for setup."
-2. If the file does not yet contain a `## 1. Project Setup` heading (i.e. it's still in the unconfigured state left by `/clear`, or otherwise empty/new) → overwrite it entirely with this exact skeleton, then continue to step 3 below:
+2. If the file does not yet contain a `## 1. Project Setup` heading (i.e. it's still in the unconfigured state left by `/reset`, or otherwise empty/new) → overwrite it entirely with this exact skeleton, then continue to step 3 below:
    `````
    # Project Config
-
-   > See README.md § "Configure the Project" for detailed guidance on filling in each section below. Placeholders look like `<this>` — replace them with real values.
 
    ---
 
@@ -105,8 +109,8 @@ You are helping the user configure `project/project_config.md` for this project 
 3. Read the file and check each section for unfilled placeholders (pattern `<...>`): `## 1. Project Setup` (covering Project Name, MCP Config, Language), `## 2. Context Sync`, `## 3. Task Environment`, `## 4. Task Automation`.
    - **Exception:** in `## 3. Task Environment`'s code block, the `<jira-ticket-url>` and `<confluence-page-url>` values are always meant to stay as placeholders — they're per-feature values `/start` (and `/investigate`, for Source BA Doc) fill in later, never set at the project level. Do NOT count these as "unfilled" — only check whether the Confluence output page **labels** (e.g. "BA Doc", "QA Doc") are real (not literally `<label>` placeholder text).
    - If no placeholders remain anywhere in the file (accounting for the exception above) → stop the normal Q&A flow and instead ask the user which of these two they want:
-     - **(a) Set up a brand-new project** — tell them: "This project is already configured. To start a new project from scratch, run `/clear` first (it resets project_config.md to blank and clears workspace/), then run `/config` again." Do not run `/clear` yourself — it needs its own separate confirmation.
-     - **(b) Add or change something in the current config** — ask them what they want to add or update (which section/category, e.g. "add a shared reference doc" or "change the Jira status"). Once they say what, go straight to updating that specific part of `project/project_config.md` for them (skip the full 14-question sequence — just handle the one thing they asked about, using the same phrasing/format conventions as the matching question below), then confirm what changed. Then follow steps 2-3 of "After the last question" below (continue into `/sync`, then report the "Next" block) — a quick edit still needs those same follow-through steps, not just the full Q&A flow.
+     - **(a) Set up a brand-new project** — tell them: "This project is already configured. To start a new project from scratch, run `/reset` first (it resets project_config.md to blank and clears workspace/), then run `/config` again." Do not run `/reset` yourself — it needs its own separate confirmation.
+     - **(b) Add or change something in the current config** — ask them what they want to add or update (which section/category, e.g. "add a shared reference doc" or "change the Jira status"). Once they say what, go straight to updating that specific part of `project/project_config.md` for them (skip the full 14-question sequence — just handle the one thing they asked about, using the same phrasing/format conventions as the matching question below), then confirm what changed. Then follow steps 2-6 of "After the last question" below (continue into `/sync`, publish the Artifact, then report the "Next" block) — a quick edit still needs those same follow-through steps, not just the full Q&A flow.
    - Note which sections/categories still have placeholders — skip anything already filled in when asking below.
 
 ## Steps
@@ -117,7 +121,7 @@ Ask every question as a plain chat message — never use a multiple-choice/selec
 
 Prefix every question with its running position out of the fixed total, e.g. "Question 3/14: ..." (translate "Question" into the conversation's language). The total is always **14** — the fixed count of individual questions across the whole flow (4 in Project Setup: Project Name, MCP Config — Atlassian, MCP Config — Figma, Language; 8 in Context Sync: Context, Business Rules Principles, Business Rules Shared References, UI Behavior Principles, UI Behavior Shared References, Navigation, Messages, Test Scenarios Principles; 0 in Task Environment — no question asked, uses defaults; 2 in Task Automation: Jira actions, Confluence actions). MCP Config — Figma is optional but still asked and still consumes a number (an answer of "skip" is a valid, counted answer) — it is not skipped in the display the way an already-filled-in field would be. Skipped questions (already filled in) do not get asked and do not consume a number in the display — the running position simply jumps to the next number that is actually asked (e.g. 2/14 → 4/14 if question 3 was skipped).
 
-Ask every question in the language the user is currently chatting in — the phrasing/examples below are written in English as reference templates only; translate them into the conversation's language rather than asking in English if the user isn't chatting in English.
+Ask every question in the language chosen in "Interaction Language" above — the phrasing/examples below are written in English as reference templates only; translate them into that language rather than asking in English.
 
 - If the user answers "skip" (hasn't decided yet) → leave that field/category's existing placeholder untouched, then move on to the next question.
 - If the user answers "none" / "no" (there is definitively nothing there) for a **Context Sync category** (item 2 below) → delete the placeholder entry line(s) under that category's heading entirely, leaving the heading with nothing under it (same empty style as the `### Context` heading in the skeleton above) — do not leave a `<...>` placeholder sitting there once the user has confirmed there's nothing to map.
@@ -200,13 +204,17 @@ Filled in: <list each section/category that was updated>
 Still placeholder (skipped): <list anything left unfilled, or "none">
 ```
 2. Immediately continue into `/sync` — follow its full instructions from `.claude/commands/sync.md` right now, without waiting for the user to run it separately, so the newly-mapped Confluence pages get pulled into `project/` right away.
-3. After `/sync` finishes, ask how they'd like to share the finished config with the team:
-   > `project/project_config.md` is ready. Want me to publish it to a Confluence page so the team can grab it from there? (share the page link, or say no — you can just save/send the file yourself)
-   - **If given a link** → publish the current content of `project/project_config.md` to that page: check whether it already exists (`getConfluencePage`) — if it does, update it (`updateConfluencePage`); if not, create it (`createConfluencePage`) with the file's content as the page body. Confirm the page URL once done.
+3. Once `/sync` succeeds, prepare a **publish copy** of the content — this is what gets shown to the team, never the local file: take the current content of `project/project_config.md` and strip out the entire `## 0. Status` section, from the `## 0. Status` heading through its closing `---` — it's internal/local bookkeeping, not relevant to the team. Do not modify `project/project_config.md` itself; only the copy used for publishing omits this. Write the publish copy to a temporary file (e.g. in your scratchpad directory) to use as the source for the steps below.
+4. Publish the publish copy as an Artifact so the user has a viewable/downloadable link right away — use the Artifact tool with `file_path` set to the publish copy, a short favicon emoji (e.g. `⚙️`), and a one-sentence `description` naming the project. Share the returned link with the user.
+   - Check `## 0. Status` in the actual `project/project_config.md` for a `Latest artifact:` line first. If one exists, pass its URL as the Artifact tool's `url` so this redeploys the same artifact instead of creating a new one; if not, this is the first publish.
+   - After publishing, record the returned URL back into the real `project/project_config.md` (not the publish copy): add or update a `Latest artifact: <url>` line in `## 0. Status` (same placement rules as `Latest sync:` / `Latest MCP connect:` in `.claude/commands/sync.md` and `.claude/commands/connect-mcp.md` — insert the `## 0. Status` block if it doesn't exist yet).
+5. Ask how they'd like to share the finished config with the team beyond that link:
+   > `project/project_config.md` is ready (Artifact: <url>). Want me to also publish it to a Confluence page so the team can grab it from there? (share the page link, or say no — the Artifact link above already works for sharing)
+   - **If given a link** → publish the publish copy's content to that page: check whether it already exists (`getConfluencePage`) — if it does, update it (`updateConfluencePage`); if not, create it (`createConfluencePage`) with the publish copy's content as the page body. Confirm the page URL once done.
    - **If declined** → nothing more to do here.
-4. Report:
+6. Report:
 ```
 Next:
-1. Share project/project_config.md with the team — the file itself, or the Confluence page just published (if any).
+1. Share project/project_config.md with the team — the Artifact link above, the Confluence page just published (if any), or the file itself.
 2. Team members: check out the BA Doc or QA Doc tool branch (`git checkout dev/BA` or `git checkout dev/QA`) and save the shared config as project/project_config.md there — it's the one tracked file a plain branch switch resets. Then run /start <Feature Name> to begin a feature.
 ```

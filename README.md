@@ -8,10 +8,10 @@ v1.0
 
 1. [Overview](#1-overview)
 2. [How to Start](#2-how-to-start)
-3. [Documents to Prepare](#3-documents-to-prepare)
-4. [Setup Environment](#4-setup-environment)
-5. [Available Commands](#5-available-commands)
-6. [Folder Structure](#6-folder-structure)
+   1. [Prepare Context](#21-prepare-context)
+   2. [Setup Environment](#22-setup-environment)
+3. [Available Commands](#3-available-commands)
+4. [Folder Structure](#4-folder-structure)
 
 ---
 
@@ -25,15 +25,16 @@ v1.0
 
 ## 2. How to Start
 
-1. See [Documents to Prepare](#3-documents-to-prepare) and have those documents ready before setup.
-2. See [Setup Environment](#4-setup-environment) to set up your environment.
+1. See [Prepare Context](#21-prepare-context) and have those ready before setup.
+2. See [Setup Environment](#22-setup-environment) to set up your environment.
 3. Run `/config`, then follow the chat prompts to fill in `project/project_config.md`. Only needs to be done once for the whole project.
 4. Share the completed `project/project_config.md` with the team — save/send the file directly, or publish it to a Confluence page (`/config` offers to do this automatically) — so the BA/QA doc-gen tools can use the same configuration instead of running `/config` themselves.
 
 ---
 
-## 3. Documents to Prepare
+### 2.1 Prepare Context
 
+- **Confluence space** — a dedicated Confluence space to host this project's context and reference docs going forward.
 - **Atlassian connection** (mandatory) — a link to any Jira ticket or Confluence page in your workspace, just to establish the connection.
 - **Figma** (optional) — a link to the project's Figma file, if the team uses Figma for UI designs. Lets the QA tool reference actual screens when writing Test Cases.
 - **Context** — docs that apply to the whole project, not one specific feature. Example: the BRD (Business Requirements Document), a module map, or a release roadmap.
@@ -44,43 +45,38 @@ v1.0
 - **Navigation** — a doc covering shared navigation rules, e.g. button naming, when confirmation dialogs appear, or a map of the app's pages/dialogs.
 - **Messages** — a doc with standard wording for messages, e.g. the exact phrasing used for error and success messages.
 - **Test Scenarios — Principles** — a doc explaining how test scenarios should be structured or grouped (not the scenarios themselves, just the guidelines).
+- **Project Config page** — an empty Confluence page named **"Project Config for Doc Gen Tool"**, where `/config` will publish the finished `project_config.md`.
 
 ---
 
-## 4. Setup Environment
+### 2.2 Setup Environment
 
-### Step 1 — Install VS Code
-
-Install [VS Code](https://code.visualstudio.com/), or any other IDE that supports the Claude Code extension (e.g. JetBrains IDEs).
-
-### Step 2 — Clone this branch and open it in VS Code
-
-1. Go to https://github.com/congson99/DC32-AIFW-DocGenTool, find the branch for the **Project Configuration Tool** version you need, and clone it.
-2. Open VS Code
-3. Go to **File → Open Folder**
-4. Select the cloned folder
-
-### Step 3 — Install the Claude Code extension in VS Code
-
-1. Go to **Extensions** (Ctrl+Shift+X / Cmd+Shift+X)
-2. Search for **Claude Code**
-3. Click **Install**
-4. Click the **Claude** icon in the VS Code sidebar (or use the keyboard shortcut shown after install) to open the panel
+1. **Install VS Code** — install [VS Code](https://code.visualstudio.com/), or any other IDE that supports the Claude Code extension (e.g. JetBrains IDEs).
+2. **Clone this branch and open it in VS Code**
+   1. Go to https://github.com/congson99/DC32-AIFW-DocGenTool, find the branch for the **Project Configuration Tool** version you need, and clone it.
+   2. Open VS Code
+   3. Go to **File → Open Folder**
+   4. Select the cloned folder
+3. **Install the Claude Code extension in VS Code**
+   1. Go to **Extensions** (Ctrl+Shift+X / Cmd+Shift+X)
+   2. Search for **Claude Code**
+   3. Click **Install**
+   4. Click the **Claude** icon in the VS Code sidebar (or use the keyboard shortcut shown after install) to open the panel
 
 ---
 
-## 5. Available Commands
+## 3. Available Commands
 
 | Command | Purpose |
 |---|---|
 | `/config` | Interactively build project_config.md via Q&A (the only supported way to configure it) |
 | `/connect-mcp` | Connect to MCP servers listed in project_config.md |
 | `/sync` | Fetch Confluence pages into local project files |
-| `/clear` | Delete synced context/reference files and reset project_config.md to its unconfigured state |
+| `/reset` | Delete synced context/reference files and reset project_config.md to its unconfigured state |
 
 ---
 
-## 6. Folder Structure
+## 4. Folder Structure
 
 ```
 AI-FW-Doc-Generation/
