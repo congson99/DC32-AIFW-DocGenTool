@@ -26,10 +26,10 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 
 ## Handoff to the documentation tools
 
-This branch only produces the configuration — it does not generate BA or QA documents itself. Once `project/project_config.md` is configured and `/sync-project` has been run:
+This branch only produces the configuration — it does not generate BA or QA documents itself. Neither `dev/BA` nor `dev/QA` carries `/config-project`, `/connect-mcp`, `/sync-project`, or `/clear-project` — those commands live only here. Once `project/project_config.md` is configured and `/sync-project` has been run, in the **same clone**:
 
 1. Commit and push `project/project_config.md` to a branch for this project (e.g. `project/<name>`), so the doc-gen branches (BA Doc, QA Doc) can pull the same configuration instead of re-running `/config-project`.
-2. `project/context/` and `project/reference/` are gitignored — they are not carried by a branch. Whoever runs the BA/QA doc-gen tool for this project must run `/sync-project` themselves (after obtaining the configured `project_config.md`) to populate these locally.
+2. Check out the doc-gen branch (`git checkout dev/BA` or `git checkout dev/QA`) — `project/context/` and `project/reference/` are gitignored, so they carry over automatically from the sync just run here; they are not carried by any git branch. Only `project_config.md` needs restoring there, since it's the one tracked file a plain branch switch would otherwise reset: `git show project/<name>:project/project_config.md > project/project_config.md`.
 
 ## Structure
 
@@ -47,4 +47,5 @@ project/                        ← project-level context
     navigation/                 ← shared navigation patterns
     ui-behavior/                ← principles + shared references for UI Behavior
     messages/                   ← shared message templates and wording conventions
+    test-scenarios/             ← principles for Test Scenarios (QA-specific)
 ```

@@ -18,7 +18,7 @@ You are syncing project context files from Confluence into the local `project/` 
           ```
           No MCP URLs configured. Open project/project_config.md and fill in the URLs under "### MCP Config" (under "## 1. Project Setup").
           ```
-     c. For each valid entry, check whether the connection actually works (e.g. by trying to look up a matching Atlassian MCP tool):
+     c. For each valid entry, check whether the connection actually works (e.g. by trying to look up a matching MCP tool for that server — Atlassian tools for an `Atlassian` entry, Figma tools for a `Figma` entry, and so on for any other server name):
         - **If it works** → the entry is connected, nothing more to do.
         - **If it fails** → this session cannot run an OAuth flow itself, so tell the user to authorize manually:
           ```
@@ -31,17 +31,18 @@ You are syncing project context files from Confluence into the local `project/` 
           ```
           Do not tell the user to "paste the link into the chat" or "follow the prompts" — that mechanism does not work in this environment.
         - After the user confirms they've authorized, re-check the entries that failed. Repeat this step if any are still failing.
-     d. Update `project/project_config.md` with the MCP connect timestamp:
-        - Get the current date and time at the moment connection completes.
+     d. Update `project/project_config.md` with the MCP connect timestamp, tracked per server (not one shared timestamp):
+        - Get the current date and time at the moment each entry's connection completes.
         - Check if a `## 0. Status` section already exists in the file:
-          - **If it exists** → update or add the `Latest MCP connect:` line in place with the new timestamp.
-          - **If it does not exist** → insert the following block right after the guidance blockquote and its `---` separator near the top of the file, before `## 1. Project Setup` (with one blank line before the next section):
+          - **If it exists** → under its `Latest MCP connect:` line, update or add a `- <server-name>: YYYY/MM/DD HH:MM:SS` line for each server that was just (re)connected, leaving other servers' lines untouched.
+          - **If it does not exist** → insert the following block right after the guidance blockquote and its `---` separator near the top of the file, before `## 1. Project Setup` (with one blank line before the next section), with one line per connected server:
             ```
             ## 0. Status
-            Latest MCP connect: YYYY/MM/DD HH:MM:SS
+            Latest MCP connect:
+            - <server-name>: YYYY/MM/DD HH:MM:SS
             ---
             ```
-        - Use the format `YYYY/MM/DD HH:MM:SS` for the timestamp.
+        - Use the format `YYYY/MM/DD HH:MM:SS` for each timestamp.
      e. Report a short connection summary:
         ```
         MCP Connection Summary:
@@ -91,6 +92,7 @@ Skipped (no URL): <count> entries
    - `project/reference/ui-behavior/shared-references/`
    - `project/reference/navigation/`
    - `project/reference/messages/`
+   - `project/reference/test-scenarios/principles/`
 
    If orphaned files are found → ask the user:
    ```

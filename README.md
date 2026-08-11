@@ -21,7 +21,7 @@ v1.0
 
 > This tool does not generate BA or QA documents itself — see [Handoff to the Documentation Tools](#5-handoff-to-the-documentation-tools).
 
-> Confluence is the only supported source for reading and writing documents, via an MCP connection.
+> Confluence is the primary source for reading and writing documents, via an MCP connection. Figma (optional) can also be connected to supply UI references for the QA tool's Test Cases.
 
 ---
 
@@ -94,5 +94,6 @@ AI-FW-Doc-Generation/
         ├── business-rules/                ← principles + shared references for Business Rules
         ├── navigation/                    ← shared navigation patterns
         ├── ui-behavior/                   ← principles + shared references for UI Behavior
-        └── messages/                      ← shared message templates and wording conventions
+        ├── messages/                      ← shared message templates and wording conventions
+        └── test-scenarios/                ← principles for Test Scenarios (QA-specific)
 ```
