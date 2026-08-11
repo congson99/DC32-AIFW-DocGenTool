@@ -29,7 +29,7 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 This branch only produces the configuration — it does not generate BA or QA documents itself. Neither `dev/BA` nor `dev/QA` carries `/config`, `/connect-mcp`, `/sync`, or `/reset` — those commands live only here. Once `project/project_config.md` is configured and `/sync` has been run:
 
 1. Share `project/project_config.md` with the team — save/send the file directly, or publish its content to a Confluence page (`/config` offers to do this automatically at the end of setup).
-2. Each team member checks out the doc-gen branch (`git checkout dev/BA` or `git checkout dev/QA`) and saves the shared config as `project/project_config.md` there — it's the one tracked file a plain branch switch resets to its unconfigured state.
+2. `project/project_config.md` is gitignored, so it is never committed and a branch switch never resets or carries it. In this same clone, switching to `dev/BA` or `dev/QA` leaves the file exactly as configured — no per-project branch needed. Other team members, in their own clone, check out the doc-gen branch (`git checkout dev/BA` or `git checkout dev/QA`) and manually place the shared config at `project/project_config.md` there, since git won't distribute it for them.
 
 ## Structure
 
@@ -40,7 +40,8 @@ framework/                      ← reusable rules and styles, domain-agnostic
   framework_config.md           ← edit_framework setting (do not modify)
 
 project/                        ← project-level context
-  project_config.md             ← project config (tracked — committed unconfigured; run /config to set it up locally per project)
+  project_config.md             ← project config (gitignored — never committed; run /config to set it up locally per project)
+  status.md                     ← local bookkeeping: last /sync, /connect-mcp, /config artifact publish (not committed, not shared)
   context/                      ← domain overview, module map, user stories (not committed)
   reference/                    ← spec sheets, Confluence exports, detailed docs (not committed)
     business-rules/

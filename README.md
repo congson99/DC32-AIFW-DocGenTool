@@ -86,7 +86,8 @@ AI-FW-Doc-Generation/
 ├── framework/                             ← reusable rules and styles, domain-agnostic
 │   └── framework_config.md                ← edit_framework setting (do not modify)
 └── project/                               ← project-level context
-    ├── project_config.md                  ← project config (tracked — committed unconfigured; run /config to set it up locally per project)
+    ├── project_config.md                  ← project config (gitignored — never committed; run /config to set it up locally per project)
+    ├── status.md                          ← local bookkeeping: last /sync, /connect-mcp, /config artifact publish (not committed, not shared)
     ├── context/                           ← domain overview, modules, user stories (not committed)
     └── reference/                         ← spec sheets, Confluence exports (not committed)
         ├── business-rules/

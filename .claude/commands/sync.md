@@ -10,7 +10,7 @@ You are syncing project context files from Confluence into the local `project/` 
 1. Check whether `project/project_config.md` exists:
    - If not → stop and inform the user: "project/project_config.md not found. See README.md for setup."
 
-2. Check whether `## 0. Status` in `project/project_config.md` contains a `Latest MCP connect:` line with a real timestamp (not a placeholder):
+2. Check whether `project/status.md` exists and contains a `Latest MCP connect:` line with a real timestamp:
    - If not found → run `/connect-mcp` (follow `.claude/commands/connect-mcp.md` in full, including its report) to connect the MCP servers first, then continue to step 3.
 
 3. Read `project/project_config.md` and scan for unfilled placeholders (pattern `<...>`) only within `## 2. Context Sync` section. Stop scanning at `## 3.`. Ignore placeholders inside code blocks (fenced with ` ``` `).
@@ -69,15 +69,17 @@ Skipped (no URL): <count> entries
 
    If no orphaned files are found → skip this step silently.
 
-8. Update `project/project_config.md` with the sync timestamp:
+8. Update `project/status.md` with the sync timestamp. This file is local bookkeeping only (gitignored, never shared or published) — separate from `project/project_config.md`, which is the one tracked/shared file:
    - Get the current date and time at the moment sync completes.
-   - Check if a `## 0. Status` section already exists in the file:
+   - Check if `project/status.md` already exists:
      - **If it exists and already has a `Latest sync:` line** → update that line in place with the new timestamp.
-     - **If it exists but has no `Latest sync:` line yet** (e.g. the section currently only has a `Latest MCP connect:` block from a prior `/connect-mcp` run) → add a `Latest sync: YYYY/MM/DD HH:MM:SS` line as the first line inside the section, right after `## 0. Status` and before `Latest MCP connect:`.
-     - **If the `## 0. Status` section does not exist at all** → insert the following block right after the `# Project Config` title (with one blank line before the next section), before `## 1. Project Setup` — the same placement used by `/connect-mcp`:
+     - **If it exists but has no `Latest sync:` line yet** (e.g. the file currently only has a `Latest MCP connect:` block from a prior `/connect-mcp` run) → add a `Latest sync: YYYY/MM/DD HH:MM:SS` line as the first line in the file, right after the intro blockquote and before `Latest MCP connect:`.
+     - **If `project/status.md` does not exist at all** → create it with this content:
        ```
-       ## 0. Status
+       # Status
+
+       > Local bookkeeping only — not shared with the team, not published. Tracks the last /connect-mcp, /sync, and /config artifact publish for this project.
+
        Latest sync: YYYY/MM/DD HH:MM:SS
-       ---
        ```
    - Use the format `YYYY/MM/DD HH:MM:SS` for the timestamp.
