@@ -15,7 +15,7 @@ You are a Senior QA Engineer setting up the working environment for a new featur
 
 1. Check whether `## 0. Status` in `project/project_config.md` contains a `Latest sync:` line with a real timestamp (not a placeholder):
    - If not found → stop and inform the user:
-     > "Project has not been synced yet. Please run /sync-project before starting a feature."
+     > "Project has not been synced yet. Run /sync-project on the dev/project-config branch (in this same clone) to configure and sync project/project_config.md, then come back to this branch (see README.md § Setup Environment) before starting a feature."
 
 ---
 
