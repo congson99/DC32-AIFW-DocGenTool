@@ -13,13 +13,13 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 
 ## Pre-flight
 
-1. Scan `## 4. Task Automation` in `project/project_config.md` for unfilled placeholders (pattern `<...>`):
+1. Scan the `### 4.1 BA` subsection under `## 4. Task Automation` in `project/project_config.md` for unfilled placeholders (pattern `<...>`):
    - If any placeholders are found → stop and inform the user:
      ```
-     project/project_config.md — Task Automation has unfilled placeholders:
+     project/project_config.md — Task Automation (4.1 BA) has unfilled placeholders:
        - <placeholder 1>
        ...
-     Please complete section 4 before running /publish.
+     Please complete section 4.1 before running /publish.
      ```
 
 2. Derive folder name: kebab-case of Feature name (e.g. "Create PO" → `create-po`)
@@ -72,7 +72,7 @@ For each role page:
 
 ## Step 3 — Execute Task Automation
 
-Read `project/project_config.md` and locate the `## 4. Task Automation` section. Parse all action entries within that section (stop at the next `## ` heading or end of file).
+Read `project/project_config.md` and locate the `### 4.1 BA` subsection under `## 4. Task Automation`. Parse all action entries within its `#### Jira` and `#### Confluence` subsections (stop at the next `### ` heading or end of file) — do not execute anything listed under `### 4.2 QA`.
 
 For each action listed, execute it using the appropriate MCP tools and any relevant values from `env_<slug>.md`. Track the result of each action for the Summary.
 

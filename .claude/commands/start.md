@@ -19,9 +19,9 @@ Use the chosen language for every message, question, and confirmation for the re
 
 ## Pre-flight
 
-1. Check whether `## 0. Status` in `project/project_config.md` contains a `Latest sync:` line with a real timestamp (not a placeholder):
+1. Check whether `project/status.md` exists and contains a `Latest sync:` line with a real timestamp (not a placeholder):
    - If not found → stop and inform the user:
-     > "Project has not been synced yet. Run /sync-project on the dev/project-config branch (in this same clone) to configure and sync project/project_config.md, then come back to this branch (see README.md § Setup Environment) before starting a feature."
+     > "Project has not been synced yet. Run /sync on the dev/project-config branch (in this same clone) to configure and sync project/project_config.md, then come back to this branch (see README.md § Setup Environment) before starting a feature."
 
 ---
 
@@ -52,7 +52,7 @@ Before any steps, normalize the feature name:
 4. Create folders `workspace/<folder-name>/input/` and `workspace/<folder-name>/docs/` if they do not exist.
 5. Read `project/project_config.md` and locate the `### Language` subsection under `## 1. Project Setup`. Resolve the "Document language" value — if missing, unset, or still a placeholder, resolve it as `English`. This is resolved once here and cached into `env_<slug>.md` (step below) so that `/investigate` and every `/gen-*` command can read it straight from the feature's own env file instead of re-reading `project/project_config.md` every time.
 
-6. Read `project/project_config.md` and locate the `## 3. Task Environment` section. It contains a single fenced code block.
+6. Read `project/project_config.md` and locate the `### 3.1 BA` subsection under `## 3. Task Environment`. It contains a single fenced code block.
 
    Create `workspace/<folder-name>/input/env_<slug>.md` with:
    - Line 1: `**Feature name:** <normalized Feature name>`
@@ -84,7 +84,7 @@ There are 2 interactive questions in this flow (env fill-in, context fill-in). P
    > - <next label>:
    >
    > Reply with each value, or 'skip' for any you don't have yet."
-   - Do not hardcode label names — read them from whatever `env_<slug>.md` actually contains (the labels come from the project's own `## 3. Task Environment` template, which can differ per project).
+   - Do not hardcode label names — read them from whatever `env_<slug>.md` actually contains (the labels come from the project's own `### 3.1 BA` template under `## 3. Task Environment`, which can differ per project).
    - After the user responds, update each corresponding line in `env_<slug>.md` with the given value; leave placeholder lines untouched for anything skipped.
    - If no placeholders remain in the file, skip this step silently.
 
