@@ -2,8 +2,8 @@
   "permissions": {
     "allow": [
       "Read(**)",
-      "Write(outputs/**)",
-      "Write(inputs/**)",
+      "Write(project/**)",
+      "Edit(project/**)",
       "mcp__claude_ai_Atlassian__getAccessibleAtlassianResources",
       "mcp__claude_ai_Atlassian__search"
     ]

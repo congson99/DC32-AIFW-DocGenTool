@@ -41,8 +41,9 @@ You are connecting to the MCP servers configured for this project.
 6. Update `project/project_config.md` with the MCP connect timestamp, tracked per server (not one shared timestamp):
    - Get the current date and time at the moment each entry's connection completes.
    - Check if a `## 0. Status` section already exists in the file:
-     - **If it exists** → under its `Latest MCP connect:` line, update or add a `- <server-name>: YYYY/MM/DD HH:MM:SS` line for each server that was just (re)connected, leaving other servers' lines untouched.
-     - **If it does not exist** → insert the following block right after the guidance blockquote and its `---` separator near the top of the file, before `## 1. Project Setup` (with one blank line before the next section), with one line per connected server:
+     - **If it exists and already has a `Latest MCP connect:` line** → under that line, update or add a `- <server-name>: YYYY/MM/DD HH:MM:SS` line for each server that was just (re)connected, leaving other servers' lines and the `Latest sync:` line (if present) untouched.
+     - **If it exists but has no `Latest MCP connect:` line yet** (e.g. the section currently only has a `Latest sync:` line from a prior `/sync` run) → add a `Latest MCP connect:` block as a new line inside the existing section, after `Latest sync:` if present and before the closing `---`, with one line per connected server.
+     - **If the `## 0. Status` section does not exist at all** → insert the following block right after the guidance blockquote and its `---` separator near the top of the file, before `## 1. Project Setup` (with one blank line before the next section), with one line per connected server:
        ```
        ## 0. Status
        Latest MCP connect:

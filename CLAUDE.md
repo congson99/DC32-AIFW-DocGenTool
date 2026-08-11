@@ -8,7 +8,7 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 
 **`edit_framework = no` (default)**
 - Only perform project configuration/sync tasks.
-- Do not modify, suggest changes to, or ask questions about any framework files: `.claude/`, `framework/`, or `CLAUDE.md`.
+- Do not modify, suggest changes to, or ask questions about any framework files: `.claude/`, `framework/`, `CLAUDE.md`, `README.md`, or `.gitignore`.
 - When asked to edit framework files, respond only with: "You do not have permission to edit framework files." Do not explain how to enable editing.
 
 **`edit_framework = yes`**
@@ -19,17 +19,17 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 
 | Command | Purpose |
 |---|---|
-| `/config-project` | Interactively build project_config.md via Q&A (the only supported way to configure it) |
+| `/config` | Interactively build project_config.md via Q&A (the only supported way to configure it) |
 | `/connect-mcp` | Connect to MCP servers listed in project_config.md |
-| `/sync-project` | Fetch Confluence pages into local project files |
-| `/clear-project` | Delete synced context/reference files and reset project_config.md to its unconfigured state |
+| `/sync` | Fetch Confluence pages into local project files |
+| `/clear` | Delete synced context/reference files and reset project_config.md to its unconfigured state |
 
 ## Handoff to the documentation tools
 
-This branch only produces the configuration — it does not generate BA or QA documents itself. Neither `dev/BA` nor `dev/QA` carries `/config-project`, `/connect-mcp`, `/sync-project`, or `/clear-project` — those commands live only here. Once `project/project_config.md` is configured and `/sync-project` has been run, in the **same clone**:
+This branch only produces the configuration — it does not generate BA or QA documents itself. Neither `dev/BA` nor `dev/QA` carries `/config`, `/connect-mcp`, `/sync`, or `/clear` — those commands live only here. Once `project/project_config.md` is configured and `/sync` has been run:
 
-1. Commit and push `project/project_config.md` to a branch for this project (e.g. `project/<name>`), so the doc-gen branches (BA Doc, QA Doc) can pull the same configuration instead of re-running `/config-project`.
-2. Check out the doc-gen branch (`git checkout dev/BA` or `git checkout dev/QA`) — `project/context/` and `project/reference/` are gitignored, so they carry over automatically from the sync just run here; they are not carried by any git branch. Only `project_config.md` needs restoring there, since it's the one tracked file a plain branch switch would otherwise reset: `git show project/<name>:project/project_config.md > project/project_config.md`.
+1. Share `project/project_config.md` with the team — save/send the file directly, or publish its content to a Confluence page (`/config` offers to do this automatically at the end of setup).
+2. Each team member checks out the doc-gen branch (`git checkout dev/BA` or `git checkout dev/QA`) and saves the shared config as `project/project_config.md` there — it's the one tracked file a plain branch switch resets to its unconfigured state.
 
 ## Structure
 
@@ -40,12 +40,17 @@ framework/                      ← reusable rules and styles, domain-agnostic
   framework_config.md           ← edit_framework setting (do not modify)
 
 project/                        ← project-level context
-  project_config.md             ← project config (tracked — committed unconfigured; run /config-project to set it up locally per project)
+  project_config.md             ← project config (tracked — committed unconfigured; run /config to set it up locally per project)
   context/                      ← domain overview, module map, user stories (not committed)
   reference/                    ← spec sheets, Confluence exports, detailed docs (not committed)
-    business-rules/             ← principles + shared references for Business Rules
+    business-rules/
+      principles/               ← general principles for writing Business Rules
+      shared-references/        ← rule groups reused across many features
     navigation/                 ← shared navigation patterns
-    ui-behavior/                ← principles + shared references for UI Behavior
+    ui-behavior/
+      principles/               ← general UI behavior principles
+      shared-references/        ← UI behavior groups reused across many screens
     messages/                   ← shared message templates and wording conventions
-    test-scenarios/             ← principles for Test Scenarios (QA-specific)
+    test-scenarios/
+      principles/               ← general principles for designing Test Scenarios
 ```
