@@ -17,8 +17,6 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 
 ## Commands
 
-### BA Doc Gen Flow Commands
-
 Used as part of the regular per-feature BA document generation flow.
 
 | Command | Purpose |
@@ -37,19 +35,17 @@ Used as part of the regular per-feature BA document generation flow.
 | `/gen-doc <Feature Name>` | Run gen-brief through gen-messages and package back-to-back |
 | `/package <Feature Name>` | Package all artifacts into a single BA Doc |
 | `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status |
-
-### Other Commands
-
-Used independently, as needed — project configuration and maintenance, not part of the BA doc gen flow.
-
-| Command | Purpose |
-|---|---|
 | `/check <Feature Name>` | Show doc status and suggest next step |
-| `/clear-project` | Delete synced context/reference files, reset project_config.md to its unconfigured state, and clear workspace/ |
 | `/clear-workspace` | Delete all feature folders in workspace/ |
-| `/config-project` | Interactively build project_config.md via Q&A (the only supported way to configure it) |
-| `/connect-mcp` | Connect to MCP servers listed in project_config.md |
-| `/sync-project` | Fetch Confluence pages into local project files |
+
+This branch does not carry `/config-project`, `/connect-mcp`, `/sync-project`, or `/clear-project` — those live on the `dev/project-config` branch. See [Getting project_config.md](#getting-projectconfigmd) below.
+
+## Getting project_config.md
+
+`project/project_config.md` must already be configured before running `/start` — this branch has no way to configure it itself. In the same clone:
+1. Check out `dev/project-config` and run `/config-project` + `/sync-project` there (or have your team lead do this once and push it to a `project/<name>` branch).
+2. Check out this branch again (`git checkout dev/BA`) — `project/context/` and `project/reference/` are gitignored, so they carry over automatically from the sync above.
+3. Restore the configured `project_config.md` here, since it's the one tracked file that a plain branch switch would otherwise reset: `git show project/<name>:project/project_config.md > project/project_config.md` (or `git show dev/project-config:project/project_config.md > project/project_config.md` if it wasn't pushed to its own project branch).
 
 ## Structure
 
@@ -62,7 +58,7 @@ framework/                      ← reusable rules and styles, domain-agnostic
   styles/                       ← format rules, one file per doc type + style_general.md
 
 project/                        ← project-level context
-  project_config.md             ← project config (tracked — committed unconfigured; run /config-project to set it up locally per project)
+  project_config.md             ← project config (tracked — see "Getting project_config.md" above)
   context/                      ← domain overview, module map, user stories (not committed)
   reference/                    ← spec sheets, Confluence exports, detailed docs (not committed)
     business-rules/             ← principles + shared references for Business Rules

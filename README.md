@@ -41,16 +41,12 @@ v1.0
 
 ## 3. Quick Start
 
-Pick the path that matches your role:
-
 **BA generating docs for a project that's already configured**
 1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
-2. Run `/start <Feature Name>`, then follow the chat prompts to generate the BA documentation set.
+2. Get `project/project_config.md` for this project — either check out `dev/project-config` in the same clone and run `/config-project` + `/sync-project` there yourself, or ask your team lead for the branch it was pushed to (e.g. `project/<name>`) and restore it: `git show project/<name>:project/project_config.md > project/project_config.md`.
+3. Run `/start <Feature Name>`, then follow the chat prompts to generate the BA documentation set.
 
-**BA leader setting up a brand-new project**
-1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
-2. Run `/config-project`, then follow the chat prompts to fill in `project/project_config.md`. Only needs to be done once for the whole project.
-3. Push the completed `project/project_config.md` to the repo so every BA on the project can pull the same configuration.
+> This branch does not include `/config-project`, `/connect-mcp`, `/sync-project`, or `/clear-project` — those commands live on the `dev/project-config` branch, since setting up a project is a one-time, project-level task independent of generating docs for any particular feature.
 
 ---
 
@@ -76,25 +72,22 @@ Clone the branch corresponding to your project, then open the folder in VS Code:
 3. Click **Install**
 4. Click the **Claude** icon in the VS Code sidebar (or use the keyboard shortcut shown after install) to open the panel
 
-### Step 4 — Sync project data
+### Step 4 — Get project_config.md
 
-```
-/sync-project
-```
+This branch has no sync/config commands of its own. In the same clone:
 
-Run `/sync-project` to fetch the Confluence pages mapped in `project/project_config.md` into local `project/` files. If MCP servers aren't connected yet, `/sync-project` connects them automatically first, then proceeds with the sync.
+1. `git checkout dev/project-config`
+2. Run `/config-project` (if not already done for this project) then `/sync-project` — this populates `project/project_config.md`, `project/context/`, and `project/reference/`.
+3. `git checkout dev/BA` (back to this branch) — `project/context/` and `project/reference/` are gitignored, so they carry over automatically.
+4. Restore `project_config.md` here, since it's the one tracked file a plain branch switch would otherwise reset to this branch's own blank copy: `git show dev/project-config:project/project_config.md > project/project_config.md`.
 
-> If `project/project_config.md` doesn't have any content yet, contact your team leader to get the right file for this project.
+> If someone else already configured and pushed `project_config.md` to a `project/<name>` branch, skip straight to step 4 using that branch name instead.
 
-> Re-run `/sync-project` any time the source data changes to pull the latest content locally.
+> Re-run from step 1 any time the source data changes to pull the latest content locally.
 
 ---
 
 ## 5. Available Commands
-
-### BA Doc Gen Flow Commands
-
-Used as part of the regular per-feature BA document generation flow.
 
 | Command | Purpose |
 |---|---|
@@ -112,19 +105,8 @@ Used as part of the regular per-feature BA document generation flow.
 | `/gen-doc <Feature Name>` | Run gen-brief through gen-messages and package back-to-back |
 | `/package <Feature Name>` | Package all artifacts into a single BA Doc |
 | `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status |
-
-### Other Commands
-
-Used independently, as needed — project configuration and maintenance, not part of the BA doc gen flow.
-
-| Command | Purpose |
-|---|---|
 | `/check <Feature Name>` | Show doc status and suggest next step |
-| `/clear-project` | Delete synced context/reference files, reset project_config.md to its unconfigured state, and clear workspace/ |
 | `/clear-workspace` | Delete all feature folders in workspace/ |
-| `/config-project` | Interactively build project_config.md via Q&A (the only supported way to configure it) |
-| `/connect-mcp` | Connect to MCP servers listed in project_config.md |
-| `/sync-project` | Fetch Confluence pages into local project files |
 
 ---
 
