@@ -21,7 +21,7 @@ Use the chosen language for every message, question, and confirmation for the re
 
 1. Check whether `project/status.md` exists and contains a `Latest sync:` line with a real timestamp (not a placeholder):
    - If not found → stop and inform the user:
-     > "Project has not been synced yet. Run /sync on the dev/project-config branch (in this same clone) to configure and sync project/project_config.md, then come back to this branch (see README.md § Setup Environment) before starting a feature."
+     > "Project has not been synced yet. Run /sync on the dev/config branch (in this same clone) to configure and sync project/project_config.md, then come back to this branch (see README.md § Setup Environment) before starting a feature."
 
 ---
 
