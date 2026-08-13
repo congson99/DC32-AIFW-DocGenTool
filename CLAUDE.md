@@ -32,13 +32,14 @@ Used as part of the regular per-feature QA document generation flow.
 | `/publish <Feature Name>` | Publish QA Doc to Confluence and update Jira status |
 | `/check <Feature Name>` | Show doc status and suggest next step |
 | `/clear-workspace` | Delete all feature folders in workspace/ |
+| `/sync` | Fetch the latest content from Confluence into project/context/ and project/reference/ based on project/project_config.md |
 
-This branch does not carry `/config-project`, `/connect-mcp`, `/sync-project`, or `/clear-project` — those live on the `dev/project-config` branch. See [Getting project_config.md](#getting-projectconfigmd) below.
+This branch does not carry `/config`, `/connect-mcp`, or `/reset` — those live on the `dev/project-config` branch. `/sync` exists on both branches: this branch's `/sync` refreshes project/context/ and project/reference/ directly from Confluence without needing to switch branches, since project_config.md's Context Sync mappings are already available here. See [Getting project_config.md](#getting-projectconfigmd) below for the one-time setup of project_config.md itself, which this branch still cannot configure on its own.
 
 ## Getting project_config.md
 
 `project/project_config.md` must already be configured before running `/start` — this branch has no way to configure it itself. In the same clone:
-1. Check out `dev/project-config` and run `/config-project` + `/sync-project` there (or have your team lead do this once and push it to a `project/<name>` branch).
+1. Check out `dev/project-config` and run `/config` there (or have your team lead do this once and push it to a `project/<name>` branch).
 2. Check out this branch again (`git checkout dev/QA`) — `project/context/` and `project/reference/` are gitignored, so they carry over automatically from the sync above.
 3. Restore the configured `project_config.md` here, since it's the one tracked file that a plain branch switch would otherwise reset: `git show project/<name>:project/project_config.md > project/project_config.md` (or `git show dev/project-config:project/project_config.md > project/project_config.md` if it wasn't pushed to its own project branch).
 
