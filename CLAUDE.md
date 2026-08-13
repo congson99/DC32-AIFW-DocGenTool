@@ -21,12 +21,13 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 |---|---|
 | `/config` | Interactively build project_config.md via Q&A (the only supported way to configure it) |
 | `/connect-mcp` | Connect to MCP servers listed in project_config.md |
+| `/connect-multiple-atlassian-mcp` | Set up a project-scoped Atlassian MCP server, separate from the global one, for a different Jira/Confluence instance |
 | `/sync` | Fetch Confluence pages into local project files |
 | `/reset` | Delete synced context/reference files and reset project_config.md to its unconfigured state |
 
 ## Handoff to the documentation tools
 
-This branch only produces the configuration — it does not generate BA or QA documents itself. Neither `dev/BA` nor `dev/QA` carries `/config`, `/connect-mcp`, `/sync`, or `/reset` — those commands live only here. Once `project/project_config.md` is configured and `/sync` has been run:
+This branch only produces the configuration — it does not generate BA or QA documents itself. `/config`, `/reset`, and `/connect-multiple-atlassian-mcp` live only here — setting up a project (or a second Atlassian instance for it) is a one-time, project-level task, not something tied to any particular feature. `dev/BA` and `dev/QA` each carry their own copies of `/connect-mcp` and `/sync`, so reconnecting an MCP server or refreshing Confluence content doesn't require switching branches once `project/project_config.md` has been configured and shared. Once `project/project_config.md` is configured and `/sync` has been run:
 
 1. Share `project/project_config.md` with the team — save/send the file directly, or publish its content to a Confluence page (`/config` offers to do this automatically at the end of setup).
 2. `project/project_config.md` is gitignored, so it is never committed and a branch switch never resets or carries it. In this same clone, switching to `dev/BA` or `dev/QA` leaves the file exactly as configured — no per-project branch needed. Other team members, in their own clone, check out the doc-gen branch (`git checkout dev/BA` or `git checkout dev/QA`) and manually place the shared config at `project/project_config.md` there, since git won't distribute it for them.

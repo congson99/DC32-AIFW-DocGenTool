@@ -71,6 +71,7 @@ v1.0
 |---|---|
 | `/config` | Interactively build project_config.md via Q&A (the only supported way to configure it) |
 | `/connect-mcp` | Connect to MCP servers listed in project_config.md |
+| `/connect-multiple-atlassian-mcp` | Set up a project-scoped Atlassian MCP server, separate from the global one, for a different Jira/Confluence instance |
 | `/sync` | Fetch Confluence pages into local project files |
 | `/reset` | Delete synced context/reference files and reset project_config.md to its unconfigured state |
 
