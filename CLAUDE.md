@@ -71,6 +71,7 @@ project/                        ← project-level context
       principles/                ← general UI behavior principles
       shared-references/         ← UI behavior groups reused across many screens
     messages/                   ← shared message templates and wording conventions
+    flow/                      ← shared flow patterns and conventions (see note below)
 
 workspace/                      ← per-feature working area (not committed)
   <feature-name>/
@@ -80,3 +81,5 @@ workspace/                      ← per-feature working area (not committed)
 ```
 
 > slug = kebab-case folder name with `-` replaced by `_` (e.g. `cancel-pr` → `cancel_pr`)
+
+> `gen-flow` reads `project/reference/flow/` if present, but `/config` on `dev/project-config` has no matching Context Sync category yet, so this folder currently has no supported way to get populated.

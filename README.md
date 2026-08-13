@@ -134,10 +134,13 @@ DC32-AIFW-DocGenTool/
 │       ├── ui-behavior/
 │       │   ├── principles/                ← general UI behavior principles
 │       │   └── shared-references/         ← UI behavior groups reused across many screens
-│       └── messages/                      ← shared message templates and wording conventions
+│       ├── messages/                      ← shared message templates and wording conventions
+│       └── flow/                          ← shared flow patterns and conventions (see note below)
 └── workspace/                             ← per-feature working area (not committed)
     └── <feature-name>/
         ├── input/                         ← env_<slug>.md, context_<slug>.md, idea_<slug>.md
         ├── docs/                          ← generated BA doc sections (Brief through Messages)
         └── ba_doc_<slug>.md               ← final packaged document
 ```
+
+> `gen-flow` reads `project/reference/flow/` if present, but `/config` on `dev/project-config` has no matching Context Sync category yet, so this folder currently has no supported way to get populated.
