@@ -1,6 +1,6 @@
 ---
 name: "Package BA Doc"
-description: "Package Brief, AC, Business Rules, and Data Definition into a single BA Doc. Usage: /package <Feature Name>"
+description: "Package all nine BA sections (Brief through Messages) into a single BA Doc. Usage: /package <Feature Name>"
 ---
 
 You are a Senior Business Analyst.

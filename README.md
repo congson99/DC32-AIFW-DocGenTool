@@ -114,20 +114,26 @@ This branch has no `/config` command of its own, so `project_config.md` must fir
 ## 6. Folder Structure
 
 ```
-AI-FW-Doc-Generation/
+DC32-AIFW-DocGenTool/
 ├── CLAUDE.md                              ← project instructions for Claude
 ├── .claude/
 │   └── commands/                          ← slash command definitions (see Available Commands)
 ├── framework/                             ← reusable rules and styles, domain-agnostic
+│   ├── framework_config.md                ← edit_framework setting (do not modify)
 │   ├── rules/                             ← writing/content rules, one file per doc type
 │   └── styles/                            ← format rules, one file per doc type + style_general.md
 ├── project/                               ← project-level context
 │   ├── project_config.md                  ← project config (tracked — committed unconfigured; configure via /config on dev/project-config, then restore it here)
+│   ├── status.md                          ← local bookkeeping: last /sync (not committed, not shared)
 │   ├── context/                           ← domain overview, modules, user stories (not committed)
 │   └── reference/                         ← spec sheets, Confluence exports (not committed)
-│       ├── business-rules/                ← principles + shared references for Business Rules
+│       ├── business-rules/
+│       │   ├── principles/                ← general principles for writing Business Rules
+│       │   └── shared-references/         ← rule groups reused across many features
 │       ├── navigation/                    ← shared navigation patterns
-│       ├── ui-behavior/                   ← principles + shared references for UI Behavior
+│       ├── ui-behavior/
+│       │   ├── principles/                ← general UI behavior principles
+│       │   └── shared-references/         ← UI behavior groups reused across many screens
 │       └── messages/                      ← shared message templates and wording conventions
 └── workspace/                             ← per-feature working area (not committed)
     └── <feature-name>/
