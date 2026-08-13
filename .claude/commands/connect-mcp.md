@@ -8,7 +8,7 @@ You are connecting to the MCP servers configured for this project.
 ## Steps
 
 1. Check whether `project/project_config.md` exists:
-   - If not → stop and inform the user: "project/project_config.md not found. Get it from the dev/project-config branch first — see README.md § Setup Environment."
+   - If not → stop and inform the user: "project/project_config.md not found. Get it from the dev/config branch first — see README.md § Setup Environment."
 
 2. Read `project/project_config.md` and locate the `### MCP Config` subsection under `## 1. Project Setup`. Parse all entries within that subsection. Each entry has this format:
    ```
@@ -20,7 +20,7 @@ You are connecting to the MCP servers configured for this project.
    - Skip any entry where the URL is still a placeholder (e.g. `<confluence-mcp-url>`).
    - If all entries are placeholders → stop and inform:
      ```
-     No MCP URLs configured. This branch doesn't edit project_config.md — go to the dev/project-config branch (in this same clone) and fill in the URLs under "### MCP Config" (under "## 1. Project Setup") there, then come back here and run /connect-mcp again.
+     No MCP URLs configured. This branch doesn't edit project_config.md — go to the dev/config branch (in this same clone) and fill in the URLs under "### MCP Config" (under "## 1. Project Setup") there, then come back here and run /connect-mcp again.
      ```
 
 4. For each valid entry, check whether the connection actually works (e.g. by trying to look up a matching MCP tool for that server — Atlassian tools for an `Atlassian` entry, Figma tools for a `Figma` entry, and so on for any other server name):

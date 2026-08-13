@@ -8,7 +8,7 @@ You are syncing project context files from Confluence into the local `project/` 
 ## Steps
 
 1. Check whether `project/project_config.md` exists:
-   - If not → stop and inform the user: "project/project_config.md not found. Get it from the dev/project-config branch first — see README.md § Setup Environment."
+   - If not → stop and inform the user: "project/project_config.md not found. Get it from the dev/config branch first — see README.md § Setup Environment."
 
 2. Check whether the Atlassian MCP connection works (e.g. by trying to look up a matching Atlassian MCP tool):
    - **If it works** → continue to step 3.
@@ -30,7 +30,7 @@ You are syncing project context files from Confluence into the local `project/` 
        - <placeholder 1> (section: <section name>)
        - <placeholder 2> (section: <section name>)
        ...
-     This branch doesn't edit project_config.md — go to the dev/project-config branch (in this same clone) and run /config to complete these sections, then come back here and run /sync again.
+     This branch doesn't edit project_config.md — go to the dev/config branch (in this same clone) and run /config to complete these sections, then come back here and run /sync again.
      ```
 
 4. Read `project/project_config.md` and locate the `## 2. Context Sync` section. Parse only the entries within that section. Each entry has this format:
