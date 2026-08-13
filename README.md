@@ -109,7 +109,6 @@ This branch has no `/config` command of its own, so `project_config.md` must fir
 | `/clear-workspace` | Delete all feature folders in workspace/ |
 | `/sync` | Fetch the latest content from Confluence into project/context/ and project/reference/ |
 | `/connect-mcp` | Connect to the MCP servers (Atlassian, Figma) listed in project/project_config.md |
-| `/connect-multiple-atlassian-mcp` | Set up a project-scoped Atlassian MCP server, separate from the global one, for a different Jira/Confluence instance |
 
 ---
 
