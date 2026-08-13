@@ -32,20 +32,32 @@ You are connecting to the MCP servers configured for this project.
    - **Any other server name**: best-effort — try to find a matching MCP tool for that server name. There's no fixed naming convention for arbitrary integrations, so this may not reliably detect a connection; treat a failed lookup the same as "not connected."
 
    - **If connected to the right site (or Figma/other entries that pass)** → nothing more to do.
-   - **If not connected at all** → this session cannot run an OAuth flow itself, so tell the user to authorize manually:
-     ```
-     <Server name> MCP is not connected. To authorize it:
-     1. Open claude.ai (web) → Settings → Connectors (or Integrations).
-     2. Find "<Server name>" in the list.
-     3. Click Connect / Authorize.
-     4. Log in and grant access.
-     5. Come back here and let me know when it's done, so I can retry the connection.
-     ```
-     Do not tell the user to "paste the link into the chat" or "follow the prompts" — that mechanism does not work in this environment.
+   - **If not connected at all**:
+     - **Atlassian entry** → first ask the user: "Project này cần connect tới một site Atlassian duy nhất, hay bạn cần làm việc với nhiều site Atlassian khác nhau (ví dụ nhiều client/tổ chức)?"
+       - **Một site** → tell the user to authorize the global connector manually:
+         ```
+         Atlassian MCP is not connected. To authorize it:
+         1. Open claude.ai (web) → Settings → Connectors (or Integrations).
+         2. Find "Atlassian" in the list.
+         3. Click Connect / Authorize.
+         4. Log in and grant access.
+         5. Come back here and let me know when it's done, so I can retry the connection.
+         ```
+       - **Nhiều site** → this branch doesn't carry `/connect-multiple-atlassian-mcp` — tell the user to go to the `dev/config` branch (in this same clone), run it there using this entry's `<url>` as the site (skip re-asking for it, only provide email/token when prompted), complete its remaining manual terminal steps, then come back to this branch and continue at step 5 below.
+     - **Figma or any other server name** → tell the user to authorize manually:
+       ```
+       <Server name> MCP is not connected. To authorize it:
+       1. Open claude.ai (web) → Settings → Connectors (or Integrations).
+       2. Find "<Server name>" in the list.
+       3. Click Connect / Authorize.
+       4. Log in and grant access.
+       5. Come back here and let me know when it's done, so I can retry the connection.
+       ```
+     - In every case, do not tell the user to "paste the link into the chat" or "follow the prompts" — that mechanism does not work in this environment.
    - **If connected to the wrong site** (Atlassian only) → tell the user:
      ```
      An Atlassian MCP is connected, but not to <expected-host> — the currently active connection only reaches: <site-1>, <site-2>, ...
-     This usually means a project-scoped Atlassian MCP (from /connect-multiple-atlassian-mcp) and the global one are both active and colliding. To fix it:
+     This usually means a project-scoped Atlassian MCP (from /connect-multiple-atlassian-mcp on dev/config) and the global one are both active and colliding. To fix it:
      1. Run /mcp and disconnect whichever "atlassian" entry does not point at <expected-host>.
      2. If neither does, reauthorize the global Atlassian connector for the right account via claude.ai (web) → Settings → Connectors.
      3. Come back here and let me know when it's done, so I can retry the connection.
