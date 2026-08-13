@@ -108,6 +108,7 @@ This branch has no `/config` command of its own, so `project_config.md` must fir
 | `/check <Feature Name>` | Show doc status and suggest next step |
 | `/clear-workspace` | Delete all feature folders in workspace/ |
 | `/sync` | Fetch the latest content from Confluence into project/context/ and project/reference/ |
+| `/connect-multiple-atlassian-mcp` | Set up a project-scoped Atlassian MCP server, separate from the global one, for a different Jira/Confluence instance |
 
 ---
 
