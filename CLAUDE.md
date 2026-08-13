@@ -33,8 +33,9 @@ Used as part of the regular per-feature QA document generation flow.
 | `/check <Feature Name>` | Show doc status and suggest next step |
 | `/clear-workspace` | Delete all feature folders in workspace/ |
 | `/sync` | Fetch the latest content from Confluence into project/context/ and project/reference/ based on project/project_config.md |
+| `/connect-mcp` | Connect to the MCP servers (Atlassian, Figma) listed in project/project_config.md |
 
-This branch does not carry `/config`, `/connect-mcp`, or `/reset` — those live on the `dev/project-config` branch. `/sync` exists on both branches: this branch's `/sync` refreshes project/context/ and project/reference/ directly from Confluence without needing to switch branches, since project_config.md's Context Sync mappings are already available here. See [Getting project_config.md](#getting-projectconfigmd) below for the one-time setup of project_config.md itself, which this branch still cannot configure on its own.
+This branch does not carry `/config` or `/reset` — those live on the `dev/project-config` branch. `/sync` and `/connect-mcp` exist on both branches: this branch's copies work directly against project/project_config.md and project/status.md without needing to switch branches, since that data is already available here. See [Getting project_config.md](#getting-projectconfigmd) below for the one-time setup of project_config.md itself, which this branch still cannot configure on its own.
 
 ## Getting project_config.md
 

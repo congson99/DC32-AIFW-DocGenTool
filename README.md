@@ -40,7 +40,7 @@ v1.0
 3. Run `/sync` here to fetch `project/context/` and `project/reference/` from Confluence.
 4. Run `/start <Feature Name>`, then follow the chat prompts to generate the QA documentation set.
 
-> This branch does not include `/config` or `/connect-mcp` — those commands live on the `dev/project-config` branch, since setting up a project is a one-time, project-level task independent of generating docs for any particular feature. `/sync` exists on this branch too, so refreshing Confluence content doesn't require switching branches.
+> This branch does not include `/config` or `/reset` — those commands live on the `dev/project-config` branch, since setting up a project is a one-time, project-level task independent of generating docs for any particular feature. `/sync` and `/connect-mcp` exist on this branch too, so refreshing Confluence content or reconnecting an MCP server doesn't require switching branches.
 
 ---
 
@@ -74,7 +74,7 @@ This branch has no `/config` command of its own, so `project_config.md` must fir
 2. Run `/config` (if not already done for this project) — this fills in `project/project_config.md`.
 3. `git checkout dev/QA` (back to this branch) — `project/context/` and `project/reference/` are gitignored, so they carry over automatically.
 4. Restore `project_config.md` here, since it's the one tracked file a plain branch switch would otherwise reset to this branch's own blank copy: `git show dev/project-config:project/project_config.md > project/project_config.md`.
-5. Run `/sync` here any time you want to pull the latest `project/context/` and `project/reference/` content from Confluence — this branch has its own `/sync`, so no branch switch is needed for that.
+5. Run `/sync` here any time you want to pull the latest `project/context/` and `project/reference/` content from Confluence, or `/connect-mcp` to (re)connect the Atlassian/Figma MCP servers — this branch has its own copies of both, so no branch switch is needed for either.
 
 > If someone else already configured and pushed `project_config.md` to a `project/<name>` branch, skip straight to step 4 using that branch name instead.
 
@@ -95,6 +95,7 @@ This branch has no `/config` command of its own, so `project_config.md` must fir
 | `/publish <Feature Name>` | Publish QA Doc to Confluence and update Jira status |
 | `/check <Feature Name>` | Show doc status and suggest next step |
 | `/clear-workspace` | Delete all feature folders in workspace/ |
+| `/connect-mcp` | Connect to the MCP servers (Atlassian, Figma) listed in project/project_config.md |
 | `/sync` | Fetch the latest content from Confluence into project/context/ and project/reference/ |
 
 ---
