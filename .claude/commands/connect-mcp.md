@@ -54,14 +54,18 @@ You are connecting to the MCP servers configured for this project.
        5. Come back here and let me know when it's done, so I can retry the connection.
        ```
      - In every case, do not tell the user to "paste the link into the chat" or "follow the prompts" — that mechanism does not work in this environment.
-   - **If connected to the wrong site** (Atlassian only) → tell the user:
+   - **If connected to the wrong site** (Atlassian only) → tell the user what's currently reachable, then ask whether `<expected-host>` should be added alongside it or replace it:
      ```
      An Atlassian MCP is connected, but not to <expected-host> — the currently active connection only reaches: <site-1>, <site-2>, ...
-     This usually means a project-scoped Atlassian MCP (from /connect-multiple-atlassian-mcp) and the global one are both active and colliding. To fix it:
-     1. Run /mcp and disconnect whichever "atlassian" entry does not point at <expected-host>.
-     2. If neither does, reauthorize the global Atlassian connector for the right account via claude.ai (web) → Settings → Connectors.
-     3. Come back here and let me know when it's done, so I can retry the connection.
+     Do you need <expected-host> IN ADDITION to those sites (e.g. this project uses a different client/org than your other work), or should it REPLACE the current connection entirely?
      ```
+     - **In addition** → follow `.claude/commands/connect-multiple-atlassian-mcp.md` in full right now to add a project-scoped Atlassian MCP for `<expected-host>`, leaving the existing connection untouched — the site URL is already known from this entry's `<url>`, so skip re-asking for it in that command's step 2 and only ask for the email and API token. Once that command's automated steps finish and the user has completed its remaining manual terminal steps, come back and continue at step 5 below.
+     - **Replace** → tell the user:
+       ```
+       1. Run /mcp and disconnect the "atlassian" entry that doesn't point at <expected-host>.
+       2. Reauthorize the global Atlassian connector for the right account via claude.ai (web) → Settings → Connectors.
+       3. Come back here and let me know when it's done, so I can retry the connection.
+       ```
 
 5. After the user confirms they've authorized (or fixed the site mismatch), re-check the entries that failed. Repeat step 4 if any are still failing.
 
