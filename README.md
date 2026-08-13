@@ -8,8 +8,8 @@ v1.0
 
 1. [Overview](#1-overview)
 2. [How to Start](#2-how-to-start)
-   2.1. [Prepare Context](#21-prepare-context)
-   2.2. [Setup Environment](#22-setup-environment)
+   - 2.1. [Prepare Context](#21-prepare-context)
+   - 2.2. [Setup Environment](#22-setup-environment)
 3. [Available Commands](#3-available-commands)
 4. [Folder Structure](#4-folder-structure)
 
@@ -87,7 +87,7 @@ AI-FW-Doc-Generation/
 │   └── framework_config.md                ← edit_framework setting (do not modify)
 └── project/                               ← project-level context
     ├── project_config.md                  ← project config (gitignored — never committed; run /config to set it up locally per project)
-    ├── status.md                          ← local bookkeeping: last /sync, /connect-mcp, /config artifact publish (not committed, not shared)
+    ├── status.md                          ← local bookkeeping: last /sync, /connect-mcp (not committed, not shared)
     ├── context/                           ← domain overview, modules, user stories (not committed)
     └── reference/                         ← spec sheets, Confluence exports (not committed)
         ├── business-rules/

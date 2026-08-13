@@ -78,7 +78,7 @@ Skipped (no URL): <count> entries
        ```
        # Status
 
-       > Local bookkeeping only — not shared with the team, not published. Tracks the last /connect-mcp, /sync, and /config artifact publish for this project.
+       > Local bookkeeping only — not shared with the team, not published. Tracks the last /connect-mcp and /sync for this project.
 
        Latest sync: YYYY/MM/DD HH:MM:SS
        ```

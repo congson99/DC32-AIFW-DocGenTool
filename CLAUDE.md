@@ -41,7 +41,7 @@ framework/                      ← reusable rules and styles, domain-agnostic
 
 project/                        ← project-level context
   project_config.md             ← project config (gitignored — never committed; run /config to set it up locally per project)
-  status.md                     ← local bookkeeping: last /sync, /connect-mcp, /config artifact publish (not committed, not shared)
+  status.md                     ← local bookkeeping: last /sync, /connect-mcp (not committed, not shared)
   context/                      ← domain overview, module map, user stories (not committed)
   reference/                    ← spec sheets, Confluence exports, detailed docs (not committed)
     business-rules/

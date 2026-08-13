@@ -7,7 +7,7 @@ You are helping the user configure `project/project_config.md` for this project 
 
 ## Interaction Language
 
-Before anything else (before Pre-flight), ask the user which language to interact in for this session, using an AskUserQuestion-style select box with options "English" and "Tiếng Việt" (a free-text "Other" option is offered automatically). This is the one exception to "never use a select UI" below — it's a one-off preference pick, not one of the 14 counted questions, and doesn't get a running-position prefix.
+Before anything else (before Pre-flight), ask the user which language to interact in for this session, using an AskUserQuestion-style select box with options "English" and "Tiếng Việt" (a free-text "Other" option is offered automatically). This is the one exception to "never use a select UI" below — it's a one-off preference pick, not one of the 16 counted questions, and doesn't get a running-position prefix.
 
 Use the chosen language for every message, question, and confirmation for the rest of the session — translate the English templates in this file into it rather than inferring the interaction language from what the user types.
 
@@ -80,13 +80,24 @@ Use the chosen language for every message, question, and confirmation for the re
 
    ## 3. Task Environment
 
+   ### 3.1 BA
+
+   ````
+   **Task Jira ticket:** <jira-ticket-url>
+
+   **Confluence output page:**
+   - BA Doc: <confluence-page-url>
+   - AI Doc folder: <confluence-page-url>
+   ````
+
+   ### 3.2 QA
+
    ````
    **Task Jira ticket:** <jira-ticket-url>
 
    **Source BA Doc:** <confluence-page-url>
 
-   **Confluence output pages:**
-   - BA Doc: <confluence-page-url>
+   **Confluence output page:**
    - QA Doc: <confluence-page-url>
    - AI Doc folder: <confluence-page-url>
    ````
@@ -95,7 +106,9 @@ Use the chosen language for every message, question, and confirmation for the re
 
    ## 4. Task Automation
 
-   ### Jira
+   ### 4.1 BA
+
+   #### Jira
 
    - Update ticket status to: <jira-status>
      jira-project: <jira-project-key>
@@ -103,14 +116,26 @@ Use the chosen language for every message, question, and confirmation for the re
    - Add Confluence page link as comment on ticket
      jira-project: <jira-project-key>
 
-   ### Confluence
+   #### Confluence
+
+   ### 4.2 QA
+
+   #### Jira
+
+   - Update ticket status to: <jira-status>
+     jira-project: <jira-project-key>
+
+   - Add Confluence page link as comment on ticket
+     jira-project: <jira-project-key>
+
+   #### Confluence
 
    `````
 3. Read the file and check each section for unfilled placeholders (pattern `<...>`): `## 1. Project Setup` (covering Project Name, MCP Config, Language), `## 2. Context Sync`, `## 3. Task Environment`, `## 4. Task Automation`.
-   - **Exception:** in `## 3. Task Environment`'s code block, the `<jira-ticket-url>` and `<confluence-page-url>` values are always meant to stay as placeholders — they're per-feature values `/start` (and `/investigate`, for Source BA Doc) fill in later, never set at the project level. Do NOT count these as "unfilled" — only check whether the Confluence output page **labels** (e.g. "BA Doc", "QA Doc") are real (not literally `<label>` placeholder text).
+   - **Exception:** in `## 3. Task Environment`'s code blocks (3.1 BA and 3.2 QA), the `<jira-ticket-url>` and `<confluence-page-url>` values are always meant to stay as placeholders — they're per-feature values `/start` (and `/investigate`, for Source BA Doc in 3.2) fill in later, never set at the project level. Do NOT count these as "unfilled" — only check whether the Confluence output page **labels** (e.g. "BA Doc", "QA Doc") are real (not literally `<label>` placeholder text).
    - If no placeholders remain anywhere in the file (accounting for the exception above) → stop the normal Q&A flow and instead ask the user which of these two they want:
      - **(a) Set up a brand-new project** — tell them: "This project is already configured. To start a new project from scratch, run `/reset` first (it resets project_config.md to blank and clears workspace/), then run `/config` again." Do not run `/reset` yourself — it needs its own separate confirmation.
-     - **(b) Add or change something in the current config** — ask them what they want to add or update (which section/category, e.g. "add a shared reference doc" or "change the Jira status"). Once they say what, go straight to updating that specific part of `project/project_config.md` for them (skip the full 14-question sequence — just handle the one thing they asked about, using the same phrasing/format conventions as the matching question below), then confirm what changed. Then follow steps 2-5 of "After the last question" below (continue into `/sync`, publish the Artifact, then report the "Next" block) — a quick edit still needs those same follow-through steps, not just the full Q&A flow.
+     - **(b) Add or change something in the current config** — ask them what they want to add or update (which section/category, e.g. "add a shared reference doc" or "change the Jira status"). Once they say what, go straight to updating that specific part of `project/project_config.md` for them (skip the full 16-question sequence — just handle the one thing they asked about, using the same phrasing/format conventions as the matching question below), then confirm what changed. Then follow steps 2-5 of "After the last question" below (continue into `/sync`, show the local file path, then report the "Next" block) — a quick edit still needs those same follow-through steps, not just the full Q&A flow.
    - Note which sections/categories still have placeholders — skip anything already filled in when asking below.
 
 ## Steps
@@ -119,7 +144,7 @@ Ask ONE question at a time, in the order below. After each answer, immediately u
 
 Ask every question as a plain chat message — never use a multiple-choice/select UI (e.g. an AskUserQuestion-style tool) for any question in this flow. Answers here are free-text (names, URLs, lists of `<name>: <url>` pairs, descriptions of actions) and don't fit fixed options; a select UI forces the user into predefined choices when they need to paste arbitrary text.
 
-Prefix every question with its running position out of the fixed total, e.g. "Question 3/14: ..." (translate "Question" into the conversation's language). The total is always **14** — the fixed count of individual questions across the whole flow (4 in Project Setup: Project Name, MCP Config — Atlassian, MCP Config — Figma, Language; 8 in Context Sync: Context, Business Rules Principles, Business Rules Shared References, UI Behavior Principles, UI Behavior Shared References, Navigation, Messages, Test Scenarios Principles; 0 in Task Environment — no question asked, uses defaults; 2 in Task Automation: Jira actions, Confluence actions). MCP Config — Figma is optional but still asked and still consumes a number (an answer of "skip" is a valid, counted answer) — it is not skipped in the display the way an already-filled-in field would be. Skipped questions (already filled in) do not get asked and do not consume a number in the display — the running position simply jumps to the next number that is actually asked (e.g. 2/14 → 4/14 if question 3 was skipped).
+Prefix every question with its running position out of the fixed total, e.g. "Question 3/16: ..." (translate "Question" into the conversation's language). The total is always **16** — the fixed count of individual questions across the whole flow (4 in Project Setup: Project Name, MCP Config — Atlassian, MCP Config — Figma, Language; 8 in Context Sync: Context, Business Rules Principles, Business Rules Shared References, UI Behavior Principles, UI Behavior Shared References, Navigation, Messages, Test Scenarios Principles; 0 in Task Environment — no question asked, uses defaults; 4 in Task Automation: Jira actions for BA, Confluence actions for BA, Jira actions for QA, Confluence actions for QA). MCP Config — Figma is optional but still asked and still consumes a number (an answer of "skip" is a valid, counted answer) — it is not skipped in the display the way an already-filled-in field would be. Skipped questions (already filled in) do not get asked and do not consume a number in the display — the running position simply jumps to the next number that is actually asked (e.g. 2/16 → 4/16 if question 3 was skipped).
 
 Ask every question in the language chosen in "Interaction Language" above — the phrasing/examples below are written in English as reference templates only; translate them into that language rather than asking in English.
 
@@ -180,15 +205,21 @@ Ask every question in the language chosen in "Interaction Language" above — th
 
    A category can end up with zero, one, or many entries.
 
-3. **Task Environment** — no question asked; the code block under `## 3. Task Environment` stays at its skeleton defaults.
+3. **Task Environment** — no question asked; the code blocks under `## 3. Task Environment` (3.1 BA, 3.2 QA) stay at their skeleton defaults.
 
-4. **Task Automation** — `/publish` executes whatever action entries exist under `### Jira` and `### Confluence`, so don't assume the project only wants a status change or a single publish action; ask broadly and capture whatever actions the project actually needs.
-   a. Jira actions:
-      > When `/publish` finishes a feature, what should it do to the Jira ticket? List each action with what it needs — e.g. "update status to X" (needs: the status, the Jira project key), "add a comment with the Confluence page link", or anything else specific to this project (e.g. update a custom field, add a specific comment). Give me each action plus its target/value.
-      → Update the `### Jira` subsection: adjust the two example action entries (update status, add comment) to match what the user described, keep only the ones actually wanted, and add new action lines for anything else the user mentions that doesn't match an existing entry — following the same `- <action description>\n  jira-project: <jira-project-key>` format.
-   b. Confluence actions:
-      > Beyond publishing the BA Doc / QA Doc itself (that always happens automatically), does this project need anything else done on Confluence when `/publish` runs? (e.g. updating a shared reference page, adding a comment)
-      → Update the `### Confluence` subsection: add an action line for each thing described, following the same format as other action entries. If the user says there's nothing else, leave the subsection empty.
+4. **Task Automation** — `project/project_config.md` is shared by both the BA Doc and QA Doc tools, but each tool's `/publish` runs on its own branch and only wants its own actions to fire. `## 4. Task Automation` is split into `### 4.1 BA` and `### 4.2 QA`, each with its own `#### Jira` and `#### Confluence` subsections, so each tool's `/publish` only ever reads its own half. `/publish` executes whatever action entries are listed under its section, so don't assume the project only wants a status change or a single publish action; ask broadly and capture whatever actions the project actually needs. Ask BA and QA separately (don't assume they want the same thing) and write each side's answer straight into its own section — if QA's answer is "same as BA", copy BA's action entry verbatim into the QA section rather than cross-referencing it, since each tool only ever reads its own half of the file:
+   a. Jira actions for BA:
+      > When a BA Doc feature finishes publishing, how should the Jira ticket be updated? For example: change the ticket status to something, or add a comment with the Confluence link.
+      → Update the `#### Jira` subsection under `### 4.1 BA`: adjust the two example action entries (update status, add comment) to match, keep only the ones actually wanted, and add new action lines for anything else mentioned — following the `- <action description>\n  jira-project: <jira-project-key>` format. If nothing is wanted, leave the subsection empty.
+   b. Confluence actions for BA:
+      > Besides publishing the BA Doc itself, does anything else need to happen on Confluence when a BA Doc feature finishes publishing? For example: updating a shared reference page, or adding a comment.
+      → Update the `#### Confluence` subsection under `### 4.1 BA` with one entry per distinct action (`- <action description>` plus any fields the action needs, following the same style as Jira entries). If nothing is wanted, leave the subsection empty.
+   c. Jira actions for QA:
+      > Same question for QA Doc — when a QA Doc feature finishes publishing, how should the Jira ticket be updated?
+      → Update the `#### Jira` subsection under `### 4.2 QA` the same way as sub-question (a).
+   d. Confluence actions for QA:
+      > Same question for QA Doc — besides publishing the QA Doc itself, does anything else need to happen on Confluence when a QA Doc feature finishes publishing?
+      → Update the `#### Confluence` subsection under `### 4.2 QA` the same way as sub-question (b).
 
 Throughout, when updating the file:
 - Follow the exact structure and format already present (e.g. Context Sync entries stay in the `- <local-file-path>` / `  url: <confluence-page-url>` pair format).
@@ -204,16 +235,14 @@ Filled in: <list each section/category that was updated>
 Still placeholder (skipped): <list anything left unfilled, or "none">
 ```
 2. Immediately continue into `/sync` — follow its full instructions from `.claude/commands/sync.md` right now, without waiting for the user to run it separately, so the newly-mapped Confluence pages get pulled into `project/` right away.
-3. Once `/sync` succeeds, publish the current content of `project/project_config.md` as an Artifact so the user has a viewable/downloadable link right away — use the Artifact tool with `file_path` set to `project/project_config.md`, a short favicon emoji (e.g. `⚙️`), and a one-sentence `description` naming the project. Share the returned link with the user.
-   - Check `project/status.md` for a `Latest artifact:` line first. If one exists, pass its URL as the Artifact tool's `url` so this redeploys the same artifact instead of creating a new one; if not, this is the first publish.
-   - After publishing, record the returned URL in `project/status.md`: add or update a `Latest artifact: <url>` line (same file/placement rules as `Latest sync:` / `Latest MCP connect:` in `.claude/commands/sync.md` and `.claude/commands/connect-mcp.md` — create `project/status.md` if it doesn't exist yet). This file is local bookkeeping only (gitignored, never shared or published) — separate from `project/project_config.md`.
-4. Ask how they'd like to share the finished config with the team beyond that link:
-   > `project/project_config.md` is ready (Artifact: <url>). Want me to also publish it to a Confluence page so the team can grab it from there? (share the page link, or say no — the Artifact link above already works for sharing)
+3. Once `/sync` succeeds, show the local path to the finished file so the user can share or copy it directly: `<absolute-path-to-project>/project/project_config.md`.
+4. Ask how they'd like to share the finished config with the team:
+   > `project/project_config.md` is ready at `<absolute-path>`. Want me to also publish it to a Confluence page so the team can grab it from there?
    - **If given a link** → publish `project/project_config.md`'s content to that page: check whether it already exists (`getConfluencePage`) — if it does, update it (`updateConfluencePage`); if not, create it (`createConfluencePage`) with the file's content as the page body. Confirm the page URL once done.
    - **If declined** → nothing more to do here.
 5. Report:
 ```
 Next:
-1. Share project/project_config.md with the team — the Artifact link above, the Confluence page just published (if any), or the file itself.
+1. Share project/project_config.md with the team — copy the file at <absolute-path>, or the Confluence page just published (if any).
 2. Team members: check out the BA Doc or QA Doc tool branch (`git checkout dev/BA` or `git checkout dev/QA`) and save the shared config as project/project_config.md there — it's the one tracked file a plain branch switch resets. Then run /start <Feature Name> to begin a feature.
 ```

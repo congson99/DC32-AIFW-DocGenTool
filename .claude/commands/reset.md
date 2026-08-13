@@ -11,7 +11,7 @@ You are resetting `project/` and `workspace/` so the repo is ready for a new pro
    - If none of these → stop and inform: "project/ and workspace/ are already at their default state. Nothing to clear."
 2. Ask the user to confirm:
    ```
-   Reset project/ for a new project? This deletes all synced context/reference files under project/context/ and project/reference/, resets project_config.md to its unconfigured state (all MCP URLs, Confluence mappings, and Task Automation settings will be lost), deletes project/status.md (local sync/connect/artifact bookkeeping), and deletes all feature folders in workspace/ (gitignored — left over from switching to a BA/QA doc-gen branch in this same clone). This cannot be undone. (yes/no)
+   Reset project/ for a new project? This deletes all synced context/reference files under project/context/ and project/reference/, resets project_config.md to its unconfigured state (all MCP URLs, Confluence mappings, and Task Automation settings will be lost), deletes project/status.md (local sync/connect bookkeeping), and deletes all feature folders in workspace/ (gitignored — left over from switching to a BA/QA doc-gen branch in this same clone). This cannot be undone. (yes/no)
    ```
    - If user cancels → stop: "Cancelled. Nothing was deleted."
 3. On confirmation:

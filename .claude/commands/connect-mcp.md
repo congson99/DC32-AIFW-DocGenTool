@@ -41,13 +41,13 @@ You are connecting to the MCP servers configured for this project.
 6. Update `project/status.md` with the MCP connect timestamp, tracked per server (not one shared timestamp). This file is local bookkeeping only (gitignored, never shared or published) — separate from `project/project_config.md`, which is the one tracked/shared file:
    - Get the current date and time at the moment each entry's connection completes.
    - Check if `project/status.md` already exists:
-     - **If it exists and already has a `Latest MCP connect:` line** → under that line, update or add a `- <server-name>: YYYY/MM/DD HH:MM:SS` line for each server that was just (re)connected, leaving other servers' lines and any `Latest sync:` / `Latest artifact:` lines untouched.
+     - **If it exists and already has a `Latest MCP connect:` line** → under that line, update or add a `- <server-name>: YYYY/MM/DD HH:MM:SS` line for each server that was just (re)connected, leaving other servers' lines and any `Latest sync:` line untouched.
      - **If it exists but has no `Latest MCP connect:` line yet** → add a `Latest MCP connect:` block as a new line in the file, with one line per connected server.
      - **If `project/status.md` does not exist at all** → create it with this content:
        ```
        # Status
 
-       > Local bookkeeping only — not shared with the team, not published. Tracks the last /connect-mcp, /sync, and /config artifact publish for this project.
+       > Local bookkeeping only — not shared with the team, not published. Tracks the last /connect-mcp and /sync for this project.
 
        Latest MCP connect:
        - <server-name>: YYYY/MM/DD HH:MM:SS
