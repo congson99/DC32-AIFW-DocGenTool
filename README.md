@@ -102,26 +102,38 @@ This branch has no `/config` command of its own, so `project_config.md` must fir
 ## 6. Folder Structure
 
 ```
-AI-FW-Doc-Generation/
+DC32-AIFW-DocGenTool/
 ├── CLAUDE.md                              ← project instructions for Claude
 ├── .claude/
 │   └── commands/                          ← slash command definitions (see Available Commands)
 ├── framework/                             ← reusable rules and styles, domain-agnostic
+│   ├── framework_config.md                ← edit_framework setting (do not modify)
 │   ├── rules/                             ← writing/content rules, one file per doc type
 │   └── styles/                            ← format rules, one file per doc type + style_general.md
 ├── project/                               ← project-level context
 │   ├── project_config.md                  ← project config (tracked — committed unconfigured; configure via /config on dev/project-config, then restore it here)
+│   ├── status.md                          ← local bookkeeping: last /sync (not committed, not shared)
 │   ├── context/                           ← domain overview, modules, user stories (not committed)
 │   └── reference/                         ← spec sheets, Confluence exports (not committed)
-│       ├── business-rules/                ← principles + shared references for Business Rules
-│       ├── ui-behavior/                   ← principles + shared references for UI Behavior
+│       ├── business-rules/
+│       │   ├── principles/                ← general principles for writing Business Rules
+│       │   └── shared-references/         ← rule groups reused across many features
+│       ├── ui-behavior/
+│       │   ├── principles/                ← general UI behavior principles
+│       │   └── shared-references/         ← UI behavior groups reused across many screens
 │       ├── navigation/                    ← shared navigation patterns
 │       ├── messages/                      ← shared message templates and wording conventions
-│       ├── test-scenarios/                ← principles + shared references for Test Scenarios
-│       └── test-cases/                    ← principles + shared references for Test Cases
+│       ├── test-scenarios/
+│       │   ├── principles/                ← general principles for designing Test Scenarios
+│       │   └── shared-references/         ← reusable Test Scenario groups (see note below)
+│       └── test-cases/
+│           ├── principles/                ← general principles for writing Test Cases
+│           └── shared-references/         ← reusable Test Case data/steps (see note below)
 └── workspace/                             ← per-feature working area (not committed)
     └── <feature-name>/
         ├── input/                         ← env_<slug>.md, context_<slug>.md, test_basis_<slug>.md, assumptions_<slug>.md
         ├── docs/                          ← generated QA doc sections (Test Scenarios, Test Cases, Spec Review)
         └── qa_doc_<slug>.md               ← final packaged document
 ```
+
+> `gen-test-scenarios`/`gen-test-cases` read `test-scenarios/shared-references/`, `test-cases/principles/`, and `test-cases/shared-references/` if present, but `/config` on `dev/project-config` has no matching Context Sync category yet, so these three currently have no supported way to get populated.

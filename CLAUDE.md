@@ -55,14 +55,23 @@ framework/                      ← reusable rules and styles, domain-agnostic
 
 project/                        ← project-level context
   project_config.md             ← project config (tracked — see "Getting project_config.md" above)
+  status.md                     ← local bookkeeping: last /sync (not committed, not shared)
   context/                      ← domain overview, module map, user stories (not committed)
   reference/                    ← spec sheets, Confluence exports, detailed docs (not committed)
-    business-rules/             ← principles + shared references for Business Rules
-    ui-behavior/                ← principles + shared references for UI Behavior
+    business-rules/
+      principles/                ← general principles for writing Business Rules
+      shared-references/         ← rule groups reused across many features
+    ui-behavior/
+      principles/                ← general UI behavior principles
+      shared-references/         ← UI behavior groups reused across many screens
     navigation/                 ← shared navigation patterns
     messages/                   ← shared message templates and wording conventions
-    test-scenarios/             ← principles + shared references for Test Scenarios
-    test-cases/                 ← principles + shared references for Test Cases
+    test-scenarios/
+      principles/                ← general principles for designing Test Scenarios
+      shared-references/         ← reusable Test Scenario groups (see note below)
+    test-cases/
+      principles/                ← general principles for writing Test Cases
+      shared-references/         ← reusable Test Case data/steps (see note below)
 
 workspace/                      ← per-feature working area (not committed)
   <feature-name>/
@@ -72,3 +81,5 @@ workspace/                      ← per-feature working area (not committed)
 ```
 
 > slug = kebab-case folder name with `-` replaced by `_` (e.g. `cancel-pr` → `cancel_pr`)
+
+> `gen-test-scenarios`/`gen-test-cases` read `test-scenarios/shared-references/`, `test-cases/principles/`, and `test-cases/shared-references/` if present, but `/config` on `dev/project-config` has no matching Context Sync category yet, so these three currently have no supported way to get populated.
