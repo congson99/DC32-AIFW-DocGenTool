@@ -23,9 +23,16 @@ You are connecting to the MCP servers configured for this project.
      No MCP URLs configured. Open project/project_config.md and fill in the URLs under "### MCP Config" (under "## 1. Project Setup").
      ```
 
-4. For each valid entry, check whether the connection actually works (e.g. by trying to look up a matching MCP tool for that server — Atlassian tools for an `Atlassian` entry, Figma tools for a `Figma` entry, and so on for any other server name):
-   - **If it works** → the entry is connected, nothing more to do.
-   - **If it fails (any entry)** → this session cannot run an OAuth flow itself, so tell the user to authorize manually:
+4. For each valid entry, check not just whether a matching MCP tool works, but whether it's actually connected to the same site listed in `<url>` — a tool call succeeding is not enough, since more than one MCP server can expose tools under the same integration name (e.g. a global Atlassian connector and a project-scoped one from `/connect-multiple-atlassian-mcp`), and only one of them may be the site this project actually points at:
+   - **Atlassian entries**: extract the hostname from `<url>` (the part between `https://` and the next `/`). Call the Atlassian MCP's accessible-resources tool to list every site the currently active connection can reach, and compare that hostname against the `url` field of each returned resource:
+     - Hostname matches one of the accessible resources → connected to the right site → ✓.
+     - No Atlassian MCP tool responds at all → not connected → go to the "not connected" branch below.
+     - The tool responds, but the hostname isn't among the accessible resources → an Atlassian MCP *is* connected, just to the wrong site → go to the "wrong site" branch below.
+   - **Figma entries**: check by calling a Figma MCP tool (e.g. an identity/whoami-style call). Figma's `project_config.md` entry is a single account's file link, not a separate multi-tenant site the way Atlassian is, so there's no per-URL identity to cross-check — a successful call is the connection check.
+   - **Any other server name**: best-effort — try to find a matching MCP tool for that server name. There's no fixed naming convention for arbitrary integrations, so this may not reliably detect a connection; treat a failed lookup the same as "not connected."
+
+   - **If connected to the right site (or Figma/other entries that pass)** → nothing more to do.
+   - **If not connected at all** → this session cannot run an OAuth flow itself, so tell the user to authorize manually:
      ```
      <Server name> MCP is not connected. To authorize it:
      1. Open claude.ai (web) → Settings → Connectors (or Integrations).
@@ -35,8 +42,16 @@ You are connecting to the MCP servers configured for this project.
      5. Come back here and let me know when it's done, so I can retry the connection.
      ```
      Do not tell the user to "paste the link into the chat" or "follow the prompts" — that mechanism does not work in this environment.
+   - **If connected to the wrong site** (Atlassian only) → tell the user:
+     ```
+     An Atlassian MCP is connected, but not to <expected-host> — the currently active connection only reaches: <site-1>, <site-2>, ...
+     This usually means a project-scoped Atlassian MCP (from /connect-multiple-atlassian-mcp) and the global one are both active and colliding. To fix it:
+     1. Run /mcp and disconnect whichever "atlassian" entry does not point at <expected-host>.
+     2. If neither does, reauthorize the global Atlassian connector for the right account via claude.ai (web) → Settings → Connectors.
+     3. Come back here and let me know when it's done, so I can retry the connection.
+     ```
 
-5. After the user confirms they've authorized, re-check the entries that failed. Repeat step 4 if any are still failing.
+5. After the user confirms they've authorized (or fixed the site mismatch), re-check the entries that failed. Repeat step 4 if any are still failing.
 
 6. Update `project/status.md` with the MCP connect timestamp, tracked per server (not one shared timestamp). This file is local bookkeeping only (gitignored, never shared or published) — separate from `project/project_config.md`, which is the one tracked/shared file:
    - Get the current date and time at the moment each entry's connection completes.
@@ -59,6 +74,7 @@ You are connecting to the MCP servers configured for this project.
    MCP Connection Summary:
 
    ✓ <server-name> — connected
+   ⚠ <server-name> — connected, but to the wrong site (expected <expected-host>, reachable: <site-1>, <site-2>, ...)
    ✗ <server-name> — failed: <reason>
 
    Skipped (no URL): <count> entries
