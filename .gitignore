@@ -1,5 +1,4 @@
 .claude/settings.local.json
-project/*
-!project/project_config.md
+project/
 workspace/
 .DS_Store

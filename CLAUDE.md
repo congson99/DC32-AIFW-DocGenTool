@@ -41,10 +41,9 @@ This branch does not carry `/config` or `/reset` — those live on the `dev/conf
 
 ## Getting project_config.md
 
-`project/project_config.md` must already be configured before running `/start` — this branch has no way to configure it itself. In the same clone:
-1. Check out `dev/config` and run `/config` there (or have your team lead do this once and push it to a `project/<name>` branch).
-2. Check out this branch again (`git checkout dev/QA`) — `project/context/` and `project/reference/` are gitignored, so they carry over automatically from the sync above.
-3. Restore the configured `project_config.md` here, since it's the one tracked file that a plain branch switch would otherwise reset: `git show project/<name>:project/project_config.md > project/project_config.md` (or `git show dev/config:project/project_config.md > project/project_config.md` if it wasn't pushed to its own project branch).
+`project/project_config.md` must already be configured before running `/start` — this branch has no way to configure it itself, and `project/` is entirely gitignored here (same as on `dev/config`), so the file is never tracked by git on either branch.
+- **Same clone**: check out `dev/config` and run `/config` there, then `git checkout dev/QA` again — the file (and `project/context/`, `project/reference/`) carry over automatically since none of it is tracked or touched by the branch switch.
+- **Different clone/machine**: get the file from wherever your team shares the published config (the Confluence page `/config` publishes it to at the end) and save it as `project/project_config.md` here.
 
 ## Structure
 
@@ -57,7 +56,7 @@ framework/                      ← reusable rules and styles, domain-agnostic
   styles/                       ← format rules, one file per doc type + style_general.md
 
 project/                        ← project-level context
-  project_config.md             ← project config (tracked — see "Getting project_config.md" above)
+  project_config.md             ← project config (not committed — see "Getting project_config.md" above)
   status.md                     ← local bookkeeping: last /sync (not committed, not shared)
   context/                      ← domain overview, module map, user stories (not committed)
   reference/                    ← spec sheets, Confluence exports, detailed docs (not committed)
