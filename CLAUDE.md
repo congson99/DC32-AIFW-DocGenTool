@@ -31,7 +31,7 @@ At the start of every task, read `framework/framework_config.md` and apply the f
 
 This branch only produces the configuration — it does not generate BA or QA documents itself. `/config`, `/update-config`, and `/reset` live only here — setting up a project is a one-time, project-level task, not something tied to any particular feature. `dev/BA` and `dev/QA` each carry their own copies of `/connect-mcp`, `/connect-local-mcp`, `/check-mcp`, and `/sync`, so reconnecting an MCP server, setting up a second Atlassian instance, checking connections, or refreshing Confluence content doesn't require switching branches once `project/project_config.md` has been configured and shared. Once `project/project_config.md` is configured and `/sync` has been run:
 
-1. Share `project/project_config.md` with the team — save/send the file directly, or publish its content to a Confluence page (`/config` offers to do this automatically at the end of setup).
+1. `/config` always finishes by publishing `project/project_config.md`'s content to a Confluence page — share that page link with the team.
 2. `project/project_config.md` is gitignored, so it is never committed and a branch switch never resets or carries it. In this same clone, switching to `dev/BA` or `dev/QA` leaves the file exactly as configured — no per-project branch needed. Other team members, in their own clone, check out the doc-gen branch (`git checkout dev/BA` or `git checkout dev/QA`) and manually place the shared config at `project/project_config.md` there, since git won't distribute it for them.
 
 ## Structure
@@ -56,6 +56,4 @@ project/                        ← project-level context
       principles/               ← general UI behavior principles
       shared-references/        ← UI behavior groups reused across many screens
     messages/                   ← shared message templates and wording conventions
-    test-scenarios/
-      principles/               ← general principles for designing Test Scenarios
 ```
