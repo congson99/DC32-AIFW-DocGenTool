@@ -19,8 +19,6 @@ v1.0
 
 **Project Configuration Tool** is a tool built specifically for the **DC32 AI Framework**. It helps the team leader build the `project_config` file once per project — this file is then used throughout the project by both the BA Doc and QA Doc generation tools.
 
-> It only supports reading and syncing data from Confluence pages.
-
 ---
 
 ## 2. How to Start
@@ -71,7 +69,7 @@ v1.0
 |---|---|
 | `/config` | Interactively build project_config.md via Q&A (the only supported way to configure it) |
 | `/connect-mcp` | Connect to MCP servers listed in project_config.md |
-| `/connect-multiple-atlassian-mcp` | Set up a project-scoped Atlassian MCP server, separate from the global one, for a different Jira/Confluence instance |
+| `/connect-repo-mcp` | Set up a project-scoped Atlassian MCP server, separate from the global one, for a different Jira/Confluence instance |
 | `/sync` | Fetch Confluence pages into local project files |
 | `/reset` | Delete synced context/reference files and reset project_config.md to its unconfigured state |
 
@@ -89,6 +87,7 @@ AI-FW-Doc-Generation/
 └── project/                               ← project-level context
     ├── project_config.md                  ← project config (gitignored — never committed; run /config to set it up locally per project)
     ├── status.md                          ← local bookkeeping: last /sync, /connect-mcp (not committed, not shared)
+    ├── .mcp.env                           ← project-scoped Atlassian credentials from /connect-repo-mcp (gitignored, cleared by /reset)
     ├── context/                           ← domain overview, modules, user stories (not committed)
     └── reference/                         ← spec sheets, Confluence exports (not committed)
         ├── business-rules/
