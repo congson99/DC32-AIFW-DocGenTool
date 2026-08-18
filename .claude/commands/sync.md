@@ -10,18 +10,8 @@ You are syncing project context files from Confluence into the local `project/` 
 1. Check whether `project/project_config.md` exists:
    - If not → stop and inform the user: "project/project_config.md not found. Get it from the dev/config branch first — see README.md § Setup Environment."
 
-2. Check whether the Atlassian MCP connection works (e.g. by trying to look up a matching Atlassian MCP tool):
-   - **If it works** → continue to step 3.
-   - **If it fails** → this session cannot run an OAuth flow itself, so tell the user to authorize manually:
-     ```
-     Atlassian MCP is not connected. To authorize it:
-     1. Open claude.ai (web) → Settings → Connectors (or Integrations).
-     2. Find "Atlassian" in the list.
-     3. Click Connect / Authorize.
-     4. Log in and grant access.
-     5. Come back here and let me know when it's done, so I can retry.
-     ```
-     After the user confirms, re-check the connection. Repeat until it connects successfully before moving on.
+2. Check whether `project/status.md` exists and contains a `Latest MCP connect:` line with a real timestamp:
+   - If not found → run `/connect-mcp` (follow `.claude/commands/connect-mcp.md` in full, including its report) to connect the MCP servers first, then continue to step 3.
 
 3. Read `project/project_config.md` and scan for unfilled placeholders (pattern `<...>`) only within `## 2. Context Sync` section. Stop scanning at `## 3.`. Ignore placeholders inside code blocks (fenced with ` ``` `).
    - If any placeholders are found → stop and inform the user:
@@ -41,7 +31,7 @@ You are syncing project context files from Confluence into the local `project/` 
    Stop parsing at the next `## ` heading (i.e. `## 3.`) — do not read entries from other sections.
 
 5. For each valid entry:
-   a. Fetch the Confluence page content using the provided URL.
+   a. Fetch the Confluence page content using the provided URL. A project can have more than one Atlassian site connected (see `/connect-local-mcp`), so match this entry's URL to the right one: extract its hostname, find the `project/status.md` `Latest MCP connect:` line whose `[<hostname>]` matches, and use the connector it recorded — `(via project-scoped connector: <server-key>)` means call that `mcp__<server-key>__*` tool set, `(via global connector)` means call `mcp__claude_ai_Atlassian__*` tools. If no recorded hostname matches this entry's URL, treat it as unresolved and report it as failed in step 6 rather than guessing a connector.
    b. Convert the page content to clean Markdown.
    c. Write the result to the specified local file path, creating the file if it does not exist.
    d. Track success or failure per entry.
@@ -83,7 +73,7 @@ Skipped (no URL): <count> entries
    - Get the current date and time at the moment sync completes.
    - Check if `project/status.md` already exists:
      - **If it exists and already has a `Latest sync:` line** → update that line in place with the new timestamp.
-     - **If it exists but has no `Latest sync:` line yet** → add a `Latest sync: YYYY/MM/DD HH:MM:SS` line as the first line in the file, right after the intro blockquote.
+     - **If it exists but has no `Latest sync:` line yet** (e.g. the file currently only has a `Latest MCP connect:` block from a prior `/connect-mcp` run) → add a `Latest sync: YYYY/MM/DD HH:MM:SS` line as the first line in the file, right after the intro blockquote and before `Latest MCP connect:`.
      - **If `project/status.md` does not exist at all** → create it with this content:
        ```
        # Status
