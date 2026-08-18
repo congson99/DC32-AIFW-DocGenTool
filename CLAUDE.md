@@ -39,8 +39,10 @@ Used as part of the regular per-feature BA document generation flow.
 | `/clear-workspace` | Delete all feature folders in workspace/ |
 | `/sync` | Fetch the latest content from Confluence into project/context/ and project/reference/ based on project/project_config.md |
 | `/connect-mcp` | Connect to the MCP servers (Atlassian, Figma) listed in project/project_config.md |
+| `/connect-local-mcp` | Set up a project-scoped Atlassian MCP server (separate from the global one), for one or more Jira/Confluence instances |
+| `/check-mcp` | Show every MCP connection currently available in this session and what it's connected to |
 
-This branch does not carry `/config` or `/reset` — those live on the `dev/config` branch. `/sync` and `/connect-mcp` exist on both branches: this branch's copies work directly against project/project_config.md and project/status.md without needing to switch branches, since that data is already available here. See [Getting project_config.md](#getting-projectconfigmd) below for the one-time setup of project_config.md itself, which this branch still cannot configure on its own.
+This branch does not carry `/config` or `/reset` — those live on the `dev/config` branch. `/sync`, `/connect-mcp`, `/connect-local-mcp`, and `/check-mcp` exist on both this branch and `dev/QA`: their copies here work directly against project/project_config.md and project/status.md without needing to switch branches, since that data is already available here. See [Getting project_config.md](#getting-projectconfigmd) below for the one-time setup of project_config.md itself, which this branch still cannot configure on its own.
 
 ## Getting project_config.md
 
