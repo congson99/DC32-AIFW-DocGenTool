@@ -43,7 +43,7 @@ v1.0
 
 **BA generating docs for a project that's already configured**
 1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
-2. Get `project/project_config.md` for this project — either check out `dev/config` in the same clone and run `/config` there yourself, or ask your team lead for the branch it was pushed to (e.g. `project/<name>`) and restore it: `git show project/<name>:project/project_config.md > project/project_config.md`.
+2. Get `project/project_config.md` for this project — either check out `dev/config` in the same clone and run `/config` there yourself, or ask your team lead for the Confluence page it was published to and save its content here as `project/project_config.md`.
 3. Run `/sync` here to fetch `project/context/` and `project/reference/` from Confluence.
 4. Run `/start <Feature Name>`, then follow the chat prompts to generate the BA documentation set.
 
@@ -75,15 +75,14 @@ Clone the branch corresponding to your project, then open the folder in VS Code:
 
 ### Step 4 — Get project_config.md
 
-This branch has no `/config` command of its own, so `project_config.md` must first be configured on `dev/config`. In the same clone:
+This branch has no `/config` command of its own, so `project_config.md` must first be configured on `dev/config`. `project/` is entirely gitignored on every branch, so the file is never tracked by git — it only carries over between branches in the same clone. In the same clone:
 
 1. `git checkout dev/config`
 2. Run `/config` (if not already done for this project) — this fills in `project/project_config.md`.
-3. `git checkout dev/BA` (back to this branch) — `project/context/` and `project/reference/` are gitignored, so they carry over automatically.
-4. Restore `project_config.md` here, since it's the one tracked file a plain branch switch would otherwise reset to this branch's own blank copy: `git show dev/config:project/project_config.md > project/project_config.md`.
-5. Run `/sync` here any time you want to pull the latest `project/context/` and `project/reference/` content from Confluence, `/connect-mcp` to (re)connect the Atlassian/Figma MCP servers, `/connect-local-mcp` to set up a dedicated per-site Atlassian connection, or `/check-mcp` to see what's currently connected — this branch has its own copies of all four, so no branch switch is needed.
+3. `git checkout dev/BA` (back to this branch) — `project/project_config.md`, `project/context/`, and `project/reference/` all carry over automatically since none of them are tracked.
+4. Run `/sync` here any time you want to pull the latest `project/context/` and `project/reference/` content from Confluence, `/connect-mcp` to (re)connect the Atlassian/Figma MCP servers, `/connect-local-mcp` to set up a dedicated per-site Atlassian connection, or `/check-mcp` to see what's currently connected — this branch has its own copies of all four, so no branch switch is needed.
 
-> If someone else already configured and pushed `project_config.md` to a `project/<name>` branch, skip straight to step 4 using that branch name instead.
+> If you're on a different clone/machine, there's no branch to pull `project_config.md` from — ask your team lead for the Confluence page `/config` published it to and save its content here as `project/project_config.md`, skipping straight to step 4.
 
 ---
 
@@ -126,7 +125,7 @@ DC32-AIFW-DocGenTool/
 │   ├── rules/                             ← writing/content rules, one file per doc type
 │   └── styles/                            ← format rules, one file per doc type + style_general.md
 ├── project/                               ← project-level context
-│   ├── project_config.md                  ← project config (tracked — committed unconfigured; configure via /config on dev/config, then restore it here)
+│   ├── project_config.md                  ← project config (not committed; configure via /config on dev/config — see Step 4 above)
 │   ├── status.md                          ← local bookkeeping: last /sync (not committed, not shared)
 │   ├── context/                           ← domain overview, modules, user stories (not committed)
 │   └── reference/                         ← spec sheets, Confluence exports (not committed)
