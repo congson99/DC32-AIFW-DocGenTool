@@ -1,12 +1,12 @@
 {
   "mcpServers": {
-    "atlassian": {
+    "atlassian-dc32claude": {
       "command": "npx",
       "args": ["-y", "@bodywave/jira-mcp@1.1.1"],
       "env": {
-        "JIRA_URL": "${JIRA_URL}",
-        "JIRA_EMAIL": "${JIRA_EMAIL}",
-        "JIRA_API_KEY": "${JIRA_API_KEY}"
+        "JIRA_BASE_URL": "${JIRA_BASE_URL_DC32CLAUDE}",
+        "JIRA_USER_EMAIL": "${JIRA_USER_EMAIL_DC32CLAUDE}",
+        "JIRA_API_TOKEN": "${JIRA_API_TOKEN_DC32CLAUDE}"
       }
     }
   }

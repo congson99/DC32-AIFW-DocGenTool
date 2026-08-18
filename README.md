@@ -68,8 +68,10 @@ v1.0
 | Command | Purpose |
 |---|---|
 | `/config` | Interactively build project_config.md via Q&A (the only supported way to configure it) |
+| `/update-config` | Update one or more specific parts of an already-configured project_config.md, one at a time |
 | `/connect-mcp` | Connect to MCP servers listed in project_config.md |
-| `/connect-repo-mcp` | Set up a project-scoped Atlassian MCP server, separate from the global one, for a different Jira/Confluence instance |
+| `/connect-local-mcp` | Set up a project-scoped Atlassian MCP server, separate from the global one, for one or more Jira/Confluence instances |
+| `/check-mcp` | Show every MCP connection currently available in this session and what it's connected to |
 | `/sync` | Fetch Confluence pages into local project files |
 | `/reset` | Delete synced context/reference files and reset project_config.md to its unconfigured state |
 
@@ -81,13 +83,13 @@ v1.0
 AI-FW-Doc-Generation/
 ├── CLAUDE.md                              ← project instructions for Claude
 ├── .claude/
-│   └── commands/                          ← slash command definitions (see Available Commands)
+│   ├── commands/                          ← slash command definitions (see Available Commands)
+│   └── settings.local.json                ← auto-gitignored by Claude Code; holds project-scoped Atlassian credentials (env key) from /connect-local-mcp — persists across /reset and branch switches, since it's a durable local connection, not per-project state
 ├── framework/                             ← reusable rules and styles, domain-agnostic
 │   └── framework_config.md                ← edit_framework setting (do not modify)
 └── project/                               ← project-level context
     ├── project_config.md                  ← project config (gitignored — never committed; run /config to set it up locally per project)
     ├── status.md                          ← local bookkeeping: last /sync, /connect-mcp (not committed, not shared)
-    ├── .mcp.env                           ← project-scoped Atlassian credentials from /connect-repo-mcp (gitignored, cleared by /reset)
     ├── context/                           ← domain overview, modules, user stories (not committed)
     └── reference/                         ← spec sheets, Confluence exports (not committed)
         ├── business-rules/

@@ -3,18 +3,16 @@
 
 INPUT=$(cat)
 
-FILE_PATH=$(echo "$INPUT" | python3 -c "
-import sys, json
-try:
-    d = json.load(sys.stdin)
-    print(d.get('tool_input', {}).get('file_path', ''))
-except:
-    print('')
-")
+FILE_PATH=$(printf '%s' "$INPUT" | sed -nE 's/.*"file_path"[[:space:]]*:[[:space:]]*"((\\.|[^"\\])*)".*/\1/p')
 
 if [ -z "$FILE_PATH" ]; then
   exit 0
 fi
+
+# Normalize JSON-escaped backslashes (Windows paths, e.g. C:\\Users\\...) to
+# forward slashes so the patterns below match regardless of which OS emitted
+# the path.
+FILE_PATH="${FILE_PATH//\\\\//}"
 
 PROTECTED=("framework/" ".claude/" "CLAUDE.md" "README.md" ".gitignore")
 

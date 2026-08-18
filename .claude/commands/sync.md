@@ -31,7 +31,7 @@ You are syncing project context files from Confluence into the local `project/` 
    Stop parsing at the next `## ` heading (i.e. `## 3.`) — do not read entries from other sections.
 
 5. For each valid entry:
-   a. Fetch the Confluence page content using the provided URL.
+   a. Fetch the Confluence page content using the provided URL. A project can have more than one Atlassian site connected (see `/connect-local-mcp`), so match this entry's URL to the right one: extract its hostname, find the `project/status.md` `Latest MCP connect:` line whose `[<hostname>]` matches, and use the connector it recorded — `(via project-scoped connector: <server-key>)` means call that `mcp__<server-key>__*` tool set, `(via global connector)` means call `mcp__claude_ai_Atlassian__*` tools. If no recorded hostname matches this entry's URL, treat it as unresolved and report it as failed in step 6 rather than guessing a connector.
    b. Convert the page content to clean Markdown.
    c. Write the result to the specified local file path, creating the file if it does not exist.
    d. Track success or failure per entry.
