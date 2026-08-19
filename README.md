@@ -43,9 +43,8 @@ v1.0
 
 **BA generating docs for a project that's already configured**
 1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
-2. Get `project/project_config.md` for this project — either check out `dev/config` in the same clone and run `/config` there yourself, or find the Confluence page link for this project's `project_config.md` and skip straight to step 3, running `/sync <that-url>` here — it pulls the file down automatically.
-3. Run `/sync` here (skip if you already ran it with a URL in step 2) to fetch `project/context/` and `project/reference/` from Confluence.
-4. Run `/start <Feature Name>`, then follow the chat prompts to generate the BA documentation set.
+2. Run `/sync <confluence-page-url>` here, using the Confluence link for this project's `project_config.md` — it pulls the file down and fetches `project/context/`/`project/reference/` from Confluence in one go. (Already have `project/project_config.md` set up via `/config` on `dev/config`? Just run `/sync` with no link.)
+3. Run `/start <Feature Name>`, then follow the chat prompts to generate the BA documentation set.
 
 > If your project doesn't have a `project_config.md` yet, go to https://github.com/congson99/DC32-AIFW-DocGenTool, find the branch for the Project Configuration Tool version you need, and clone it to create one for your project.
 
@@ -72,17 +71,6 @@ Clone the branch corresponding to your project, then open the folder in VS Code:
 2. Search for **Claude Code**
 3. Click **Install**
 4. Click the **Claude** icon in the VS Code sidebar (or use the keyboard shortcut shown after install) to open the panel
-
-### Step 4 — Get project_config.md
-
-This branch has no `/config` command of its own, so `project_config.md` must first be configured on `dev/config`. `project/` is entirely gitignored on every branch, so the file is never tracked by git — it only carries over between branches in the same clone. In the same clone:
-
-1. `git checkout dev/config`
-2. Run `/config` (if not already done for this project) — this fills in `project/project_config.md`.
-3. `git checkout dev/BA` (back to this branch) — `project/project_config.md`, `project/context/`, and `project/reference/` all carry over automatically since none of them are tracked.
-4. Run `/sync` here any time you want to pull the latest `project/context/` and `project/reference/` content from Confluence, `/connect-mcp` to (re)connect the Atlassian/Figma MCP servers, `/connect-local-mcp` to set up a dedicated per-site Atlassian connection, or `/check-mcp` to see what's currently connected — this branch has its own copies of all four, so no branch switch is needed.
-
-> If you're on a different clone/machine, there's no branch to pull `project_config.md` from — run `/sync <confluence-page-url>` here instead, using the page your team lead shares (the one `/config` published it to). It pulls `project_config.md` down automatically before syncing, skipping straight past steps 1-3 above.
 
 ---
 
@@ -126,7 +114,7 @@ DC32-AIFW-DocGenTool/
 │   ├── rules/                             ← writing/content rules, one file per doc type
 │   └── styles/                            ← format rules, one file per doc type + style_general.md
 ├── project/                               ← project-level context
-│   ├── project_config.md                  ← project config (not committed; configure via /config on dev/config — see Step 4 above)
+│   ├── project_config.md                  ← project config (not committed; configure via /config on dev/config, or pull it with /sync — see Quick Start above)
 │   ├── status.md                          ← local bookkeeping: last /sync (not committed, not shared)
 │   ├── context/                           ← domain overview, modules, user stories (not committed)
 │   └── reference/                         ← spec sheets, Confluence exports (not committed)
