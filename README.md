@@ -40,7 +40,7 @@ v1.0
 3. Run `/sync` here to fetch `project/context/` and `project/reference/` from Confluence.
 4. Run `/start <Feature Name>`, then follow the chat prompts to generate the QA documentation set.
 
-> This branch does not include `/config` or `/reset` — those commands live on the `dev/config` branch, since setting up a project is a one-time, project-level task independent of generating docs for any particular feature. `/sync`, `/connect-mcp`, `/connect-local-mcp`, and `/check-mcp` all exist on this branch too, so refreshing Confluence content, reconnecting an MCP server, setting up a dedicated per-site Atlassian connection, or checking what's currently connected doesn't require switching branches.
+> This branch does not include `/config` — that command lives on the `dev/config` branch, since setting up a project is a one-time, project-level task independent of generating docs for any particular feature. `/reset`, `/sync`, `/connect-mcp`, `/connect-local-mcp`, and `/check-mcp` all exist on this branch too, so starting a new project, refreshing Confluence content, reconnecting an MCP server, setting up a dedicated per-site Atlassian connection, or checking what's currently connected doesn't require switching branches.
 
 ---
 
@@ -94,6 +94,7 @@ This branch has no `/config` command of its own, so `project_config.md` must fir
 | `/publish <Feature Name>` | Publish QA Doc to Confluence and update Jira status |
 | `/check <Feature Name>` | Show doc status and suggest next step |
 | `/clear-workspace` | Delete all feature folders in workspace/ |
+| `/reset` | Delete all synced context/reference files, reset project_config.md to its unconfigured state, and clear all feature folders in workspace/ |
 | `/connect-mcp` | Connect to the MCP servers (Atlassian, Figma) listed in project/project_config.md |
 | `/sync` | Fetch the latest content from Confluence into project/context/ and project/reference/ |
 | `/connect-local-mcp` | Set up a project-scoped Atlassian MCP server (separate from the global one), for one or more Jira/Confluence instances |
