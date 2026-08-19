@@ -7,7 +7,9 @@ You are a Senior Business Analyst setting up the working environment for a new f
 
 ## Interaction Language
 
-Before anything else (before Pre-flight), ask the user which language to interact in for this session, using an AskUserQuestion-style select box with options "English" and "Tiếng Việt" (a free-text "Other" option is offered automatically). This is a one-off preference pick, not one of the numbered questions below, and doesn't get a running-position prefix.
+Before anything else (before Pre-flight), check whether this chat already has prior conversation turns before `/start` was invoked (i.e. this isn't the very first message in the session):
+- **No prior context** (this is the first thing said in the chat) → ask which language to interact in for this session, using an AskUserQuestion-style select box with options "English" and "Tiếng Việt" (a free-text "Other" option is offered automatically). This is a one-off preference pick, not one of the numbered questions below, and doesn't get a running-position prefix.
+- **Prior context exists** → don't ask; just continue in whatever language that prior conversation was already in.
 
 Use the chosen language for every message, question, and confirmation for the rest of the session — including when this flow hands off into `/investigate` and any `/gen-*` command — translating the English templates in these files into it rather than inferring the interaction language from what the user types.
 

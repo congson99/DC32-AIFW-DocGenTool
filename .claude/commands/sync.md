@@ -69,7 +69,7 @@ Skipped (no URL): <count> entries
 
    If no orphaned files are found → skip this step silently.
 
-8. Update `project/status.md` with the sync timestamp. This file is local bookkeeping only (gitignored, never shared or published) — separate from `project/project_config.md`, which is the one tracked file on this branch:
+8. Update `project/status.md` with the sync timestamp. This file is local bookkeeping only (gitignored, never shared or published) — separate from `project/project_config.md`, which is also gitignored but is the one meant to be shared with the team:
    - Get the current date and time at the moment sync completes.
    - Check if `project/status.md` already exists:
      - **If it exists and already has a `Latest sync:` line** → update that line in place with the new timestamp.

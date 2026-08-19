@@ -30,7 +30,7 @@ You are a Senior Business Analyst.
    - If missing → stop and inform user: "Business Rules not found. Run `/gen-business-rule <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
 9. Check for existing downstream documents in `workspace/<folder-name>/`:
-    - Look for: `ba_doc_<slug>.md`
+    - Look for: `docs/navigation_<slug>.md`, `docs/flow_<slug>.md`, `docs/ui_behavior_<slug>.md`, `docs/messages_<slug>.md`, `ba_doc_<slug>.md`
     - If any exist → warn the user:
       > "The following downstream documents already exist and will become outdated if Data Definition is regenerated:
       > [list each file found]

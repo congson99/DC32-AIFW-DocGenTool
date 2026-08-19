@@ -39,7 +39,7 @@ You are a Senior Business Analyst.
    - If missing → stop and inform user: "Flow not found. Run `/gen-flow <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
 12. Check for existing downstream documents in `workspace/<folder-name>/`:
-   - Look for: `ba_doc_<slug>.md`
+   - Look for: `docs/messages_<slug>.md`, `ba_doc_<slug>.md`
    - If any exist → warn the user:
      > "The following downstream documents already exist and will become outdated if UI Behavior is regenerated:
      > [list each file found]

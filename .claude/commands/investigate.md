@@ -24,7 +24,7 @@ You are a Senior Business Analyst distilling a feature's raw context into a sing
    - An empty file (no items listed under `# Context Files`) is allowed — continue.
 5. Read `workspace/<folder-name>/input/context_<slug>.md` and load every file listed on a `- <path>` line — read each one before proceeding. Indented `desc:` lines are just usage notes describing what that file covers; they are not files themselves and should not be loaded.
 6. Check for existing downstream documents in `workspace/<folder-name>/`:
-   - Look for: `input/idea_<slug>.md`, `docs/brief_<slug>.md`, `docs/ac_<slug>.md`, `docs/business_rule_<slug>.md`, `docs/data_definition_<slug>.md`, `docs/navigation_<slug>.md`, `docs/flow_<slug>.md`, `docs/ui_behavior_<slug>.md`, `docs/messages_<slug>.md`, `ba_doc_<slug>.md`
+   - Look for: `input/idea_<slug>.md`, `docs/brief_<slug>.md`, `docs/dependencies_<slug>.md`, `docs/ac_<slug>.md`, `docs/business_rule_<slug>.md`, `docs/data_definition_<slug>.md`, `docs/navigation_<slug>.md`, `docs/flow_<slug>.md`, `docs/ui_behavior_<slug>.md`, `docs/messages_<slug>.md`, `ba_doc_<slug>.md`
    - If any exist → warn the user:
      > "The following documents already exist and will become outdated if the Idea file is regenerated:
      > [list each file found]

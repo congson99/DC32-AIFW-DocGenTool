@@ -23,7 +23,7 @@ You are a Senior Business Analyst.
    - If missing → stop and inform user: "Idea file not found. Run `/investigate <Feature Name>` first to generate it."
 5. Read `workspace/<folder-name>/input/idea_<slug>.md` before proceeding. If it still has unfilled placeholder sections needed to write the Brief (e.g. Overview, Scope), ask the user a focused question for that information rather than inventing content.
 6. Check for existing downstream documents in `workspace/<folder-name>/`:
-   - Look for: `docs/ac_<slug>.md`, `docs/business_rule_<slug>.md`, `ba_doc_<slug>.md`
+   - Look for: `docs/dependencies_<slug>.md`, `docs/ac_<slug>.md`, `docs/business_rule_<slug>.md`, `docs/data_definition_<slug>.md`, `docs/navigation_<slug>.md`, `docs/flow_<slug>.md`, `docs/ui_behavior_<slug>.md`, `docs/messages_<slug>.md`, `ba_doc_<slug>.md`
    - If any exist → warn the user:
      > "The following downstream documents already exist and will become outdated if the Brief is regenerated:
      > [list each file found]
@@ -46,6 +46,6 @@ You are a Senior Business Analyst.
 ```
 ✓ workspace/<folder-name>/docs/brief_<slug>.md
 
-Review the brief and edit if needed, then run /gen-ac <Feature Name> to continue.
+Review the brief and edit if needed, then run /gen-dependencies <Feature Name> to continue.
 ```
 

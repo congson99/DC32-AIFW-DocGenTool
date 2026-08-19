@@ -33,7 +33,7 @@ You are a Senior Business Analyst.
    - If missing → stop and inform user: "Data Definition not found. Run `/gen-data-definition <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
 10. Check for existing downstream documents in `workspace/<folder-name>/`:
-   - Look for: `ba_doc_<slug>.md`
+   - Look for: `docs/flow_<slug>.md`, `docs/ui_behavior_<slug>.md`, `docs/messages_<slug>.md`, `ba_doc_<slug>.md`
    - If any exist → warn the user:
      > "The following downstream documents already exist and will become outdated if Navigation is regenerated:
      > [list each file found]

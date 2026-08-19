@@ -27,7 +27,7 @@ You are a Senior Business Analyst.
    - If missing → stop and inform user: "Acceptance Criteria not found. Run `/gen-ac <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
 8. Check for existing downstream documents in `workspace/<folder-name>/`:
-   - Look for: `ba_doc_<slug>.md`
+   - Look for: `docs/data_definition_<slug>.md`, `docs/navigation_<slug>.md`, `docs/flow_<slug>.md`, `docs/ui_behavior_<slug>.md`, `docs/messages_<slug>.md`, `ba_doc_<slug>.md`
    - If any exist → warn the user:
      > "The following downstream documents already exist and will become outdated if Business Rules are regenerated:
      > [list each file found]
