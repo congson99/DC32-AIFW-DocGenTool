@@ -68,6 +68,10 @@ v1.0
 
 ## 5. Available Commands
 
+### Main flow (per feature)
+
+Run in this order to produce a complete BA Doc for one feature.
+
 | Command | Purpose |
 |---|---|
 | `/start <Feature Name>` | Initialize feature folder, env file, and context file |
@@ -81,16 +85,30 @@ v1.0
 | `/gen-flow <Feature Name>` | Generate Flow |
 | `/gen-ui-behavior <Feature Name>` | Generate UI Behavior |
 | `/gen-messages <Feature Name>` | Generate Messages |
-| `/gen-doc <Feature Name>` | Run gen-brief through gen-messages and package back-to-back |
-| `/package <Feature Name>` | Package all artifacts into a single BA Doc |
+| `/gen-doc <Feature Name>` | Shortcut: run gen-brief through gen-messages and package back-to-back, without pausing for review between steps |
+| `/package <Feature Name>` | Package all nine sections (Brief through Messages) into a single BA Doc |
 | `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status |
-| `/check <Feature Name>` | Show doc status and suggest next step |
-| `/clear-workspace` | Delete all feature folders in workspace/ |
-| `/reset` | Delete all synced context/reference files, reset project_config.md to its unconfigured state, and clear all feature folders in workspace/ |
-| `/sync [confluence-url]` | Fetch the latest content from Confluence into project/context/ and project/reference/ — pass the Confluence URL project_config.md was published to, to pull it down first if it's missing here |
+
+### Flow helper
+
+Not a generation step itself — call it any time during the flow above to see where a feature stands.
+
+| Command | Purpose |
+|---|---|
+| `/check <Feature Name>` | Show which BA documents have been generated for a feature and suggest the next step |
+
+### Not in the flow — project setup & maintenance
+
+Operate on the whole project rather than a single feature. Run as needed, independent of where any feature is in the flow above.
+
+| Command | Purpose |
+|---|---|
+| `/sync [project-config-confluence-url]` | Fetch the latest content from Confluence into project/context/ and project/reference/ based on project/project_config.md — optionally pass the Confluence URL project_config.md was published to, to pull/refresh it first |
 | `/connect-mcp` | Connect to the MCP servers (Atlassian, Figma) listed in project/project_config.md |
 | `/connect-local-mcp` | Set up a project-scoped Atlassian MCP server (separate from the global one), for one or more Jira/Confluence instances |
 | `/check-mcp` | Show every MCP connection currently available in this session and what it's connected to |
+| `/clear-workspace` | Delete all feature folders in workspace/ |
+| `/reset` | Delete all synced context/reference files, reset project_config.md to its unconfigured state, and clear all feature folders in workspace/ |
 
 ---
 
@@ -125,5 +143,3 @@ DC32-AIFW-DocGenTool/
         ├── docs/                          ← generated BA doc sections (Brief through Messages)
         └── ba_doc_<slug>.md               ← final packaged document
 ```
-
-> `gen-flow` reads `project/reference/flow/` if present, but `/config` on `dev/config` has no matching Context Sync category yet, so this folder currently has no supported way to get populated.
