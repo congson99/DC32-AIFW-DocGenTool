@@ -52,6 +52,8 @@ project/                        ← project-level context
     business-rules/
       principles/               ← general principles for writing Business Rules
       shared-references/        ← rule groups reused across many features
+    data-definition/
+      shared-references/        ← field definitions (name, type, description) for entities reused across many features — e.g. Warehouse, Supplier
     navigation/                 ← shared navigation patterns
     flow/                       ← shared flow patterns and conventions
     ui-behavior/

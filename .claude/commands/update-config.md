@@ -12,17 +12,17 @@ You are helping the user update specific parts of an already-configured `project
 
 2. Same as `/config`'s own Interaction Language check: if this chat has no prior turns before `/update-config` was invoked, ask which language to interact in for this session (AskUserQuestion-style select box, "English" / "Tiếng Việt", free-text "Other" offered automatically). If prior context already exists, just continue in whatever language that conversation is already in — don't ask again.
 
-## The 17 items
+## The 18 items
 
-These are the exact same 17 questions `/config` asks, grouped by section — reuse `.claude/commands/config.md`'s own phrasing/format/update-rules for whichever one the user picks (its numbered sub-questions 1.a-d, 2.a-i, and 4.a-d), rather than duplicating that text here. `## 3. Task Environment` isn't in this list — `/config` never asks about it either (it's per-feature, filled in later by `/start`/`/investigate`), so there's nothing here to update.
+These are the exact same 18 questions `/config` asks, grouped by section — reuse `.claude/commands/config.md`'s own phrasing/format/update-rules for whichever one the user picks (its numbered sub-questions 1.a-d, 2.a-j, and 4.a-d), rather than duplicating that text here. `## 3. Task Environment` isn't in this list — `/config` never asks about it either (it's per-feature, filled in later by `/start`/`/investigate`), so there's nothing here to update.
 
 - **Project Setup**: 1. Project Name — 2. MCP Config: Atlassian — 3. MCP Config: Figma — 4. Language
-- **Context Sync**: 5. Context — 6. Sample Doc — 7. Business Rules: Principles — 8. Business Rules: Shared References — 9. UI Behavior: Principles — 10. UI Behavior: Shared References — 11. Navigation — 12. Flow — 13. Messages
-- **Task Automation**: 14. Jira actions (BA) — 15. Confluence actions (BA) — 16. Jira actions (QA) — 17. Confluence actions (QA)
+- **Context Sync**: 5. Context — 6. Sample Doc — 7. Business Rules: Principles — 8. Business Rules: Shared References — 9. Data Definition: Shared References — 10. UI Behavior: Principles — 11. UI Behavior: Shared References — 12. Navigation — 13. Flow — 14. Messages
+- **Task Automation**: 15. Jira actions (BA) — 16. Confluence actions (BA) — 17. Jira actions (QA) — 18. Confluence actions (QA)
 
 ## Steps
 
-1. Read `project/project_config.md` and show the user all 17 items above with their **current value** next to each — as a plain numbered list, not a select UI (17 options doesn't fit a select box anyway). Several items can hold more than one entry (Atlassian once multiple sites are set up via `/connect-local-mcp`, and every Context Sync category 5-13 since the user can paste a list of `<name>: <url>` pairs) — for those, show a count and the entry names rather than assuming a single value, e.g. `5. Context — 2 entries (BRD, roadmap)`. Use `(not set)` for anything still a placeholder or empty. Example shape:
+1. Read `project/project_config.md` and show the user all 18 items above with their **current value** next to each — as a plain numbered list, not a select UI (18 options doesn't fit a select box anyway). Several items can hold more than one entry (Atlassian once multiple sites are set up via `/connect-local-mcp`, and every Context Sync category 5-14 since the user can paste a list of `<name>: <url>` pairs) — for those, show a count and the entry names rather than assuming a single value, e.g. `5. Context — 2 entries (BRD, roadmap)`. Use `(not set)` for anything still a placeholder or empty. Example shape:
    ```
    1. Project Name — Inventory Platform
    2. MCP Config: Atlassian — 2 sites (dc32claude, otherteam)
@@ -31,16 +31,16 @@ These are the exact same 17 questions `/config` asks, grouped by section — reu
    5. Context — 2 entries (BRD, roadmap)
    6. Sample Doc — 1 entry (create-purchase-order-ba-doc)
    ...
-   17. Confluence actions (QA) — (not set)
+   18. Confluence actions (QA) — (not set)
 
    Which one do you want to update?
    ```
 
 2. Once the user names one (by number or name), update **only that item**:
-   - Ask it using the exact same phrasing/example/format as that item's sub-question in `.claude/commands/config.md` (find it by number: 1-4 are 1.a-d, 5-13 are 2.a-i, 14-17 are 4.a-d).
-   - Apply the same update rules `config.md` uses for that item (e.g. re-verify the MCP connection immediately if it's item 2 or 3 per `config.md` 1.b/1.c; fetch-and-derive name/description if it's item 5 (Context) or item 6 (Sample Doc) per `config.md` 2.a/2.b; delete the category's placeholder entirely on "none"/"no" for items 7-13, per `config.md`'s Context Sync rules).
+   - Ask it using the exact same phrasing/example/format as that item's sub-question in `.claude/commands/config.md` (find it by number: 1-4 are 1.a-d, 5-14 are 2.a-j, 15-18 are 4.a-d).
+   - Apply the same update rules `config.md` uses for that item (e.g. re-verify the MCP connection immediately if it's item 2 or 3 per `config.md` 1.b/1.c; fetch-and-derive name/description if it's item 5 (Context) or item 6 (Sample Doc) per `config.md` 2.a/2.b; delete the category's placeholder entirely on "none"/"no" for items 7-14, per `config.md`'s Context Sync rules).
    - **Item 2 (MCP Config: Atlassian) specifically** — if one or more sites are already configured, don't try to resolve "which site, add-new-vs-overwrite" here yourself: hand off straight to `/connect-local-mcp` (follow `.claude/commands/connect-local-mcp.md` in full), which already owns that entire decision on its own.
-   - **Any multi-entry item (5-13) that already has entries** — the user's answer to the question above tells you what they want (e.g. "add another one", "replace the roadmap link", "remove BRD"); apply it against the existing list rather than assuming a wholesale replacement.
+   - **Any multi-entry item (5-14) that already has entries** — the user's answer to the question above tells you what they want (e.g. "add another one", "replace the roadmap link", "remove BRD"); apply it against the existing list rather than assuming a wholesale replacement.
    - Confirm what changed: `✓ Updated <item name>: <old value/count> → <new value/count>`.
 
 3. Ask whether the user wants to update anything else:

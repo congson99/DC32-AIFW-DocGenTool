@@ -1,6 +1,6 @@
 # DC32 AI Framework - Project Configuration Tool
 
-v1.1
+v1.2
 
 ---
 
@@ -37,6 +37,7 @@ v1.1
 - **Sample Doc** — one or more already-finished, high-quality BA Docs, used as a style/tone/detail-level reference for every generated section — not one specific category.
 - **Business Rules — Principles** — a doc explaining *how* business rules should be written in general (not the rules themselves, just the writing guidelines).
 - **Business Rules — Shared References** — a doc listing rules that repeat across many features, e.g. "email must match this format," "pagination shows 20 rows per page."
+- **Data Definition — Shared References** — a doc listing field definitions for entities reused across many features, e.g. Warehouse's or Supplier's fields — lets a feature that just displays or references that entity reuse the fields instead of re-guessing them.
 - **UI Behavior — Principles** — a doc explaining general UI conventions, e.g. when validation errors should appear, or what every page header should include.
 - **UI Behavior — Shared References** — a doc describing how common, reused components should behave, e.g. how every Table, Edit Form, or Sidebar in the app works.
 - **Navigation** — a doc covering shared navigation rules, e.g. button naming, when confirmation dialogs appear, or a map of the app's pages/dialogs.
