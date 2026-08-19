@@ -85,4 +85,4 @@ workspace/                      ← per-feature working area (not committed)
 
 > slug = kebab-case folder name with `-` replaced by `_` (e.g. `cancel-pr` → `cancel_pr`)
 
-> `gen-test-scenarios`/`gen-test-cases` read `test-scenarios/shared-references/`, `test-cases/principles/`, and `test-cases/shared-references/` if present, but `/config` on `dev/config` has no matching Context Sync category yet, so these three currently have no supported way to get populated.
+> `gen-test-scenarios`/`gen-test-cases` read `test-scenarios/principles/`, `test-scenarios/shared-references/`, `test-cases/principles/`, and `test-cases/shared-references/` if present, but `/config` on `dev/config` has no matching Context Sync category for any of them, so these four currently have no supported way to get populated.
