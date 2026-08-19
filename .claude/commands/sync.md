@@ -53,7 +53,9 @@ Skipped (no URL): <count> entries
    - `project/reference/ui-behavior/principles/`
    - `project/reference/ui-behavior/shared-references/`
    - `project/reference/navigation/`
+   - `project/reference/flow/`
    - `project/reference/messages/`
+   - `project/reference/sample-doc/`
 
    If orphaned files are found → ask the user:
    ```

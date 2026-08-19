@@ -1,6 +1,6 @@
 # DC32 AI Framework - Project Configuration Tool
 
-v1.0
+v1.1
 
 ---
 
@@ -34,11 +34,13 @@ v1.0
 - **Confluence space** — a dedicated Confluence space to host this project's context and reference docs going forward.
 - **Figma** (optional) — a link to the project's Figma file, if the team uses Figma for UI designs. Lets the QA tool reference actual screens when writing Test Cases.
 - **Context** — docs that apply to the whole project, not one specific feature. Example: the BRD (Business Requirements Document), a module map, or a release roadmap.
+- **Sample Doc** — one or more already-finished, high-quality BA Docs, used as a style/tone/detail-level reference for every generated section — not one specific category.
 - **Business Rules — Principles** — a doc explaining *how* business rules should be written in general (not the rules themselves, just the writing guidelines).
 - **Business Rules — Shared References** — a doc listing rules that repeat across many features, e.g. "email must match this format," "pagination shows 20 rows per page."
 - **UI Behavior — Principles** — a doc explaining general UI conventions, e.g. when validation errors should appear, or what every page header should include.
 - **UI Behavior — Shared References** — a doc describing how common, reused components should behave, e.g. how every Table, Edit Form, or Sidebar in the app works.
 - **Navigation** — a doc covering shared navigation rules, e.g. button naming, when confirmation dialogs appear, or a map of the app's pages/dialogs.
+- **Flow** — a doc covering shared flow conventions, e.g. what a feature's default entry point is, or when a rejection path becomes its own Alternate Flow.
 - **Messages** — a doc with standard wording for messages, e.g. the exact phrasing used for error and success messages.
 - **Project Config page** — an empty Confluence page named **"Project Config for Doc Gen Tool"**, where `/config` will publish the finished `project_config.md`.
 

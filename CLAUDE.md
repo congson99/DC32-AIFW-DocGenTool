@@ -48,10 +48,12 @@ project/                        ← project-level context
   status.md                     ← local bookkeeping: last /sync, /connect-mcp (not committed, not shared)
   context/                      ← domain overview, module map, user stories (not committed)
   reference/                    ← spec sheets, Confluence exports, detailed docs (not committed)
+    sample-doc/                 ← one or more complete example BA Docs, used by every gen-* command (dev/BA) as a style/tone/detail-level reference for its own section
     business-rules/
       principles/               ← general principles for writing Business Rules
       shared-references/        ← rule groups reused across many features
     navigation/                 ← shared navigation patterns
+    flow/                       ← shared flow patterns and conventions
     ui-behavior/
       principles/               ← general UI behavior principles
       shared-references/        ← UI behavior groups reused across many screens
