@@ -38,7 +38,7 @@ Used as part of the regular per-feature BA document generation flow.
 | `/check <Feature Name>` | Show doc status and suggest next step |
 | `/clear-workspace` | Delete all feature folders in workspace/ |
 | `/reset` | Delete all synced context/reference files, reset project_config.md to its unconfigured state, and clear all feature folders in workspace/ |
-| `/sync` | Fetch the latest content from Confluence into project/context/ and project/reference/ based on project/project_config.md |
+| `/sync [confluence-url]` | Fetch the latest content from Confluence into project/context/ and project/reference/ based on project/project_config.md — pass the Confluence URL project_config.md was published to, to pull it down first if it's missing here |
 | `/connect-mcp` | Connect to the MCP servers (Atlassian, Figma) listed in project/project_config.md |
 | `/connect-local-mcp` | Set up a project-scoped Atlassian MCP server (separate from the global one), for one or more Jira/Confluence instances |
 | `/check-mcp` | Show every MCP connection currently available in this session and what it's connected to |
@@ -49,7 +49,7 @@ This branch does not carry `/config` — that lives on the `dev/config` branch. 
 
 `project/project_config.md` must already be configured before running `/start` — this branch has no way to configure it itself, and `project/` is entirely gitignored here (same as on `dev/config`), so the file is never tracked by git on either branch.
 - **Same clone**: check out `dev/config` and run `/config` there, then `git checkout dev/BA` again — the file (and `project/context/`, `project/reference/`) carry over automatically since none of it is tracked or touched by the branch switch.
-- **Different clone/machine**: get the file from wherever your team shares the published config (the Confluence page `/config` publishes it to at the end) and save it as `project/project_config.md` here.
+- **Different clone/machine**: run `/sync <confluence-page-url>`, using the Confluence page `/config` published it to at the end — it pulls the file down automatically before syncing, no manual copy needed.
 
 ## Structure
 

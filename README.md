@@ -43,8 +43,8 @@ v1.0
 
 **BA generating docs for a project that's already configured**
 1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
-2. Get `project/project_config.md` for this project — either check out `dev/config` in the same clone and run `/config` there yourself, or ask your team lead for the Confluence page it was published to and save its content here as `project/project_config.md`.
-3. Run `/sync` here to fetch `project/context/` and `project/reference/` from Confluence.
+2. Get `project/project_config.md` for this project — either check out `dev/config` in the same clone and run `/config` there yourself, or skip straight to step 3 and run `/sync <confluence-page-url>` here, using the page your team lead shares (the one `/config` published it to) — it pulls the file down automatically.
+3. Run `/sync` here (skip if you already ran it with a URL in step 2) to fetch `project/context/` and `project/reference/` from Confluence.
 4. Run `/start <Feature Name>`, then follow the chat prompts to generate the BA documentation set.
 
 > This branch does not include `/config` — that command lives on the `dev/config` branch, since setting up a project is a one-time, project-level task independent of generating docs for any particular feature. `/reset`, `/sync`, `/connect-mcp`, `/connect-local-mcp`, and `/check-mcp` all exist on this branch too, so starting a new project, refreshing Confluence content, reconnecting an MCP server, setting up a dedicated per-site Atlassian connection, or checking what's currently connected doesn't require switching branches.
@@ -82,7 +82,7 @@ This branch has no `/config` command of its own, so `project_config.md` must fir
 3. `git checkout dev/BA` (back to this branch) — `project/project_config.md`, `project/context/`, and `project/reference/` all carry over automatically since none of them are tracked.
 4. Run `/sync` here any time you want to pull the latest `project/context/` and `project/reference/` content from Confluence, `/connect-mcp` to (re)connect the Atlassian/Figma MCP servers, `/connect-local-mcp` to set up a dedicated per-site Atlassian connection, or `/check-mcp` to see what's currently connected — this branch has its own copies of all four, so no branch switch is needed.
 
-> If you're on a different clone/machine, there's no branch to pull `project_config.md` from — ask your team lead for the Confluence page `/config` published it to and save its content here as `project/project_config.md`, skipping straight to step 4.
+> If you're on a different clone/machine, there's no branch to pull `project_config.md` from — run `/sync <confluence-page-url>` here instead, using the page your team lead shares (the one `/config` published it to). It pulls `project_config.md` down automatically before syncing, skipping straight past steps 1-3 above.
 
 ---
 
@@ -107,7 +107,7 @@ This branch has no `/config` command of its own, so `project_config.md` must fir
 | `/check <Feature Name>` | Show doc status and suggest next step |
 | `/clear-workspace` | Delete all feature folders in workspace/ |
 | `/reset` | Delete all synced context/reference files, reset project_config.md to its unconfigured state, and clear all feature folders in workspace/ |
-| `/sync` | Fetch the latest content from Confluence into project/context/ and project/reference/ |
+| `/sync [confluence-url]` | Fetch the latest content from Confluence into project/context/ and project/reference/ — pass the Confluence URL project_config.md was published to, to pull it down first if it's missing here |
 | `/connect-mcp` | Connect to the MCP servers (Atlassian, Figma) listed in project/project_config.md |
 | `/connect-local-mcp` | Set up a project-scoped Atlassian MCP server (separate from the global one), for one or more Jira/Confluence instances |
 | `/check-mcp` | Show every MCP connection currently available in this session and what it's connected to |
