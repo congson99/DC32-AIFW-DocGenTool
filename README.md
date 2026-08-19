@@ -9,7 +9,7 @@ v1.0
 1. [Overview](#1-overview)
 2. [BA Documentation Set](#2-ba-documentation-set)
 3. [Quick Start](#3-quick-start)
-4. [Setup Environment](#4-setup-environment-one-time-only)
+4. [Setup Environment](#4-setup-environment)
 5. [Available Commands](#5-available-commands)
 6. [Folder Structure](#6-folder-structure)
 
@@ -42,35 +42,27 @@ v1.0
 ## 3. Quick Start
 
 **BA generating docs for a project that's already configured**
-1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
-2. Run `/sync <confluence-page-url>` here, using the Confluence link for this project's `project_config.md` — it pulls the file down and fetches `project/context/`/`project/reference/` from Confluence in one go. (Already have `project/project_config.md` set up via `/config` on `dev/config`? Just run `/sync` with no link.)
+1. See [Setup Environment](#4-setup-environment) to set up your environment.
+2. Run `/sync <confluence-page-url>` here, using the Confluence link for this project's `project_config.md` — it pulls the file down and fetches `project/context/`/`project/reference/` from Confluence in one go.
 3. Run `/start <Feature Name>`, then follow the chat prompts to generate the BA documentation set.
 
 > If your project doesn't have a `project_config.md` yet, go to https://github.com/congson99/DC32-AIFW-DocGenTool, find the branch for the Project Configuration Tool version you need, and clone it to create one for your project.
 
 ---
 
-## 4. Setup Environment (one-time only)
+## 4. Setup Environment
 
-### Step 1 — Install VS Code
-
-Install [VS Code](https://code.visualstudio.com/), or any other IDE that supports the Claude Code extension (e.g. JetBrains IDEs).
-
-### Step 2 — Clone the project's branch and open it in VS Code
-
-Clone the branch corresponding to your project, then open the folder in VS Code:
-
-1. Clone the branch: `git clone -b <branch-name> <repository-url>`
-2. Open VS Code
-3. Go to **File → Open Folder**
-4. Select the cloned folder
-
-### Step 3 — Install the Claude Code extension in VS Code
-
-1. Go to **Extensions** (Ctrl+Shift+X / Cmd+Shift+X)
-2. Search for **Claude Code**
-3. Click **Install**
-4. Click the **Claude** icon in the VS Code sidebar (or use the keyboard shortcut shown after install) to open the panel
+1. **Install VS Code** — install [VS Code](https://code.visualstudio.com/), or any other IDE that supports the Claude Code extension (e.g. JetBrains IDEs).
+2. **Clone this branch and open it in VS Code**
+   - Go to https://github.com/congson99/DC32-AIFW-DocGenTool, find the branch for the **BA Documentation Tool** version you need, and clone it.
+   - Open VS Code
+   - Go to **File → Open Folder**
+   - Select the cloned folder
+3. **Install the Claude Code extension in VS Code**
+   - Go to **Extensions** (Ctrl+Shift+X / Cmd+Shift+X)
+   - Search for **Claude Code**
+   - Click **Install**
+   - Click the **Claude** icon in the VS Code sidebar (or use the keyboard shortcut shown after install) to open the panel
 
 ---
 
