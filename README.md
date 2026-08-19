@@ -43,11 +43,11 @@ v1.0
 
 **BA generating docs for a project that's already configured**
 1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
-2. Get `project/project_config.md` for this project — either check out `dev/config` in the same clone and run `/config` there yourself, or skip straight to step 3 and run `/sync <confluence-page-url>` here, using the page your team lead shares (the one `/config` published it to) — it pulls the file down automatically.
+2. Get `project/project_config.md` for this project — either check out `dev/config` in the same clone and run `/config` there yourself, or find the Confluence page link for this project's `project_config.md` and skip straight to step 3, running `/sync <that-url>` here — it pulls the file down automatically.
 3. Run `/sync` here (skip if you already ran it with a URL in step 2) to fetch `project/context/` and `project/reference/` from Confluence.
 4. Run `/start <Feature Name>`, then follow the chat prompts to generate the BA documentation set.
 
-> This branch does not include `/config` — that command lives on the `dev/config` branch, since setting up a project is a one-time, project-level task independent of generating docs for any particular feature. `/reset`, `/sync`, `/connect-mcp`, `/connect-local-mcp`, and `/check-mcp` all exist on this branch too, so starting a new project, refreshing Confluence content, reconnecting an MCP server, setting up a dedicated per-site Atlassian connection, or checking what's currently connected doesn't require switching branches.
+> If your project doesn't have a `project_config.md` yet, go to https://github.com/congson99/DC32-AIFW-DocGenTool, find the branch for the Project Configuration Tool version you need, and clone it to create one for your project.
 
 ---
 
