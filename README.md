@@ -1,6 +1,6 @@
 # DC32 AI Framework - Project Configuration Tool
 
-v1.2
+v1.3
 
 ---
 
