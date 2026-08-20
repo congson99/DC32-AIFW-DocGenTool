@@ -85,8 +85,9 @@ Run in this order to produce a complete BA Doc for one feature.
 | `/gen-flow <Feature Name>` | Generate Flow |
 | `/gen-ui-behavior <Feature Name>` | Generate UI Behavior |
 | `/gen-messages <Feature Name>` | Generate Messages |
-| `/gen-doc <Feature Name>` | Shortcut: run gen-brief through gen-messages and package back-to-back, without pausing for review between steps |
+| `/gen-doc <Feature Name>` | Shortcut: run gen-brief through gen-messages, package, and review back-to-back, without pausing for review between steps |
 | `/package <Feature Name>` | Package all nine sections (Brief through Messages) into a single BA Doc |
+| `/review <Feature Name>` | Review the packaged BA Doc for unclear points, AC/Business Rule quality, completeness, and cross-document consistency — shown in chat, with every finding resolved before publishing |
 | `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status |
 
 ### Flow helper
@@ -131,12 +132,15 @@ DC32-AIFW-DocGenTool/
 │       ├── business-rules/
 │       │   ├── principles/                ← general principles for writing Business Rules
 │       │   └── shared-references/         ← rule groups reused across many features
+│       ├── data-definition/
+│       │   └── shared-references/         ← field definitions (name, type, description) for entities reused across many features, e.g. Warehouse, Supplier
 │       ├── navigation/                    ← shared navigation patterns
 │       ├── ui-behavior/
 │       │   ├── principles/                ← general UI behavior principles
 │       │   └── shared-references/         ← UI behavior groups reused across many screens
 │       ├── messages/                      ← shared message templates and wording conventions
-│       └── flow/                          ← shared flow patterns and conventions (see note below)
+│       ├── flow/                          ← shared flow patterns and conventions
+│       └── sample-doc/                    ← one or more complete example BA Docs, used by every gen-* command as a style/tone/detail-level reference for its own section
 └── workspace/                             ← per-feature working area (not committed)
     └── <feature-name>/
         ├── input/                         ← env_<slug>.md, context_<slug>.md, idea_<slug>.md

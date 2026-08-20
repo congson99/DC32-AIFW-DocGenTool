@@ -33,6 +33,9 @@ You are a Senior Business Analyst.
 7. Read `framework/styles/style_general.md` — general writing style rules.
 8. Read `framework/styles/style_brief.md` — style rules specific to Brief.
 9. Read `framework/rules/rule_brief.md` — writing quality rules for brief content.
+10. Check `project/reference/sample-doc/` for `.md` files:
+    - If files exist → for each one, find the section matching this document's own heading (`## 1. Brief` through the next `## ` heading, or end of file) and read it as a style/tone/detail-level reference for how this project writes a Brief section.
+    - If the folder is empty, does not exist, or no file has a matching section → skip.
 
 ## Steps
 
@@ -41,6 +44,8 @@ You are a Senior Business Analyst.
    - **Goal** — one sentence derived from the idea file's Overview
    - **In Scope** — derived from the idea file's Scope section
    - **Out of Scope** — derived from the idea file's Scope section
+
+   Apply any matching section loaded from `project/reference/sample-doc/` as a style/tone reference — match its phrasing conventions and level of detail, but do not copy its wording verbatim, and let `framework/styles/style_brief.md` govern the structural format.
 
 2. Confirm:
 ```

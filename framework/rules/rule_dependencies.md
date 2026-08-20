@@ -9,6 +9,7 @@ Writing quality standards for Feature Dependencies content.
 - List prerequisite features, modules, external systems, or configurations that must already exist, be completed, or be in place before this feature can function.
 - Do not list incidental technical implementation details (e.g. specific database tables, internal service calls, infrastructure) unless they represent a genuine external system or configuration precondition.
 - List only the forward direction — prerequisites this feature depends on. Do not list features, modules, or systems that depend on this one.
+- Describe each prerequisite and reason at a business level only — do not reference UI/UX elements (page names, screens, tabs, dialogs, buttons, layout). Those belong to Navigation, Flow, or UI Behavior.
 
 ---
 

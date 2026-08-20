@@ -43,6 +43,9 @@ You are a Senior Business Analyst.
 11. Read `framework/styles/style_general.md` — general writing style rules.
 12. Read `framework/styles/style_business_rule.md` — style rules specific to Business Rules.
 13. Read `framework/rules/rule_business_rule.md` — writing quality rules for Business Rules content.
+14. Check `project/reference/sample-doc/` for `.md` files:
+    - If files exist → for each one, find the section matching this document's own heading (`## 4. Business Rules` through the next `## ` heading, or end of file) and read it as a style/tone/detail-level reference for how this project writes Business Rules.
+    - If the folder is empty, does not exist, or no file has a matching section → skip.
 
 ## Steps
 
@@ -61,14 +64,14 @@ You are a Senior Business Analyst.
    - Record consistency rules across related business objects
    - Any other business policies or constraints explicitly present in the source
 
-   Apply any principles loaded from `principles/` as guiding rules during this analysis.
+   Apply any principles loaded from `principles/` as guiding rules during this analysis. Apply any matching section loaded from `project/reference/sample-doc/` as a style/tone reference — match its phrasing conventions and level of detail, but do not copy its wording verbatim, and let `framework/styles/style_business_rule.md` govern the structural format.
 
    Determine whether each candidate rule represents a business policy or business constraint.
 
    Exclude behaviors that belong to Acceptance Criteria, including validation, search, processing, persistence, response, audit, notification, and UI behavior.
 
 2. If any files from `project/reference/business-rules/shared-references/` were loaded, identify which rule groups from those files are relevant to this feature:
-   - A rule group is relevant if the feature involves a field or behavior that the group governs (e.g. a phone number field → Phone Number rules apply).
+   - A rule group is relevant if the feature involves a field a group governs (e.g. a phone number field → Phone Number rules apply), **or** if the feature has a structural characteristic a group governs even when no single field triggers it (e.g. any list/search screen returning multiple records → Pagination Metadata rules apply, regardless of which fields are shown). Check group relevance against both the feature's fields and its overall behavior/screen type — don't only pattern-match on fields.
    - Do not re-list the rules. Instead, for each relevant group, append one rule entry at the end of the numbered list (continuing the R-number sequence), with a blank line between each rule:
      > `**R<N>:** <Rule Group>: follow General Business Rules`
    - Feature-specific rules must always come first. General rule references are appended last, each as its own numbered rule in the same list, following the same blank-line spacing as all other rules.

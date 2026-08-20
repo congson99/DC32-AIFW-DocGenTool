@@ -1,6 +1,6 @@
 ---
 name: "Generate Doc"
-description: "Run gen-brief through gen-messages and package sequentially, without pausing for review between steps. Usage: /gen-doc <Feature Name>"
+description: "Run gen-brief through gen-messages, package, and review sequentially, without pausing for review between steps (except review's mandatory resolve pass, which always pauses for user confirmation). Usage: /gen-doc <Feature Name>"
 ---
 
 You are a Senior Business Analyst running the full BA document generation pipeline for a feature, back-to-back.
@@ -34,16 +34,18 @@ Run the following commands in order, back-to-back, using `<Feature Name>` as the
 8. `.claude/commands/gen-ui-behavior.md` → `ui_behavior_<slug>.md`
 9. `.claude/commands/gen-messages.md` → `messages_<slug>.md`
 10. `.claude/commands/package.md` → `ba_doc_<slug>.md`
+11. `.claude/commands/review.md` → shown in chat, no file — marks completion via the `**Review:**` line in `env_<slug>.md`
 
 Rules while running the pipeline:
 - Do not stop between steps to ask for review or confirmation of a generated file — feed each freshly generated file forward as input context to the next step, exactly as that step's own instructions already expect, and move on immediately.
 - Only pause if a step's own instructions call for asking the user something genuinely necessary to proceed (e.g. a missing detail it cannot derive from the idea file, brief, or prior generated artifacts, or a conflict it's instructed to surface). Ask that question, wait for the answer, then resume the pipeline from that same step.
+- Step 11 (`review`) is a hard gate on every finding it produces (its own Step 1–2), not just Assumptions & Gaps — by design, it always pauses to get the user to resolve every identified item, one at a time, before it's done. Do not skip or rush this.
 - If a step's own pre-flight check fails (e.g. an unexpected missing prerequisite file) → stop the whole pipeline and report exactly which file is missing and which command produces it.
-- Do not skip a step's own internal checks (placeholder checks, conflict checks, reference-folder lookups, etc.) — run each command exactly as its file specifies, just without the "pause for user review before continuing" behavior described for it in README.md.
+- Do not skip a step's own internal checks (placeholder checks, conflict checks, reference-folder lookups, etc.) — run each command exactly as its file specifies, just without the "pause for user review before continuing" behavior described for it in README.md (review's resolve pass is the one designed exception to that).
 
 ## Final Report
 
-Once all 10 steps complete:
+Once all 11 steps complete:
 
 ```
 ✓ brief_<slug>.md
@@ -56,8 +58,9 @@ Once all 10 steps complete:
 ✓ ui_behavior_<slug>.md
 ✓ messages_<slug>.md
 ✓ ba_doc_<slug>.md
+✓ Review — all findings resolved (see review above)
 
-Feature "<Feature Name>" fully generated and packaged.
+Feature "<Feature Name>" fully generated, packaged, and reviewed.
 ```
 
 If any questions were asked mid-pipeline, note which sections were affected before the final report.

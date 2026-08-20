@@ -40,10 +40,16 @@ You are a Senior Business Analyst.
 10. Read `framework/styles/style_general.md` — general writing style rules.
 11. Read `framework/styles/style_data_definition.md` — style rules specific to Data Definition.
 12. Read `framework/rules/rule_data_definition.md` — writing quality rules for Data Definition content.
+13. Check `project/reference/data-definition/shared-references/` for `.md` files:
+    - If files exist → read all of them and note the field definitions (name, type, description) they give for each entity. These are ground truth for that entity's fields — reuse them for any object in this feature that matches an entity defined there, instead of re-deriving its fields from scratch.
+    - If the folder is empty or does not exist → skip.
+14. Check `project/reference/sample-doc/` for `.md` files:
+    - If files exist → for each one, find the section matching this document's own heading (`## 5. Data Definition` through the next `## ` heading, or end of file) and read it as a style/tone/detail-level reference for how this project writes Data Definition.
+    - If the folder is empty, does not exist, or no file has a matching section → skip.
 
 ## Steps
 
-1. Analyze all loaded context (idea file, brief, AC, Business Rules) to identify. If information needed is missing from all of these, ask the user a focused question rather than inventing it:
+1. Analyze all loaded context (idea file, brief, AC, Business Rules) to identify. For any object that matches an entity defined in `project/reference/data-definition/shared-references/`, use that entity's field definitions as ground truth rather than re-deriving them from the idea file alone. If information needed is missing from all of these sources, ask the user a focused question rather than inventing it:
 
    - All data objects involved in this feature
    - Parent-child relationships between objects
@@ -77,6 +83,7 @@ You are a Senior Business Analyst.
    - Do not include unrelated fields from the full object definition.
    - Infer `Editable` from the source; if unclear, apply the Editable Column Rules
    - Leave cells blank when the source provides no information for that column
+   - **Completeness check before moving on**: go back to the idea file's own Entities & Fields section and confirm every field listed there for this object — both "User-provided" and "System-generated" — has its own row here. System-generated fields (audit fields like Created/Updated By/At, status defaults, etc.) are easy to drop since they're routine, but the idea file already named them explicitly; don't omit one just because it's implicit or a "given."
 
 4. For each object, build the Field Validation Rules section:
    - Group rules under each field name
@@ -87,7 +94,7 @@ You are a Senior Business Analyst.
 
 5. Define child objects as separate object sections following their parent.
 
-6. Create `workspace/<folder-name>/docs/data_definition_<slug>.md` using the format defined in `framework/styles/style_data_definition.md`.
+6. Create `workspace/<folder-name>/docs/data_definition_<slug>.md` using the format defined in `framework/styles/style_data_definition.md`. Apply any matching section loaded from `project/reference/sample-doc/` as a style/tone reference — match its phrasing conventions and level of detail, but do not copy its wording verbatim, and let `framework/styles/style_data_definition.md` govern the structural format.
    - If no data objects or fields were identified, still create the file with the section heading but write: `No data definition identified for this feature.`
 
 7. Confirm:

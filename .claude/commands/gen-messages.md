@@ -45,6 +45,9 @@ You are a Senior Business Analyst.
 15. Read `framework/styles/style_general.md` — general writing style rules.
 16. Read `framework/styles/style_messages.md` — style rules specific to Messages.
 17. Read `framework/rules/rule_messages.md` — writing quality rules for Messages content.
+18. Check `project/reference/sample-doc/` for `.md` files:
+    - If files exist → for each one, find the section matching this document's own heading (`## 9. Messages` through the next `## ` heading, or end of file) and read it as a style/tone/detail-level reference for how this project writes Messages.
+    - If the folder is empty, does not exist, or no file has a matching section → skip.
 
 ## Steps
 
@@ -72,7 +75,7 @@ You are a Senior Business Analyst.
    - System errors
    - Success messages last
 
-3. Create `workspace/<folder-name>/docs/messages_<slug>.md` using the format defined in `framework/styles/style_messages.md`.
+3. Create `workspace/<folder-name>/docs/messages_<slug>.md` using the format defined in `framework/styles/style_messages.md`. Apply any matching section loaded from `project/reference/sample-doc/` as a style/tone reference — match its phrasing conventions and level of detail, but do not copy its wording verbatim, and let `framework/styles/style_messages.md` govern the structural format.
    - If no messages were identified, still create the file with the section heading but write: `No messages identified for this feature.`
 
 4. Confirm:

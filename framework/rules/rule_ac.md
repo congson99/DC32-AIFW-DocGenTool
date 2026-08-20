@@ -15,6 +15,7 @@ Acceptance Criteria describe expected system behavior at a business level. Each 
 - Avoid vague terms such as "correctly" or "properly".
 - Avoid generic outcomes without observable results.
 - Avoid implementation details.
+- Do not reference UI/UX elements (page names, screens, tabs, dialogs, buttons, layout/visual placement) — describe system/user behavior only. UI presentation belongs to Navigation, Flow, or UI Behavior.
 - Do not mix validation, processing, persistence, and response in one AC.
 - Keep AC wording consistent with Business Rules and Messages.
 - Keep ACs within the same group at a similar level of detail.

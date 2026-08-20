@@ -65,11 +65,11 @@ Before any steps, normalize the feature name:
    - If `project/project_config.md` does not exist or that code block is not found → create the file with only: `**Feature name:** <normalized Feature name>` and `**Document language:** English`
 
    Create `workspace/<folder-name>/input/context_<slug>.md` with:
-   - `# Context Files` as the header, followed by one entry for every file found in `project/context/` (recursively):
+   - `# Context Files` as the header, followed by one entry for every file found in `project/context/` (recursively) **and** every file found in `project/reference/data-definition/shared-references/` — the entity glossary is domain knowledge (what fields an entity has), not a per-doc-type writing convention like the other `project/reference/` categories, so it belongs alongside `project/context/` here rather than being reserved for `/gen-data-definition` alone:
      - `- <path>`
-     - `  desc: <description>` — look up the matching entry (by local file path) under `## 2. Context Sync` → `### Context` in `project/project_config.md` and copy its `desc:` value. If no matching entry or no `desc:` is found, omit this line.
+     - `  desc: <description>` — look up the matching entry (by local file path) under `## 2. Context Sync` → `### Context` in `project/project_config.md` and copy its `desc:` value. If no matching entry or no `desc:` is found, omit this line (this will always be the case for `data-definition/shared-references/` entries, since that category has no `desc:` field — that's fine, the heading under `### Data Definition — Shared References` already states its purpose).
    - This is just a starting default — the BA can add, remove, or edit entries afterward for anything specific to this feature.
-   - If `project/context/` contains no files → create the file with only `# Context Files` and a blank line.
+   - If both folders are empty → create the file with only `# Context Files` and a blank line.
 
 7. Confirm:
 ```
@@ -77,23 +77,32 @@ Before any steps, normalize the feature name:
 ✓ workspace/<folder-name>/input/context_<slug>.md
 ```
 
-There are 2 interactive questions in this flow (env fill-in, context fill-in). Prefix each with its running position out of the fixed total, e.g. "Question 1/2: ..." (translate "Question" into the language chosen in "Interaction Language" above) — same convention as `/config-project`. If a question is skipped entirely (e.g. step 8 has no placeholders left), it does not consume a number — the other question simply keeps its own fixed position (still "1/2" or "2/2" as listed below, since the total here is always the 2 questions defined below, not a dynamically shrinking count).
+There are 2 interactive questions in this flow (env fill-in, context fill-in). Prefix each with its running position out of the fixed total, e.g. "Question 1/2: ..." (translate "Question" into the language chosen in "Interaction Language" above) — same convention as `/config-project`. Question 1/2 (env fill-in) always runs in full now, since the Platforms confirmation is mandatory even when the Jira/Confluence link placeholders are already filled — only question 2/2 (context fill-in) can ever be skipped, and only in the sense that the user may answer "no" to it, not that the question itself goes unasked.
 
-8. Help fill in `env_<slug>.md`: scan it for any line still containing a placeholder (`<jira-ticket-url>` or `<confluence-page-url>`). If any are found, ask the user for all of them together in a single message, using each line's own label as the prompt, e.g.:
-   > "Question 1/2: A few things to fill in for `env_<slug>.md`:
-   > - Jira ticket:
-   > - BA Doc (Confluence page):
-   > - <next label>:
-   >
-   > Reply with each value, or 'skip' for any you don't have yet."
-   - Do not hardcode label names — read them from whatever `env_<slug>.md` actually contains (the labels come from the project's own `### 3.1 BA` template under `## 3. Task Environment`, which can differ per project).
-   - After the user responds, update each corresponding line in `env_<slug>.md` with the given value; leave placeholder lines untouched for anything skipped.
-   - If no placeholders remain in the file, skip this step silently.
+8. Help fill in `env_<slug>.md`'s per-feature values — this always runs (never fully skipped), since the Platforms check below always needs an answer even when the link placeholders don't:
+   - Scan for any line still containing a placeholder (`<jira-ticket-url>` or `<confluence-page-url>`). If any are found, prepare a lead-in asking for the links, with the labels as a plain bullet list inside a fenced code block (so the user can copy/paste it), then a closing line telling them to leave any blank they don't have yet. Say "leave it blank", never "skip". Do not hardcode label names — read them from whatever `env_<slug>.md` actually contains (the labels come from the project's own `### 3.1 BA` template under `## 3. Task Environment`, which can differ per project). Phrase each label in plain, conversational terms describing what it is (e.g. `**Task Jira ticket:**` → "Jira ticket for this task"; a `- BA Doc:` line under "Confluence output page" → "Confluence page to publish the BA Doc") — don't paste the raw field label verbatim, and don't append extra qualifiers or examples (e.g. role lists) that aren't already part of the label itself. If no placeholders remain, skip this part of the message (not the whole step).
+   - Read the `**Platforms:**` line's current value (copied from the project's configured default in step 6, or still a placeholder `<BE/FE/Mobile>` if the project never set one). Always include a line about it in the same message:
+     - **Value already set** (e.g. `BE, FE, Mobile`): "This feature is currently set to produce docs for: `<value>`. Reply with a different combination of BE, FE, Mobile if this one should target something else, or say 'keep' to leave it as-is."
+     - **Still a placeholder** (project never configured a default): "Which platforms should this feature produce docs for — BE, FE, Mobile, or some combination? This one's required."
+   - Combine whichever parts apply into one message. Format like:
+     > "Question 1/2: Could you share the links for the following:
+     >
+     > ```
+     > - <label 1>:
+     > - <label 2>:
+     > - <label 3>:
+     > ```
+     >
+     > Leave any of them blank if you don't have it yet.
+     >
+     > This feature is currently set to produce docs for: `<value>`. Reply with a different combination of BE, FE, Mobile if this one should target something else, or say 'keep' to leave it as-is."
+   - After the user responds:
+     - Update each corresponding Jira/Confluence line with the given value; leave placeholder lines untouched for anything left blank.
+     - For Platforms: "keep"/no mention → leave the line as its current value. A given combination → it must be a non-empty comma-separated subset of exactly `BE`, `FE`, `Mobile` (any order, case-insensitive — normalize to `BE`/`FE`/`Mobile` when writing it back); if it contains anything outside that set, or is empty when the line was still a placeholder (mandatory in that case), explain the constraint and ask again for just this piece — don't restart the whole question. Once valid, update the `**Platforms:**` line with the normalized value.
 
 9. Help fill in `context_<slug>.md`: show the user the auto-populated entries (path + `desc:` for each file found in `project/context/`), then ask in plain language, without technical terms like "path" or "desc": "Question 2/2: Besides the files already added automatically, do you have any other documents related to this feature — for example, flow, user journey, or data definition docs — that you'd like included for reference? If so, give me the link and a short description of what it's about."
-   - For each document the user provides, get both a link/location and a short description from them — do not invent a description yourself.
-   - Append each as `- <path>` / `  desc: <description>` to `context_<slug>.md`.
-   - If the user says "no" or "skip" → leave the file as generated.
+   - For each document the user provides, get both a link/location and a short description from them — do not invent a description yourself. Append each as `- <path>` / `  desc: <description>` to `context_<slug>.md`, then ask again in the same open style — something like "Còn tài liệu nào khác nữa không?" (translate appropriately) — and keep asking after each addition until the user explicitly says there's nothing more (e.g. "không", "hết rồi", "no"). Do not move on to step 10 until they do.
+   - If the user says "no"/"skip" on the first ask → leave the file as generated, no follow-up loop needed.
 
 10. Ask the user: "Run `/investigate <Feature Name>` now to generate the Idea file? (yes/no)"
     - **no** → stop here and remind: "Review env_<slug>.md and context_<slug>.md, then run /investigate <Feature Name> when ready."

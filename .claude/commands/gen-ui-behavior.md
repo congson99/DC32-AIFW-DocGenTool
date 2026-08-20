@@ -55,6 +55,9 @@ You are a Senior Business Analyst.
 15. Read `framework/styles/style_general.md` — general writing style rules.
 16. Read `framework/styles/style_ui_behavior.md` — style rules specific to UI Behavior.
 17. Read `framework/rules/rule_ui_behavior.md` — writing quality rules for UI Behavior content.
+18. Check `project/reference/sample-doc/` for `.md` files:
+    - If files exist → for each one, find the section matching this document's own heading (`## 8. UI Behavior` through the next `## ` heading, or end of file) and read it as a style/tone/detail-level reference for how this project writes UI Behavior.
+    - If the folder is empty, does not exist, or no file has a matching section → skip.
 
 ## Steps
 
@@ -82,7 +85,7 @@ You are a Senior Business Analyst.
    - Then append one reference line per relevant shared reference group, continuing the numbering sequence.
    - Omit the shared references block entirely if no shared reference files were loaded or no relevant groups were identified.
 
-4. Create `workspace/<folder-name>/docs/ui_behavior_<slug>.md` using the format defined in `framework/styles/style_ui_behavior.md`.
+4. Create `workspace/<folder-name>/docs/ui_behavior_<slug>.md` using the format defined in `framework/styles/style_ui_behavior.md`. Apply any matching section loaded from `project/reference/sample-doc/` as a style/tone reference — match its phrasing conventions and level of detail, but do not copy its wording verbatim, and let `framework/styles/style_ui_behavior.md` govern the structural format.
    - If no UI behavior was identified, still create the file with the section heading but write: `No UI behavior identified for this feature.`
 
 5. Confirm:

@@ -46,6 +46,9 @@ You are a Senior Business Analyst.
 12. Read `framework/styles/style_general.md` — general writing style rules.
 13. Read `framework/styles/style_navigation.md` — style rules specific to Navigation.
 14. Read `framework/rules/rule_navigation.md` — writing quality rules for Navigation content.
+15. Check `project/reference/sample-doc/` for `.md` files:
+    - If files exist → for each one, find the section matching this document's own heading (`## 6. Navigation` through the next `## ` heading, or end of file) and read it as a style/tone/detail-level reference for how this project writes Navigation.
+    - If the folder is empty, does not exist, or no file has a matching section → skip.
 
 ## Steps
 
@@ -74,7 +77,7 @@ You are a Senior Business Analyst.
    - Omit a section entirely if it has no navigation actions — do not create an empty heading.
    - Do not infer page names or actions not described in the source.
 
-3. Create `workspace/<folder-name>/docs/navigation_<slug>.md` using the format defined in `framework/styles/style_navigation.md`.
+3. Create `workspace/<folder-name>/docs/navigation_<slug>.md` using the format defined in `framework/styles/style_navigation.md`. Apply any matching section loaded from `project/reference/sample-doc/` as a style/tone reference — match its phrasing conventions and level of detail, but do not copy its wording verbatim, and let `framework/styles/style_navigation.md` govern the structural format.
    - If no navigation actions were identified, still create the file with the section heading but write: `No navigation identified for this feature.`
 
 4. Confirm:

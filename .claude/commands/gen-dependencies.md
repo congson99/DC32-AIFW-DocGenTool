@@ -34,10 +34,13 @@ You are a Senior Business Analyst.
 9. Read `framework/styles/style_general.md` — general writing style rules.
 10. Read `framework/styles/style_dependencies.md` — style rules specific to Dependencies.
 11. Read `framework/rules/rule_dependencies.md` — writing quality rules for Dependencies content.
+12. Check `project/reference/sample-doc/` for `.md` files:
+    - If files exist → for each one, find the section matching this document's own heading (`## 2. Dependencies` through the next `## ` heading, or end of file) and read it as a style/tone/detail-level reference for how this project writes a Dependencies section.
+    - If the folder is empty, does not exist, or no file has a matching section → skip.
 
 ## Steps
 
-1. Using the idea file (Overview, Process Flow, Entities & Fields) and the loaded context files, identify any prerequisite feature, module, external system, or configuration that must already exist, be completed, or be in place before this feature can function — per `framework/rules/rule_dependencies.md`.
+1. Using the idea file (Overview, Process Flow, Entities & Fields) and the loaded context files, identify any prerequisite feature, module, external system, or configuration that must already exist, be completed, or be in place before this feature can function — per `framework/rules/rule_dependencies.md`. Apply any matching section loaded from `project/reference/sample-doc/` as a style/tone reference — match its phrasing conventions and level of detail, but do not copy its wording verbatim, and let `framework/styles/style_dependencies.md` govern the structural format.
 2. If it is unclear from the idea file and context whether a prerequisite exists, ask the user directly rather than assuming — do not invent a dependency and do not assume there are none.
 3. Create `workspace/<folder-name>/docs/dependencies_<slug>.md` using the format defined in `framework/styles/style_dependencies.md`.
 

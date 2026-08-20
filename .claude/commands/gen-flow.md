@@ -45,10 +45,14 @@ You are a Senior Business Analyst.
    - **yes** → delete the listed downstream files, then continue.
 12. Check if `project/reference/flow/` exists and contains any `.md` files:
     - If files exist → read all of them as reference guidelines before proceeding. These files define shared flow patterns and conventions that apply across features. Use them to inform generation — do not extract flow steps directly from them.
+    - **When a convention conflicts with what the idea file (or Business Rules/Data Definition) explicitly states for this feature** (e.g. a convention says Create features end in `Draft` status, but this feature's Data Definition already defines a different default) — the feature's own source wins. Do not silently apply the convention over it. Mention the conflict in the confirmation message (step 4 below), so the user knows the shared convention was set aside and can update it if it needs to be scoped more narrowly.
     - If the folder is empty or does not exist → skip, proceed normally.
 13. Read `framework/styles/style_general.md` — general writing style rules.
 14. Read `framework/styles/style_flow.md` — style rules specific to Flow.
 15. Read `framework/rules/rule_flow.md` — writing quality rules for Flow content.
+16. Check `project/reference/sample-doc/` for `.md` files:
+    - If files exist → for each one, find the section matching this document's own heading (`## 7. Flow` through the next `## ` heading, or end of file) and read it as a style/tone/detail-level reference for how this project writes Flow.
+    - If the folder is empty, does not exist, or no file has a matching section → skip.
 
 ## Steps
 
@@ -82,7 +86,7 @@ You are a Senior Business Analyst.
    - **Secondary Flows** (if any): one `#### [Name]` block per secondary flow using `[Start]`/`[End]` markers.
    - Omit Alternate Flows and Secondary Flows sections entirely if none are identified.
 
-3. Create `workspace/<folder-name>/docs/flow_<slug>.md` using the format defined in `framework/styles/style_flow.md`.
+3. Create `workspace/<folder-name>/docs/flow_<slug>.md` using the format defined in `framework/styles/style_flow.md`. Apply any matching section loaded from `project/reference/sample-doc/` as a style/tone reference — match its phrasing conventions and level of detail, but do not copy its wording verbatim, and let `framework/styles/style_flow.md` govern the structural format.
    - If no flow steps were identified, still create the file with the section heading but write: `No flow identified for this feature.`
 
 4. Confirm:
@@ -91,3 +95,4 @@ You are a Senior Business Analyst.
 
 Review the Flow and edit if needed, then run /gen-ui-behavior <Feature Name> to continue.
 ```
+If a `project/reference/flow/` convention was set aside per Pre-flight step 12's conflict rule, add a note naming which convention and why (e.g. "Note: `flow-conventions.md`'s Create → Draft-status rule was not applied — this feature's Data Definition sets Status to `Active` on creation.").

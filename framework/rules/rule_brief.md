@@ -4,6 +4,12 @@ Writing quality standards for Feature Brief content.
 
 ---
 
+## Business-Only Scope
+
+Brief describes business intent and outcomes only. Do not reference UI/UX elements anywhere in the document — page names, screens, tabs, dialogs, buttons, or layout/visual placement. Those belong to Navigation, Flow, or UI Behavior. This applies to every section below, not just Goal.
+
+---
+
 ## Feature Name
 
 - Use the feature name exactly as provided

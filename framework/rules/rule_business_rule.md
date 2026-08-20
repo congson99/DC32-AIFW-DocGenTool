@@ -69,6 +69,7 @@ Avoid describing implementation mechanisms such as:
 - Cross-entity rules
 - External dependency rules
 - Concurrency rules
+- Referential integrity / deletion constraint rules — whether a record can be deleted while other active records still reference it (e.g. a master-data entity referenced by transactional records). When the source doesn't state this explicitly for an entity that other modules clearly depend on (per the project's module map), do not assume it's unrestricted — ask, or record it under Assumptions & Gaps.
 
 ---
 
