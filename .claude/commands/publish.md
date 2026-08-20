@@ -34,6 +34,7 @@ You are a Senior QA Engineer completing a feature task. Execute each step in ord
      Please fill these in before running /publish.
      ```
 6. Check `workspace/<folder-name>/qa_doc_<slug>.md` exists — if missing, stop: "QA Doc not found. Run `/package <Feature Name>` first."
+7. Check `workspace/<folder-name>/input/env_<slug>.md` for a `**Review:** ✓ Completed` line — if missing (never reviewed) or present but not marked completed, stop: "Doc review not completed for this feature. Run `/review <Feature Name>` first and resolve every finding before publishing."
 
 ---
 

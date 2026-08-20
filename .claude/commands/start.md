@@ -79,21 +79,23 @@ Before any steps, normalize the feature name:
 
 There are 2 interactive questions in this flow (env fill-in, context fill-in). Prefix each with its running position out of the fixed total, e.g. "Question 1/2: ..." (translate "Question" into the language chosen in "Interaction Language" above) — same convention as `/config-project`. If a question is skipped entirely (e.g. step 8 has no placeholders left), it does not consume a number — the other question simply keeps its own fixed position (still "1/2" or "2/2" as listed below, since the total here is always the 2 questions defined below, not a dynamically shrinking count).
 
-8. Help fill in `env_<slug>.md`: scan it for any line still containing a placeholder (`<jira-ticket-url>` or `<confluence-page-url>`). If any are found, ask the user for all of them together in a single message, using each line's own label as the prompt, e.g.:
-   > "Question 1/2: A few things to fill in for `env_<slug>.md`:
-   > - Jira ticket:
-   > - Source BA Doc:
-   > - <next label>:
+8. Help fill in `env_<slug>.md`: scan it for any line still containing a placeholder (`<jira-ticket-url>` or `<confluence-page-url>`). If any are found, ask the user for all of them together in a single message: a short conversational lead-in asking for the links, then the labels as a plain bullet list inside a fenced code block (so the user can copy/paste it), then a closing line telling them to leave any blank they don't have yet. Say "leave it blank", never "skip". Format like:
+   > "Question 1/2: Could you share the links for the following:
    >
-   > Reply with each value, or 'skip' for any you don't have yet."
-   - Do not hardcode label names — read them from whatever `env_<slug>.md` actually contains (the labels come from the project's own `### 3.2 QA` template under `## 3. Task Environment`, which can differ per project).
-   - After the user responds, update each corresponding line in `env_<slug>.md` with the given value; leave placeholder lines untouched for anything skipped.
+   > ```
+   > - <label 1>:
+   > - <label 2>:
+   > - <label 3>:
+   > ```
+   >
+   > Leave any of them blank if you don't have it yet."
+   - Do not hardcode label names — read them from whatever `env_<slug>.md` actually contains (the labels come from the project's own `### 3.2 QA` template under `## 3. Task Environment`, which can differ per project). Phrase each label in plain, conversational terms describing what it is (e.g. `**Task Jira ticket:**` → "Jira ticket for this task"; `**Source BA Doc:**` → "Confluence page (or local path) for the Source BA Doc") — don't paste the raw field label verbatim, and don't append extra qualifiers or examples that aren't already part of the label itself.
+   - After the user responds, update each corresponding line in `env_<slug>.md` with the given value; leave placeholder lines untouched for anything left blank.
    - If no placeholders remain in the file, skip this step silently.
 
 9. Help fill in `context_<slug>.md`: show the user the auto-populated entries (path + `desc:` for each file found in `project/context/`), then ask in plain language, without technical terms like "path" or "desc": "Question 2/2: Besides the files already added automatically, do you have any other documents related to this feature — for example, flow, user journey, or data definition docs — that you'd like included for reference? If so, give me the link and a short description of what it's about."
-   - For each document the user provides, get both a link/location and a short description from them — do not invent a description yourself.
-   - Append each as `- <path>` / `  desc: <description>` to `context_<slug>.md`.
-   - If the user says "no" or "skip" → leave the file as generated.
+   - For each document the user provides, get both a link/location and a short description from them — do not invent a description yourself. Append each as `- <path>` / `  desc: <description>` to `context_<slug>.md`, then ask again in the same open style — something like "Còn tài liệu nào khác nữa không?" (translate appropriately) — and keep asking after each addition until the user explicitly says there's nothing more (e.g. "không", "hết rồi", "no"). Do not move on to step 10 until they do.
+   - If the user says "no"/"skip" on the first ask → leave the file as generated, no follow-up loop needed.
 
 10. Ask the user: "Run `/investigate <Feature Name>` now to generate the Test Basis file? (yes/no)"
     - **no** → stop here and remind: "Review env_<slug>.md and context_<slug>.md, then run /investigate <Feature Name> when ready."

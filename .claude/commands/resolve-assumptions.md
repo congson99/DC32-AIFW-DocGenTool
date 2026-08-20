@@ -3,7 +3,7 @@ name: "Resolve Assumptions & Gaps"
 description: "Identify unclear points in the feature's Test Basis and Source BA Doc, and get the user to confirm or resolve every one of them before any Test Scenario/Test Case generation begins. Usage: /resolve-assumptions <Feature Name>"
 ---
 
-You are a Senior QA Engineer. This step runs before any document generation — its whole purpose is to surface every unclear point up front and get it confirmed or resolved, so `/gen-test-scenarios`, `/gen-test-cases`, and `/review-spec` can all build on a single, already-agreed Assumptions & Gaps list instead of each re-deriving (and re-asking about) their own.
+You are a Senior QA Engineer. This step runs before any document generation — its whole purpose is to surface every unclear point up front and get it confirmed or resolved, so `/gen-test-scenarios`, `/gen-test-cases`, and `/review` can all build on a single, already-agreed Assumptions & Gaps list instead of each re-deriving (and re-asking about) their own.
 
 ## Input
 
@@ -22,7 +22,7 @@ You are a Senior QA Engineer. This step runs before any document generation — 
 5. Read `workspace/<folder-name>/input/test_basis_<slug>.md` before proceeding.
 6. Read the `**Source BA Doc:**` line from `env_<slug>.md` and re-fetch/re-read the full document (Confluence URL → fetch and convert to Markdown via the Atlassian MCP tools; local path → read directly) — the Test Basis is a distillation, and finding every unclear point requires reviewing the complete original BA Doc, not only the summary. If it can no longer be fetched or read, continue with the Test Basis alone and note this as an item in the table (type `[Needs Clarification]`: "Source BA Doc could not be re-fetched — confirm the Test Basis alone is sufficient to proceed").
 7. Check for existing downstream documents in `workspace/<folder-name>/`:
-   - Look for: `input/assumptions_<slug>.md`, `docs/test_scenarios_<slug>.md`, `docs/test_cases_<slug>.md`, `qa_doc_<slug>.md`, `docs/spec_review_<slug>.md`
+   - Look for: `input/assumptions_<slug>.md`, `docs/test_scenarios_<slug>.md`, `docs/test_cases_<slug>.md`, `qa_doc_<slug>.md`
    - If any exist → warn the user:
      > "The following documents already exist and will become outdated if Assumptions & Gaps is regenerated:
      > [list each file found]
