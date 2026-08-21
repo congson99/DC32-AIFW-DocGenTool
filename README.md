@@ -1,6 +1,6 @@
 # DC32 QA Documentation Claude Tool
 
-v1.1
+v1.0
 
 ---
 
