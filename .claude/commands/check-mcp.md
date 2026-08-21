@@ -43,7 +43,7 @@ Connectors the session flags as "requires authentication" are never included —
    MCP Connections:
 
    Project-scoped (.mcp.json):
-   ✓ atlassian-dc32claude — https://dc32claude.atlassian.net
+   ✓ atlassian-dc32-ai-framework — https://dc32-ai-framework.atlassian.net
    ✗ atlassian-otherteam — no active account
 
    Global (claude.ai connectors):

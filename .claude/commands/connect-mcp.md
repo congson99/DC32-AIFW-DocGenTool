@@ -99,7 +99,7 @@ You are connecting to the MCP servers configured for this project.
        Example with two Atlassian sites:
        ```
        Latest MCP connect:
-       - Atlassian (dc32claude): 2026/08/18 10:30:00 [dc32claude.atlassian.net] (via project-scoped connector: atlassian-dc32claude)
+       - Atlassian (dc32-ai-framework): 2026/08/18 10:30:00 [dc32-ai-framework.atlassian.net] (via project-scoped connector: atlassian-dc32-ai-framework)
        - Atlassian (otherteam): 2026/08/18 10:31:00 [otherteam.atlassian.net] (via global connector)
        - Figma: 2026/08/18 10:31:20
        ```

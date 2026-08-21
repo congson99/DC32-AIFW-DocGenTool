@@ -26,7 +26,7 @@ These are the exact same 19 questions `/config` asks, grouped by section — reu
 1. Read `project/project_config.md` and show the user all 19 items above with their **current value** next to each — as a plain numbered list, not a select UI (19 options doesn't fit a select box anyway). Several items can hold more than one entry (Atlassian once multiple sites are set up via `/connect-local-mcp`, and every Context Sync category 5-14 since the user can paste a list of `<name>: <url>` pairs) — for those, show a count and the entry names rather than assuming a single value, e.g. `5. Context — 2 entries (BRD, roadmap)`. Use `(not set)` for anything still a placeholder or empty. Example shape:
    ```
    1. Project Name — Inventory Platform
-   2. MCP Config: Atlassian — 2 sites (dc32claude, otherteam)
+   2. MCP Config: Atlassian — 2 sites (dc32-ai-framework, otherteam)
    3. MCP Config: Figma — https://www.figma.com/design/...
    4. Language — (not set)
    5. Context — 2 entries (BRD, roadmap)
