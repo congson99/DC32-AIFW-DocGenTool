@@ -9,7 +9,7 @@ v1.0
 1. [Overview](#1-overview)
 2. [QA Documentation Set](#2-qa-documentation-set)
 3. [Quick Start](#3-quick-start)
-4. [Setup Environment](#4-setup-environment-one-time-only)
+4. [Setup Environment](#4-setup-environment)
 5. [Available Commands](#5-available-commands)
 6. [Folder Structure](#6-folder-structure)
 
@@ -18,6 +18,10 @@ v1.0
 ## 1. Overview
 
 **DC32 QA Documentation Claude Tool** is a tool built specifically for the **DC32 AI Framework**. It helps the QA generate a complete QA documentation set from existing project documents, refined through Q&A with the QA. Finally, it pushes the finished content to a Confluence page so the framework's next steps can proceed.
+
+> The QA Documentation Set has a fixed structure, dedicated to the framework.
+
+> Confluence is the primary source for reading and writing documents, via an MCP connection. Figma (optional) can also be connected to supply UI references for Test Cases.
 
 ---
 
@@ -31,7 +35,7 @@ v1.0
 ## 3. Quick Start
 
 **QA generating docs for a project that's already configured**
-1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
+1. See [Setup Environment](#4-setup-environment) to set up your environment.
 2. Run `/sync <confluence-page-url>` here, using the Confluence link this project's `project_config.md` was published to — it pulls the file down and fetches `project/context/`/`project/reference/` from Confluence in one go.
 3. Run `/start <Feature Name>`, then follow the chat prompts to generate the QA documentation set.
 
@@ -39,27 +43,19 @@ v1.0
 
 ---
 
-## 4. Setup Environment (one-time only)
+## 4. Setup Environment
 
-### Step 1 — Install VS Code
-
-Install [VS Code](https://code.visualstudio.com/), or any other IDE that supports the Claude Code extension (e.g. JetBrains IDEs).
-
-### Step 2 — Clone the project's branch and open it in VS Code
-
-Clone the branch corresponding to your project, then open the folder in VS Code:
-
-1. Clone the branch: `git clone -b <branch-name> <repository-url>`
-2. Open VS Code
-3. Go to **File → Open Folder**
-4. Select the cloned folder
-
-### Step 3 — Install the Claude Code extension in VS Code
-
-1. Go to **Extensions** (Ctrl+Shift+X / Cmd+Shift+X)
-2. Search for **Claude Code**
-3. Click **Install**
-4. Click the **Claude** icon in the VS Code sidebar (or use the keyboard shortcut shown after install) to open the panel
+1. **Install VS Code** — install [VS Code](https://code.visualstudio.com/), or any other IDE that supports the Claude Code extension (e.g. JetBrains IDEs).
+2. **Clone this branch and open it in VS Code**
+   - Go to https://github.com/congson99/DC32-AIFW-DocGenTool, find the branch for the **QA Documentation Tool** version you need, and clone it.
+   - Open VS Code
+   - Go to **File → Open Folder**
+   - Select the cloned folder
+3. **Install the Claude Code extension in VS Code**
+   - Go to **Extensions** (Ctrl+Shift+X / Cmd+Shift+X)
+   - Search for **Claude Code**
+   - Click **Install**
+   - Click the **Claude** icon in the VS Code sidebar (or use the keyboard shortcut shown after install) to open the panel
 
 ---
 
@@ -81,20 +77,13 @@ Run in this order to produce a complete QA Doc for one feature.
 | `/review <Feature Name>` | Review AC, Business Rules, Flow, and Test Scenarios for quality, completeness, and coverage — shown in chat, with every finding resolved before publishing |
 | `/publish <Feature Name>` | Publish QA Doc to Confluence and update Jira status |
 
-### Flow helper
+### Not in the flow — project setup & maintenance
 
-Not a generation step itself — call it any time during the flow above to see where a feature stands.
+Not generation steps themselves — call `/check` any time during the flow above to see where a feature stands; the rest operate on the whole project rather than a single feature. Run any of these as needed, independent of where any feature is in the flow above.
 
 | Command | Purpose |
 |---|---|
 | `/check <Feature Name>` | Show doc status and suggest next step |
-
-### Not in the flow — project setup & maintenance
-
-Operate on the whole project rather than a single feature. Run as needed, independent of where any feature is in the flow above.
-
-| Command | Purpose |
-|---|---|
 | `/sync [project-config-confluence-url]` | Fetch the latest content from Confluence into project/context/ and project/reference/ based on project/project_config.md — optionally pass the Confluence URL project_config.md was published to, to pull/refresh it first |
 | `/connect-mcp` | Connect to the MCP servers (Atlassian, Figma) listed in project/project_config.md |
 | `/connect-local-mcp` | Set up a project-scoped Atlassian MCP server (separate from the global one), for one or more Jira/Confluence instances |
