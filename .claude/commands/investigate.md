@@ -32,6 +32,7 @@ You are a Senior QA Engineer distilling an existing BA Doc into a single Investi
    - If it's a Confluence URL → fetch the page content via the Atlassian MCP tools and convert it to clean Markdown (same approach as `/sync-project`).
    - If it's a local file path → read the file directly.
    - If the fetch or read fails → stop and inform the user: "Could not read the Source BA Doc at `<value>`. Please check the link/path and try again."
+   - Look for a `**Platforms:**` line in the fetched doc's `## 1. Brief` section (BA's confirmed per-feature platform scope, added there by `/gen-brief` on `dev/BA`). Write or update a `**Platforms:**` line in `env_<slug>.md` with that value, placed right after the `**Source BA Doc:**` line — this caches it so every later step (`/gen-test-cases`, `/publish`) can read the feature's platform scope straight from `env_<slug>.md` instead of re-fetching the BA Doc each time. If the fetched doc has no such line (e.g. an older BA Doc predating this field), leave `env_<slug>.md` without a Platforms line — downstream steps fall back to `project/project_config.md`'s project-wide default in that case.
 8. Check for existing downstream documents in `workspace/<folder-name>/`:
    - Look for: `input/investigation_<slug>.md`, `docs/assumptions_<slug>.md`, `docs/test_scenarios_<slug>.md`, `docs/test_cases_<slug>.md`, `qa_doc_<slug>.md`
    - If any exist → warn the user:

@@ -13,9 +13,9 @@ Applies to `test_cases_<slug>.md` documents.
 
 ### Classification & Traceability
 
-| TC ID | Scenario | Mapped To | Priority | Test Focus | Automatable |
-|---|---|---|---|---|---|
-| TC-001 | S1 | <AC/BR id or Investigation reference> | P0 | Functional | Yes |
+| TC ID | Scenario | Mapped To | Priority | Test Focus | Automatable | Scope |
+|---|---|---|---|---|---|---|
+| TC-001 | S1 | <AC/BR id or Investigation reference> | P0 | Functional | Yes | BE, FE, Mobile |
 
 ### Detailed Test Cases
 
@@ -24,6 +24,7 @@ Applies to `test_cases_<slug>.md` documents.
 - **Scenario:** S1
 - **Automatable:** Yes | No | Partial
 - **Test Focus:** Functional | Validation | UI | UX | Permission | Business Rule | State Transition | API | Error Handling | Security
+- **Scope:** <comma-separated subset of BE, FE, Mobile>
 
 **Preconditions:**
 - User role: <role + permission scope>
@@ -77,5 +78,6 @@ Omit the `Preconditions` bullet, `Test Data` table, or `UI` block for a given Te
 ## Table Formatting
 
 - `Classification & Traceability` lists every Test Case in the same order they appear in `Detailed Test Cases`.
+- `Scope` must be a comma-separated subset of `BE`, `FE`, `Mobile` (never empty) — see `framework/rules/rule_test_cases.md`'s Scope Guideline. Keep the value identical between the `Classification & Traceability` row and the `Detailed Test Cases` bullet for the same Test Case.
 - `Test Data` rows use concrete sample values, never placeholders like `<value>`.
 - `Coverage Summary` rows cover, at minimum, Test Scenarios, Acceptance Criteria, and Business Rules — add a row for any other Investigation category the feature uses (e.g. Permissions). List any uncovered item with its reason directly under the table.

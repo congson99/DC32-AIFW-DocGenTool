@@ -41,6 +41,21 @@ Same definition and tagging as Test Scenarios (`[Explicit]` / `[Assumed]` / `[Ne
 
 ---
 
+## Scope Guideline
+
+Determine each Test Case's **Scope** — which platform(s) it applies to, drawn from `BE`, `FE`, `Mobile` — using a two-step check. First, resolve the feature's **client platforms**: read the `**Platforms:**` line from `env_<slug>.md` (a comma-separated subset of `BE`, `FE`, `Mobile`, `Auto Test`, cached there by `/investigate` from the Source BA Doc's `## 1. Brief` section — BA's per-feature confirmed value) and take only whichever of `FE`/`Mobile` appear there — this is the client-platform set for the two-step check below. If `env_<slug>.md` has no such line, fall back to the `**Platforms:**` line under `### 3.1 BA` in `project/project_config.md` (the project-wide default). If neither is available, default the client-platform set to `FE` only (never invent `Mobile` for a feature/project that hasn't configured it).
+
+1. **Reachability** — Can the Steps be carried out entirely through the UI (a real user action in the app), using only a BA-defined entry point (see Entry Point Rules)? If no valid UI path exists for the trigger — the action can only be exercised by sending a request directly (e.g. via API) — the Test Case's Scope is `BE` only. Stop here.
+2. **Verification** — If reachable through the UI, the Test Case's Scope always includes every platform in the client-platform set resolved above (the source material doesn't distinguish FE-specific from Mobile-specific behavior when both are configured, so a UI-reachable step is assumed to apply to every configured client platform — but never to a platform the project hasn't configured). Then check: does confirming Pass/Fail also require checking something not observable in the UI (a backend/data state, a calculation, a persistence check, an absence-of-change check like "no data is persisted")?
+   - No — everything needed to confirm the result is visible in the UI itself → Scope is the client-platform set alone (e.g. `FE`, or `FE, Mobile` if Mobile is configured)
+   - Yes — the UI-driven flow also needs a backend-only check beyond what the UI shows → Scope is `BE` plus the client-platform set (e.g. `BE, FE`, or `BE, FE, Mobile` if Mobile is configured)
+
+Write Scope as a comma-separated list of whichever platforms apply, restricted to `BE` plus the project's actual client-platform set — never empty, and never naming a client platform the project hasn't configured.
+
+Do not infer Scope from whether the Expected Result happens to carry a `Functional` and/or `UI` block — a Test Case can legitimately have Steps that run entirely through the UI while its Expected Result omits the `UI` block (per Duplicate Prevention: a UI expectation already covered by a dedicated UI Test Case is not repeated elsewhere). Scope reflects how the Test Case is *executed* (its Steps), not which Expected Result block was written for it.
+
+---
+
 ## Priority Guideline
 
 - **P0** — blocker, security issue, data corruption, system unavailable.

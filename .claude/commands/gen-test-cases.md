@@ -44,6 +44,7 @@ You are a Senior QA Engineer.
 12. Read `framework/styles/style_general.md` — general writing style rules.
 13. Read `framework/styles/style_test_cases.md` — style rules specific to Test Cases.
 14. Read `framework/rules/rule_test_cases.md` — writing quality rules for Test Cases content.
+15. Resolve the client-platform set needed for `Scope` assignment (per `rule_test_cases.md`'s Scope Guideline): read the `**Platforms:**` line from `env_<slug>.md` — cached there by `/investigate` from the Source BA Doc's `## 1. Brief` section, so it already reflects this feature's actual confirmed platform scope, which can be narrower than the project default. Take only whichever of `FE`/`Mobile` appear there. If `env_<slug>.md` has no such line (e.g. it predates `/investigate` caching this, or the Source BA Doc had none to cache), fall back to the `**Platforms:**` line under `### 3.1 BA` in `project/project_config.md`. If neither is available, default the client-platform set to `FE` only.
 
 ## Steps
 
@@ -51,7 +52,7 @@ You are a Senior QA Engineer.
 
 2. For each Test Scenario (`S1`, `S2`, …) in `test_scenarios_<slug>.md`, write at least one Test Case using concrete steps and data drawn from the Investigation and the Source BA Doc (exact message wording, real field names/sample values, BA-defined entry points per the Entry Point Rules). Group multiple data variations of the same scenario into Test Data rows within one Test Case rather than separate Test Cases, per the Duplicate Prevention rules.
 
-3. Assign `Priority` (P0–P3), `Automatable` (Yes/No/Partial), and `Scope` (a comma-separated subset of `BE`, `FE`, `Mobile`) per `framework/rules/rule_test_cases.md`'s guidelines (Scope specifically per its Scope Guideline's two-step check), and `Test Focus` per the applicable category.
+3. Assign `Priority` (P0–P3), `Automatable` (Yes/No/Partial), and `Scope` (`BE` and/or the client-platform set resolved in Pre-flight Check step 15) per `framework/rules/rule_test_cases.md`'s guidelines (Scope specifically per its Scope Guideline's two-step check), and `Test Focus` per the applicable category.
 
 4. Order Test Cases to match the Test Scenario order (`S1`, `S2`, …), grouping multiple Test Cases under the same scenario together.
 

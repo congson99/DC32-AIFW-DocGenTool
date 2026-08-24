@@ -47,7 +47,10 @@ You are a Senior QA Engineer.
 
 2. Derive scenarios per `framework/rules/rule_test_scenarios.md`'s Groups & Coverage rules, in the fixed group order (Happy Path → Alternative Flows → Validation → Business Rule → System Error → Edge Cases → State-Based → Security), omitting groups with nothing to cover. Apply any principles loaded from `test-scenarios/principles/`, and reuse any matching shared scenarios from `test-scenarios/shared-references/` instead of redefining them — a shared scenario group is relevant if the feature involves a field it governs (e.g. a phone number field → Phone Number validation scenarios apply), **or** if the feature has a structural characteristic it governs even when no single field triggers it (e.g. any list/search screen returning multiple records → shared Pagination scenarios apply, regardless of which fields are shown). Check relevance against both the feature's fields and its overall behavior/screen type — don't only pattern-match on fields.
 
-3. **Final duplicate check (blocking):** before writing the file, compare every scenario's primary observable outcome against every other scenario. Merge or remove any that duplicate an outcome already covered — do not proceed to Step 4 until this is done.
+3. **Coverage completeness check and final duplicate check (both blocking):** before writing the file —
+   a. Run `framework/rules/rule_test_scenarios.md`'s Coverage Completeness Check over every AC/Business Rule/field extracted in Step 2. Add any scenario it finds missing (including a genuinely new unclear point this surfaces, per Step 1's process).
+   b. Compare every scenario's primary observable outcome against every other scenario. Merge or remove any that duplicate an outcome already covered.
+   Do not proceed to Step 4 until both (a) and (b) are done.
 
 4. Create `workspace/<folder-name>/docs/test_scenarios_<slug>.md` using the format defined in `framework/styles/style_test_scenarios.md`.
 
