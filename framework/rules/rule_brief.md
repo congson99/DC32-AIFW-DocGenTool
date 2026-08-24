@@ -28,6 +28,13 @@ Brief describes business intent and outcomes only. Do not reference UI/UX elemen
 
 ---
 
+## Platforms
+
+- Copy the value verbatim from `env_<slug>.md`'s `**Platforms:**` line — do not rephrase, reorder, or infer a different set
+- This is the authoritative per-feature platform scope; it may differ from the project's default (see `project/project_config.md`'s `### 3.1 BA` template)
+
+---
+
 ## In Scope
 
 - Include only capabilities directly delivered by this feature
@@ -86,6 +93,7 @@ Examples of exclusions that should NOT be added:
 
 - Feature name is unchanged from user input
 - Goal is exactly one sentence
+- Platforms value is copied verbatim from `env_<slug>.md`, not invented or altered
 - In Scope items are actions or capabilities
 - In Scope and Out of Scope are written at a consistent level of detail
 - Out of Scope items are genuinely adjacent to the feature

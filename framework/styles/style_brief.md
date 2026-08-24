@@ -9,6 +9,8 @@
 
 **Goal:** [One-sentence goal.]
 
+**Platforms:** [BE/FE/Mobile/Auto Test, comma-separated]
+
 **In scope:**
 - [Scope item]
 

@@ -19,6 +19,7 @@ You are a Senior Business Analyst.
 3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment, then fill in the placeholders before running /gen-brief."
    - If exists but still contains unfilled placeholders (e.g. `<jira-ticket-url>`) → warn the user but continue generating.
+   - Read its `**Platforms:**` line (confirmed during `/start`) — this is the value the Brief's own Platforms field will carry, so downstream consumers (e.g. QA's Test Case Scope assignment) can read it straight from the BA Doc instead of `project/project_config.md`. If the line is still a placeholder or missing, warn the user but continue generating with it left blank.
 4. Check `workspace/<folder-name>/input/investigation_<slug>.md` exists:
    - If missing → stop and inform user: "Investigation file not found. Run `/investigate <Feature Name>` first to generate it."
 5. Read `workspace/<folder-name>/input/investigation_<slug>.md` before proceeding. If it still has unfilled placeholder sections needed to write the Brief (e.g. Overview, Scope), ask the user a focused question for that information rather than inventing content.
@@ -42,6 +43,7 @@ You are a Senior Business Analyst.
 1. Create `workspace/<folder-name>/docs/brief_<slug>.md` using the format defined in `framework/styles/style_brief.md`, filling in:
    - **Feature name** — from `$ARGUMENTS` directly (no modification)
    - **Goal** — one sentence derived from the investigation file's Overview
+   - **Platforms** — the `**Platforms:**` value read from `env_<slug>.md` in Pre-flight step 3, verbatim
    - **In Scope** — derived from the investigation file's Scope section
    - **Out of Scope** — derived from the investigation file's Scope section
 
