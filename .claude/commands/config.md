@@ -103,7 +103,7 @@ Use the resulting language (asked or inferred) for every message, question, and 
    ````
    **Task Jira ticket:** <jira-ticket-url>
 
-   **Platforms:** <BE/FE/Mobile>
+   **Platforms:** <BE/FE/Mobile/Auto Test>
 
    **Confluence output page:**
    - BA Doc: <confluence-page-url>
@@ -248,8 +248,8 @@ Ask every question in the language chosen in "Interaction Language" above — th
    A category can end up with zero, one, or many entries.
 
 3. **Task Environment** — one question, filling `**Platforms:**` under `### 3.1 BA` only; everything else in this section (3.1 BA's Jira/Confluence lines, all of 3.2 QA) stays at its skeleton default, no question asked for those.
-   a. **Platforms** — "Does this project typically produce BA documentation for BE, FE, and Mobile — or only some of them? Reply with the platforms that apply, e.g. 'BE, FE, Mobile' or just 'BE, FE'."
-      → The answer must be a non-empty comma-separated subset of exactly `BE`, `FE`, `Mobile` (any order, case-insensitive — normalize to `BE`/`FE`/`Mobile` when writing it back). If the answer contains anything outside that set, or is empty, explain the constraint and ask again — do not accept it as-is.
+   a. **Platforms** — "Does this project typically produce BA documentation for BE, FE, and Mobile — or only some of them? Also include 'Auto Test' if the project wants a QA-only 'AI Doc for Auto Test' page per feature (Test Scenarios + Test Cases for automation, published by `/publish` on `dev/QA` — BA itself never produces content for this one, even if it's listed here). Reply with everything that applies, e.g. 'BE, FE, Mobile' or 'BE, FE, Auto Test'."
+      → The answer must be a non-empty comma-separated subset of exactly `BE`, `FE`, `Mobile`, `Auto Test` (any order, case-insensitive — normalize to `BE`/`FE`/`Mobile`/`Auto Test` when writing it back). If the answer contains anything outside that set, or is empty, explain the constraint and ask again — do not accept it as-is.
       → Update the `**Platforms:**` line under `### 3.1 BA` with the normalized, comma-separated answer before moving to the next question. This becomes the project-wide default that `/start` pre-fills for every new feature — a BA can still override it per feature.
 
 4. **Task Automation** — `project/project_config.md` is shared by both the BA Doc and QA Doc tools, but each tool's `/publish` runs on its own branch and only wants its own actions to fire. `## 4. Task Automation` is split into `### 4.1 BA` and `### 4.2 QA`, each with its own `#### Jira` and `#### Confluence` subsections, so each tool's `/publish` only ever reads its own half. `/publish` executes whatever action entries are listed under its section, so don't assume the project only wants a status change or a single publish action; ask broadly and capture whatever actions the project actually needs. Ask BA and QA separately (don't assume they want the same thing) and write each side's answer straight into its own section — if QA's answer is "same as BA", copy BA's action entry verbatim into the QA section rather than cross-referencing it, since each tool only ever reads its own half of the file:
