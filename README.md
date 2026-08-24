@@ -1,6 +1,6 @@
 # DC32 BA Documentation Claude Tool
 
-v1.0
+v1.0 (requires Config v1.0)
 
 ---
 
