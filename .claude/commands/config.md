@@ -8,14 +8,14 @@ You are helping the user configure `project/project_config.md` for this project 
 ## Interaction Language
 
 Before anything else (before Pre-flight), check whether this chat already has prior conversation turns before `/config` was invoked (i.e. this isn't the very first message in the session):
-- **No prior context** (this is the first thing said in the chat) → ask which language to interact in for this session, using an AskUserQuestion-style select box with options "English" and "Tiếng Việt" (a free-text "Other" option is offered automatically). This is the one exception to "never use a select UI" below — it's a one-off preference pick, not one of the 19 counted questions, and doesn't get a running-position prefix.
+- **No prior context** (this is the first thing said in the chat) → ask which language to interact in for this session, using an AskUserQuestion-style select box with options "English" and "Tiếng Việt" (a free-text "Other" option is offered automatically). This is the one exception to "never use a select UI" below — it's a one-off preference pick, not one of the 23 counted questions, and doesn't get a running-position prefix.
 - **Prior context exists** → don't ask; just continue in whatever language that prior conversation was already in.
 
 Use the resulting language (asked or inferred) for every message, question, and confirmation for the rest of the session — translate the English templates in this file into it rather than re-inferring the interaction language from what the user types on every subsequent message.
 
 ## Pre-flight
 
-1. Check `project/project_config.md` exists — if not (e.g. a fresh clone, since `project/` is entirely gitignored), create it: make the `project/`, `project/context/`, and `project/reference/` (with its `business-rules/principles/`, `business-rules/shared-references/`, `data-definition/shared-references/`, `ui-behavior/principles/`, `ui-behavior/shared-references/`, `navigation/`, `flow/`, `messages/`, `sample-doc/` subfolders) directories if missing, then write `project/project_config.md` with the same unconfigured placeholder content `/reset` uses:
+1. Check `project/project_config.md` exists — if not (e.g. a fresh clone, since `project/` is entirely gitignored), create it: make the `project/`, `project/context/`, and `project/reference/` (with its `business-rules/principles/`, `business-rules/shared-references/`, `data-definition/shared-references/`, `ui-behavior/principles/`, `ui-behavior/shared-references/`, `navigation/`, `flow/`, `messages/`, `sample-doc/`, `test-scenarios/principles/`, `test-scenarios/shared-references/`, `test-cases/principles/`, `test-cases/shared-references/` subfolders) directories if missing, then write `project/project_config.md` with the same unconfigured placeholder content `/reset` uses:
    ```
    # Project Config
 
@@ -94,6 +94,26 @@ Use the resulting language (asked or inferred) for every message, question, and 
    - project/reference/messages/<filename>.md
      url: <confluence-page-url>
 
+   ### Test Scenarios — Principles
+
+   - project/reference/test-scenarios/principles/<filename>.md
+     url: <confluence-page-url>
+
+   ### Test Scenarios — Shared References
+
+   - project/reference/test-scenarios/shared-references/<filename>.md
+     url: <confluence-page-url>
+
+   ### Test Cases — Principles
+
+   - project/reference/test-cases/principles/<filename>.md
+     url: <confluence-page-url>
+
+   ### Test Cases — Shared References
+
+   - project/reference/test-cases/shared-references/<filename>.md
+     url: <confluence-page-url>
+
    ---
 
    ## 3. Task Environment
@@ -155,12 +175,12 @@ Use the resulting language (asked or inferred) for every message, question, and 
    - **Exception:** in `## 3. Task Environment`'s code blocks (3.1 BA and 3.2 QA), the `<jira-ticket-url>` and `<confluence-page-url>` values are always meant to stay as placeholders — they're per-feature values `/start` (and `/investigate`, for Source BA Doc in 3.2) fill in later, never set at the project level. Do NOT count these as "unfilled" — only check whether the Confluence output page **labels** (e.g. "BA Doc", "QA Doc") are real (not literally `<label>` placeholder text). This exception does not cover `**Platforms:**` in 3.1 BA — that one is a real project-level default, set by the question in step 3 below, and does count as "unfilled" until answered.
    - If no placeholders remain anywhere in the file (accounting for the exception above) → stop the normal Q&A flow and instead ask the user which of these two they want:
      - **(a) Set up a brand-new project** — tell them: "This project is already configured. To start a new project from scratch, run `/reset` first (it resets project_config.md to blank and clears workspace/), then run `/config` again." Do not run `/reset` yourself — it needs its own separate confirmation.
-     - **(b) Add or change something in the current config** — tell them: "Run `/update-config` — it lists everything currently configured and lets you update specific parts one at a time." Do not handle the update yourself here; `.claude/commands/update-config.md` owns this flow end to end (listing all 19 items with current values, looping over whichever the user picks, then the same `/sync`/publish follow-through).
+     - **(b) Add or change something in the current config** — tell them: "Run `/update-config` — it lists everything currently configured and lets you update specific parts one at a time." Do not handle the update yourself here; `.claude/commands/update-config.md` owns this flow end to end (listing all 23 items with current values, looping over whichever the user picks, then the same `/sync`/publish follow-through).
    - Otherwise (some placeholders remain — this file isn't fully configured):
-     - **At least one question has already been answered** (i.e. this isn't a freshly-created blank skeleton — some placeholders are filled in, others aren't) → before asking anything, summarize progress against the 19-question list from the "Steps" section below (list which questions are already answered, e.g. by name — "Project Name, MCP Config — Atlassian" — and which remain), then ask the user as a plain chat message whether they want to:
-       - **Start over** — overwrite `project/project_config.md` with the blank skeleton from step 2 above (discarding what's filled in), then begin the Q&A from Question 1/19.
+     - **At least one question has already been answered** (i.e. this isn't a freshly-created blank skeleton — some placeholders are filled in, others aren't) → before asking anything, summarize progress against the 23-question list from the "Steps" section below (list which questions are already answered, e.g. by name — "Project Name, MCP Config — Atlassian" — and which remain), then ask the user as a plain chat message whether they want to:
+       - **Start over** — overwrite `project/project_config.md` with the blank skeleton from step 2 above (discarding what's filled in), then begin the Q&A from Question 1/23.
        - **Continue** — keep everything already filled in and resume the Q&A at the next unanswered question, same as the normal skip behavior below.
-     - **Nothing has been answered yet** (freshly-created/still-blank skeleton) → skip this check entirely, go straight into the Q&A at Question 1/19, no prompt.
+     - **Nothing has been answered yet** (freshly-created/still-blank skeleton) → skip this check entirely, go straight into the Q&A at Question 1/23, no prompt.
    - Note which sections/categories still have placeholders — skip anything already filled in when asking below.
 
 ## Steps
@@ -169,7 +189,7 @@ Ask ONE question at a time, in the order below. After each answer, immediately u
 
 Ask every question as a plain chat message — never use a multiple-choice/select UI (e.g. an AskUserQuestion-style tool) for any question in this flow, with one exception: the **Language** sub-question (1.d) below, which has a genuine small fixed set of options. Every other question's answers are free-text (names, URLs, lists of `<name>: <url>` pairs, descriptions of actions) and don't fit fixed options; a select UI forces the user into predefined choices when they need to paste arbitrary text.
 
-Prefix every question with its running position out of the fixed total, e.g. "Question 3/19: ..." (translate "Question" into the conversation's language). The total is always **19** — the fixed count of individual questions across the whole flow (4 in Project Setup: Project Name, MCP Config — Atlassian, MCP Config — Figma, Language; 10 in Context Sync: Context, Sample Doc, Business Rules Principles, Business Rules Shared References, Data Definition Shared References, UI Behavior Principles, UI Behavior Shared References, Navigation, Flow, Messages; 1 in Task Environment: Platforms; 4 in Task Automation: Jira actions for BA, Confluence actions for BA, Jira actions for QA, Confluence actions for QA). MCP Config — Figma is optional but still asked and still consumes a number (an answer of "skip" is a valid, counted answer) — it is not skipped in the display the way an already-filled-in field would be. Skipped questions (already filled in) do not get asked and do not consume a number in the display — the running position simply jumps to the next number that is actually asked (e.g. 2/19 → 4/19 if question 3 was skipped).
+Prefix every question with its running position out of the fixed total, e.g. "Question 3/23: ..." (translate "Question" into the conversation's language). The total is always **23** — the fixed count of individual questions across the whole flow (4 in Project Setup: Project Name, MCP Config — Atlassian, MCP Config — Figma, Language; 14 in Context Sync: Context, Sample Doc, Business Rules Principles, Business Rules Shared References, Data Definition Shared References, UI Behavior Principles, UI Behavior Shared References, Navigation, Flow, Messages, Test Scenarios Principles, Test Scenarios Shared References, Test Cases Principles, Test Cases Shared References; 1 in Task Environment: Platforms; 4 in Task Automation: Jira actions for BA, Confluence actions for BA, Jira actions for QA, Confluence actions for QA). MCP Config — Figma is optional but still asked and still consumes a number (an answer of "skip" is a valid, counted answer) — it is not skipped in the display the way an already-filled-in field would be. Skipped questions (already filled in) do not get asked and do not consume a number in the display — the running position simply jumps to the next number that is actually asked (e.g. 2/23 → 4/23 if question 3 was skipped).
 
 Ask every question in the language chosen in "Interaction Language" above — the phrasing/examples below are written in English as reference templates only; translate them into that language rather than asking in English.
 
@@ -186,7 +206,7 @@ Ask every question in the language chosen in "Interaction Language" above — th
    c. **MCP Config — Figma** — optional. Ask: "Does this project use Figma for UI designs? If so, share a Figma file or project link (or say 'skip' if not used)."
       → If the user gives a link: add a new line `- Figma: <url>` under `### MCP Config` (below the Atlassian line), then verify it the same way as sub-question (b) until it connects.
       → If the user says "skip"/"no"/there is no Figma: do not add a Figma line at all — `### MCP Config` keeps only the Atlassian entry, with no placeholder left behind.
-   d. **Language** — ask this one as an AskUserQuestion-style select box (the one exception noted above), with options "English", "Tiếng Việt" (a free-text "Other" option is offered automatically) — unlike the Interaction Language pick in Pre-flight, this is still one of the 19 counted questions, so it still gets the running-position prefix ("Question 4/19: ...") like every other question here, just rendered as a select box instead of plain text. Question text: "What language do you want to use for writing documents?" — if the session language picked in Pre-flight is Vietnamese, translate this into Vietnamese yourself rather than asking in English.
+   d. **Language** — ask this one as an AskUserQuestion-style select box (the one exception noted above), with options "English", "Tiếng Việt" (a free-text "Other" option is offered automatically) — unlike the Interaction Language pick in Pre-flight, this is still one of the 23 counted questions, so it still gets the running-position prefix ("Question 4/23: ...") like every other question here, just rendered as a select box instead of plain text. Question text: "What language do you want to use for writing documents?" — if the session language picked in Pre-flight is Vietnamese, translate this into Vietnamese yourself rather than asking in English.
       → Update the `### Language` entry with the answer before moving to the next question.
 
 2. **Context Sync** — ask one question per category, in this order. Phrase each question in plain, concrete language: explain what the category is for, give a real-world example of a document that belongs there, and show the expected answer format as `<name>: <url>` pairs (one per line) so the user can just paste a list back. Use exactly this phrasing (fill in the description/examples for the category being asked):
@@ -232,7 +252,23 @@ Ask every question in the language chosen in "Interaction Language" above — th
       > Does the project have a doc defining shared message wording conventions (e.g. standard phrasing for errors/success messages)? Send me the link with a short name. Example:
       > message-format: https://confluence.example.com/wiki/spaces/PROJ/message-format
 
-   For each entry the user gives, derive the local file path as `project/context/<kebab-case-name>.md` for category (a), `project/reference/sample-doc/<kebab-case-name>.md` for category (b), or `project/reference/<category-subfolder>/<kebab-case-name>.md` for categories (c)-(j) — matching the subfolder already shown in the file's placeholder line for that category. Then add the entry under that category's heading in `## 2. Context Sync`, before asking about the next category:
+   k. **Test Scenarios — Principles** — general principles used when designing Test Scenarios:
+      > Does the project have a doc describing general principles for designing Test Scenarios (not the scenarios themselves, but the guidelines for how to derive/structure them)? Send me the link with a short name. Example:
+      > test-scenario-principles: https://confluence.example.com/wiki/spaces/PROJ/test-scenario-principles
+
+   l. **Test Scenarios — Shared References** — Test Scenario groups reused across many features:
+      > Does the project have a doc defining Test Scenario groups shared across many features (e.g. shared permission-denial scenarios, shared search/pagination scenarios)? Send me the link with a short name. Example:
+      > shared-test-scenarios: https://confluence.example.com/wiki/spaces/PROJ/shared-test-scenarios
+
+   m. **Test Cases — Principles** — general principles used when writing Test Cases:
+      > Does the project have a doc describing general principles for writing Test Cases (not the cases themselves, but the guidelines for how to write/structure them)? Send me the link with a short name. Example:
+      > test-case-principles: https://confluence.example.com/wiki/spaces/PROJ/test-case-principles
+
+   n. **Test Cases — Shared References** — reusable Test Case data/steps and written conventions:
+      > Does the project have a doc defining reusable Test Case data or steps shared across many features (e.g. standard login steps, common test data sets)? Send me the link with a short name. Example:
+      > shared-test-case-data: https://confluence.example.com/wiki/spaces/PROJ/shared-test-case-data
+
+   For each entry the user gives, derive the local file path as `project/context/<kebab-case-name>.md` for category (a), `project/reference/sample-doc/<kebab-case-name>.md` for category (b), or `project/reference/<category-subfolder>/<kebab-case-name>.md` for categories (c)-(n) — matching the subfolder already shown in the file's placeholder line for that category. Then add the entry under that category's heading in `## 2. Context Sync`, before asking about the next category:
    - For categories (a) **Context** and (b) **Sample Doc**, the user gives only links (one or more), not name/description pairs. For each link, fetch the Confluence page's content (using the Atlassian connector resolved in sub-question 1.b) and derive from it: a short kebab-case **name** (from the page title) and a one-sentence **description** of what it covers — for (a), what the document is about; for (b), which kind of feature the sample exemplifies (e.g. "a straightforward Create/Edit form" vs. "a multi-step approval workflow"), so a BA/QA can tell which sample to expect the closest style match from without opening every file. Write the derived name and description in the **document language** (the `### Language` value from sub-question 1.d) — not the language this chat happens to be conducted in, since these values end up inside `project_config.md` as reference material for whoever generates documents from it. Then show the user everything derived, across all links given in this answer, in one message (this confirmation message itself is still in the chat's interaction language, only the derived name/description content is in the document language) and ask them to confirm or correct any of it before adding anything:
      ```
      Here's what I found:
@@ -243,7 +279,7 @@ Ask every question in the language chosen in "Interaction Language" above — th
      - **Confirmed as-is** → add each as three lines: `- <local-file-path>`, `  url: <url>`, `  desc: <description>`.
      - **User corrects one or more** → use their corrected name/description for those entries, keep the derived ones for the rest, then add all of them.
      - **A link fails to fetch** (page not accessible, bad URL, etc.) → don't block the others; report which link failed and ask the user to give its name and description manually instead, then add it with those.
-   - For categories (c)-(j), each entry is a `<name>: <url>` pair as before — add it as `- <local-file-path>` / `  url: <url>` (no `desc:` line; the category heading itself already states the purpose).
+   - For categories (c)-(n), each entry is a `<name>: <url>` pair as before — add it as `- <local-file-path>` / `  url: <url>` (no `desc:` line; the category heading itself already states the purpose).
 
    A category can end up with zero, one, or many entries.
 
