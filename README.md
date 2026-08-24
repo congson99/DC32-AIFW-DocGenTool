@@ -19,10 +19,6 @@ v1.0
 
 **DC32 QA Documentation Claude Tool** is a tool built specifically for the **DC32 AI Framework**. It helps the QA generate a complete QA documentation set from existing project documents, refined through Q&A with the QA. Finally, it pushes the finished content to a Confluence page so the framework's next steps can proceed.
 
-> The QA Documentation Set consists of Test Scenarios and Test Cases, dedicated to the framework.
-
-> Confluence is the primary source for reading and writing documents, via an MCP connection. Figma (optional) can also be connected to supply UI references for Test Cases.
-
 ---
 
 ## 2. QA Documentation Set
@@ -39,9 +35,7 @@ v1.0
 2. Run `/sync <confluence-page-url>` here, using the Confluence link this project's `project_config.md` was published to — it pulls the file down and fetches `project/context/`/`project/reference/` from Confluence in one go.
 3. Run `/start <Feature Name>`, then follow the chat prompts to generate the QA documentation set.
 
-> If your project doesn't have a `project_config.md` yet, it needs to be configured once via `/config` on the `dev/config` branch first — see [Setup Environment](#4-setup-environment-one-time-only) for the exact steps.
-
-> This branch does not include `/config` — that command lives on the `dev/config` branch, since setting up a project is a one-time, project-level task independent of generating docs for any particular feature. `/reset`, `/sync`, `/connect-mcp`, `/connect-local-mcp`, and `/check-mcp` all exist on this branch too, so starting a new project, refreshing Confluence content, reconnecting an MCP server, setting up a dedicated per-site Atlassian connection, or checking what's currently connected doesn't require switching branches.
+> If your project doesn't have a `project_config.md` yet, go to https://github.com/congson99/DC32-AIFW-DocGenTool, find the branch for the Project Configuration Tool version you need, and clone it to create one for your project.
 
 ---
 
@@ -66,17 +60,6 @@ Clone the branch corresponding to your project, then open the folder in VS Code:
 2. Search for **Claude Code**
 3. Click **Install**
 4. Click the **Claude** icon in the VS Code sidebar (or use the keyboard shortcut shown after install) to open the panel
-
-### Step 4 — Get project_config.md
-
-This branch has no `/config` command of its own, so `project_config.md` must first be configured on `dev/config`. `project/` is entirely gitignored on every branch, so the file is never tracked by git — it only carries over between branches in the same clone. In the same clone:
-
-1. `git checkout dev/config`
-2. Run `/config` (if not already done for this project) — this fills in `project/project_config.md`.
-3. `git checkout dev/QA` (back to this branch) — `project/project_config.md`, `project/context/`, and `project/reference/` all carry over automatically since none of them are tracked.
-4. Run `/sync` here any time you want to pull the latest `project/context/` and `project/reference/` content from Confluence, `/connect-mcp` to (re)connect the Atlassian/Figma MCP servers, `/connect-local-mcp` to set up a dedicated per-site Atlassian connection, or `/check-mcp` to see what's currently connected — this branch has its own copies of all four, so no branch switch is needed.
-
-> If you're on a different clone/machine, there's no branch to pull `project_config.md` from — ask your team lead for the Confluence page `/config` published it to and save its content here as `project/project_config.md`, skipping straight to step 4.
 
 ---
 
@@ -157,5 +140,3 @@ DC32-AIFW-DocGenTool/
         ├── docs/                          ← generated QA doc sections (Assumptions & Gaps, Test Scenarios, Test Cases, Spec Review)
         └── qa_doc_<slug>.md               ← final packaged document
 ```
-
-> `gen-test-scenarios`/`gen-test-cases` read `test-scenarios/principles/`, `test-scenarios/shared-references/`, `test-cases/principles/`, and `test-cases/shared-references/` if present, but `/config` on `dev/config` has no matching Context Sync category for any of them, so these four currently have no supported way to get populated.
