@@ -36,9 +36,10 @@ v1.0
 
 **QA generating docs for a project that's already configured**
 1. See [Setup Environment](#4-setup-environment-one-time-only) to set up your environment.
-2. Get `project/project_config.md` for this project — either check out `dev/config` in the same clone and run `/config` there yourself, or ask your team lead for the Confluence page it was published to and save its content here as `project/project_config.md`.
-3. Run `/sync` here to fetch `project/context/` and `project/reference/` from Confluence.
-4. Run `/start <Feature Name>`, then follow the chat prompts to generate the QA documentation set.
+2. Run `/sync <confluence-page-url>` here, using the Confluence link this project's `project_config.md` was published to — it pulls the file down and fetches `project/context/`/`project/reference/` from Confluence in one go.
+3. Run `/start <Feature Name>`, then follow the chat prompts to generate the QA documentation set.
+
+> If your project doesn't have a `project_config.md` yet, it needs to be configured once via `/config` on the `dev/config` branch first — see [Setup Environment](#4-setup-environment-one-time-only) for the exact steps.
 
 > This branch does not include `/config` — that command lives on the `dev/config` branch, since setting up a project is a one-time, project-level task independent of generating docs for any particular feature. `/reset`, `/sync`, `/connect-mcp`, `/connect-local-mcp`, and `/check-mcp` all exist on this branch too, so starting a new project, refreshing Confluence content, reconnecting an MCP server, setting up a dedicated per-site Atlassian connection, or checking what's currently connected doesn't require switching branches.
 
@@ -81,24 +82,42 @@ This branch has no `/config` command of its own, so `project_config.md` must fir
 
 ## 5. Available Commands
 
+### Main flow (per feature)
+
+Run in this order to produce a complete QA Doc for one feature.
+
 | Command | Purpose |
 |---|---|
 | `/start <Feature Name>` | Initialize feature folder, env file, and context file |
-| `/investigate <Feature Name>` | Read the feature's Source BA Doc and distill it into a Test Basis file, asking the user for anything missing |
-| `/resolve-assumptions <Feature Name>` | Identify unclear points in the Test Basis/Source BA Doc and get the user to confirm or resolve every one of them before any generation begins |
-| `/gen-test-scenarios <Feature Name>` | Generate Test Scenarios from the Test Basis |
+| `/investigate <Feature Name>` | Read the feature's Source BA Doc and distill it into an Investigation file, asking the user for anything missing |
+| `/resolve-assumptions <Feature Name>` | Identify unclear points in the Investigation/Source BA Doc and get the user to confirm or resolve every one of them before any generation begins |
+| `/gen-test-scenarios <Feature Name>` | Generate Test Scenarios from the Investigation |
 | `/gen-test-cases <Feature Name>` | Generate Test Cases from the Test Scenarios |
+| `/gen-doc <Feature Name>` | Shortcut: run resolve-assumptions, gen-test-scenarios, gen-test-cases, package, and review back-to-back |
 | `/package <Feature Name>` | Package Test Scenarios and Test Cases into a single QA Doc |
 | `/review <Feature Name>` | Review AC, Business Rules, Flow, and Test Scenarios for quality, completeness, and coverage — shown in chat, with every finding resolved before publishing |
-| `/gen-doc <Feature Name>` | Run resolve-assumptions, gen-test-scenarios, gen-test-cases, package, and review back-to-back |
 | `/publish <Feature Name>` | Publish QA Doc to Confluence and update Jira status |
+
+### Flow helper
+
+Not a generation step itself — call it any time during the flow above to see where a feature stands.
+
+| Command | Purpose |
+|---|---|
 | `/check <Feature Name>` | Show doc status and suggest next step |
-| `/clear-workspace` | Delete all feature folders in workspace/ |
-| `/reset` | Delete all synced context/reference files, reset project_config.md to its unconfigured state, and clear all feature folders in workspace/ |
+
+### Not in the flow — project setup & maintenance
+
+Operate on the whole project rather than a single feature. Run as needed, independent of where any feature is in the flow above.
+
+| Command | Purpose |
+|---|---|
+| `/sync [project-config-confluence-url]` | Fetch the latest content from Confluence into project/context/ and project/reference/ based on project/project_config.md — optionally pass the Confluence URL project_config.md was published to, to pull/refresh it first |
 | `/connect-mcp` | Connect to the MCP servers (Atlassian, Figma) listed in project/project_config.md |
-| `/sync` | Fetch the latest content from Confluence into project/context/ and project/reference/ |
 | `/connect-local-mcp` | Set up a project-scoped Atlassian MCP server (separate from the global one), for one or more Jira/Confluence instances |
 | `/check-mcp` | Show every MCP connection currently available in this session and what it's connected to |
+| `/clear-workspace` | Delete all feature folders in workspace/ |
+| `/reset` | Delete all synced context/reference files, reset project_config.md to its unconfigured state, and clear all feature folders in workspace/ |
 
 ---
 
@@ -134,8 +153,8 @@ DC32-AIFW-DocGenTool/
 │           └── shared-references/         ← reusable Test Case data/steps (see note below)
 └── workspace/                             ← per-feature working area (not committed)
     └── <feature-name>/
-        ├── input/                         ← env_<slug>.md, context_<slug>.md, test_basis_<slug>.md, assumptions_<slug>.md
-        ├── docs/                          ← generated QA doc sections (Test Scenarios, Test Cases, Spec Review)
+        ├── input/                         ← env_<slug>.md, context_<slug>.md, investigation_<slug>.md
+        ├── docs/                          ← generated QA doc sections (Assumptions & Gaps, Test Scenarios, Test Cases, Spec Review)
         └── qa_doc_<slug>.md               ← final packaged document
 ```
 

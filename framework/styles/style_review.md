@@ -35,7 +35,7 @@ Applies to the chat message `/review` shows once every finding has been resolved
 - <what was wrong>
 
 **Resolution (if an issue was found):**
-> <the fix actually applied to `test_basis_<slug>.md`, or the user's explicit reason for leaving it as-is>
+> <the fix actually applied to `investigation_<slug>.md`, or the user's explicit reason for leaving it as-is>
 
 ### Section 3: AC Completeness Review
 
@@ -53,7 +53,7 @@ Applies to the chat message `/review` shows once every finding has been resolved
 
 | # | Missing Behavior | Reason / Source | Resolution |
 |---|---|---|---|
-| 1 | <what is not covered> | <which BR / Flow step / implied behavior> | <AC added to the Test Basis, or the user's explicit reason it isn't needed> |
+| 1 | <what is not covered> | <which BR / Flow step / implied behavior> | <AC added to the Investigation, or the user's explicit reason it isn't needed> |
 
 ### Section 4: BDD Quality Review
 
@@ -109,7 +109,7 @@ Applies to the chat message `/review` shows once every finding has been resolved
 
 | # | Source | Spec Section | Mismatch | Resolution |
 |---|---|---|---|---|
-| 1 | Source BA Doc / `project/reference/<path>` | Test Basis / Test Scenarios / Test Cases | <what the source/project material says vs. what the spec currently says> | <spec corrected to match the source, or the user's specific, feature-level reason to keep the deviation> |
+| 1 | Source BA Doc / `project/reference/<path>` | Investigation / Test Scenarios / Test Cases | <what the source/project material says vs. what the spec currently says> | <spec corrected to match the source, or the user's specific, feature-level reason to keep the deviation> |
 
 ### Section 7: Overall Summary
 
@@ -142,7 +142,7 @@ Example sentences and anti-pattern quotes in this file (and in `framework/rules/
 
 ## Numbering
 
-- AC IDs (`AC-1`, `AC-2`, …) must match the IDs already used in the source (Test Basis / original BA Doc) when available — do not renumber them, including any newly added during this review.
+- AC IDs (`AC-1`, `AC-2`, …) must match the IDs already used in the source (Investigation / original BA Doc) when available — do not renumber them, including any newly added during this review.
 - Scenario IDs must match the `S<N>` IDs already used in `test_scenarios_<slug>.md` — do not renumber them, including any newly added during this review.
 - Number `Assumptions & Gaps`, "Missing candidate", and "Consistency issues" rows independently, starting at `1`.
 

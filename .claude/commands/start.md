@@ -97,6 +97,6 @@ There are 2 interactive questions in this flow (env fill-in, context fill-in). P
    - For each document the user provides, get both a link/location and a short description from them — do not invent a description yourself. Append each as `- <path>` / `  desc: <description>` to `context_<slug>.md`, then ask again in the same open style — something like "Còn tài liệu nào khác nữa không?" (translate appropriately) — and keep asking after each addition until the user explicitly says there's nothing more (e.g. "không", "hết rồi", "no"). Do not move on to step 10 until they do.
    - If the user says "no"/"skip" on the first ask → leave the file as generated, no follow-up loop needed.
 
-10. Ask the user: "Run `/investigate <Feature Name>` now to generate the Test Basis file? (yes/no)"
+10. Ask the user: "Run `/investigate <Feature Name>` now to generate the Investigation file? (yes/no)"
     - **no** → stop here and remind: "Review env_<slug>.md and context_<slug>.md, then run /investigate <Feature Name> when ready."
     - **yes** → immediately follow the full instructions in `.claude/commands/investigate.md` now, using the same `<Feature Name>`, continuing straight into its Pre-flight Check and Steps.

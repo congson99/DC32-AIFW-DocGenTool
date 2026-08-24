@@ -2,7 +2,7 @@
 
 ## Main Principle
 
-Generate concise, business-focused Test Scenarios in Gherkin format from the Test Basis (and the original Source BA Doc). Scenarios must be testable, readable, and cover positive, negative, validation, business rule, security, error, and edge cases — focused on observable system behavior, never implementation.
+Generate concise, business-focused Test Scenarios in Gherkin format from the Investigation (and the original Source BA Doc). Scenarios must be testable, readable, and cover positive, negative, validation, business rule, security, error, and edge cases — focused on observable system behavior, never implementation.
 
 - Extract every business rule and Acceptance Criterion from the source.
 - Group them by unique behavior/outcome.

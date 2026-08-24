@@ -2,21 +2,21 @@
 
 ## Main Principle
 
-Review the fully generated QA spec for a feature — Acceptance Criteria/Business Rules (derived from the Test Basis), and the BDD-style Test Scenarios and Test Cases — to assess:
+Review the fully generated QA spec for a feature — Acceptance Criteria/Business Rules (derived from the Investigation), and the BDD-style Test Scenarios and Test Cases — to assess:
 
-1. Whether every unclear point in the source (Test Basis, Source BA Doc, Test Scenarios, Test Cases) has been surfaced and resolved with the user.
+1. Whether every unclear point in the source (Investigation, Source BA Doc, Test Scenarios, Test Cases) has been surfaced and resolved with the user.
 2. Whether each AC is well-written.
 3. Whether each Test Scenario (BDD) is well-written.
 4. Whether the ACs are complete and correct relative to the feature intent, and the Test Scenarios fully cover all ACs.
-5. Whether the spec is faithful to its own source — the Source BA Doc, the Test Basis, and the project's shared context/reference material (`project/context/`, `project/reference/test-scenarios/`, `project/reference/test-cases/`).
+5. Whether the spec is faithful to its own source — the Source BA Doc, the Investigation, and the project's shared context/reference material (`project/context/`, `project/reference/test-scenarios/`, `project/reference/test-cases/`).
 
-This is a review pass over already-generated artifacts (Test Basis, Test Scenarios, Test Cases, and the packaged `qa_doc_<slug>.md`) — it does not regenerate them wholesale. It runs after `/package`, as the final quality gate before publishing. Every finding from all five checks above must be resolved with the user before the review finishes — not just recorded for later. The review itself is shown in chat, not written to a file.
+This is a review pass over already-generated artifacts (Investigation, Test Scenarios, Test Cases, and the packaged `qa_doc_<slug>.md`) — it does not regenerate them wholesale. It runs after `/package`, as the final quality gate before publishing. Every finding from all five checks above must be resolved with the user before the review finishes — not just recorded for later. The review itself is shown in chat, not written to a file.
 
 ---
 
 ## What To Do
 
-- Base all judgments strictly on the Test Basis, the Source BA Doc, the generated Test Scenarios/Test Cases, and the project context/reference material they were built from.
+- Base all judgments strictly on the Investigation, the Source BA Doc, the generated Test Scenarios/Test Cases, and the project context/reference material they were built from.
 - Evaluate each AC and each Test Scenario individually and holistically.
 - Flag missing coverage, ambiguity, contradictions, and quality issues.
 - Group related findings where possible — do not repeat the same issue multiple times.
@@ -41,7 +41,7 @@ This is a review pass over already-generated artifacts (Test Basis, Test Scenari
 A point is unclear if it meets any of:
 
 1. Missing detail needed for deterministic testing (e.g. a max length not defined).
-2. Conflicting descriptions across the Test Basis, Source BA Doc, Test Scenarios, or Test Cases.
+2. Conflicting descriptions across the Investigation, Source BA Doc, Test Scenarios, or Test Cases.
 3. Ambiguous wording allowing multiple interpretations.
 4. An implicit business rule that is not explicitly confirmed anywhere in the spec.
 5. Behavior described but not fully testable without clarification.
@@ -98,12 +98,12 @@ For every `[Needs Clarification]` item, ask the user directly — one focused qu
 
 ## Source Mapping
 
-- **AC** — from the Test Basis's `Business Rules & Validations` section (validation-style items) and `Permissions` section, cross-referenced against the original AC IDs when the Source BA Doc carries them.
-- **BR** — from the Test Basis's `Business Rules & Validations` section (policy-style items).
-- **Flow** — from the Test Basis's `Flow` section (Main Flow / Alternate Flows).
+- **AC** — from the Investigation's `Business Rules & Validations` section (validation-style items) and `Permissions` section, cross-referenced against the original AC IDs when the Source BA Doc carries them.
+- **BR** — from the Investigation's `Business Rules & Validations` section (policy-style items).
+- **Flow** — from the Investigation's `Flow` section (Main Flow / Alternate Flows).
 - **BDD / Test Scenarios** — from `test_scenarios_<slug>.md`.
 - **Test Cases** — from `test_cases_<slug>.md`.
-- **Source BA Doc** — the original document `test_basis_<slug>.md` was distilled from (re-fetched via the `**Source BA Doc:**` line in `env_<slug>.md`) — the ground-truth check for whether the Test Basis drifted from it.
+- **Source BA Doc** — the original document `investigation_<slug>.md` was distilled from (re-fetched via the `**Source BA Doc:**` line in `env_<slug>.md`) — the ground-truth check for whether the Investigation drifted from it.
 - **Project Context/Reference** — from every file `context_<slug>.md` lists (mirrors `project/context/`), plus `project/reference/test-scenarios/principles/`, `project/reference/test-scenarios/shared-references/`, `project/reference/test-cases/principles/`, and `project/reference/test-cases/shared-references/` — the project-wide ground truth and conventions.
 
 ---
@@ -112,10 +112,10 @@ For every `[Needs Clarification]` item, ask the user directly — one focused qu
 
 Check that references made in one artifact actually exist, and agree, in the artifact that owns them:
 
-- Every AC/BR the Test Scenarios reference actually exists in the Test Basis, with matching wording/intent.
+- Every AC/BR the Test Scenarios reference actually exists in the Investigation, with matching wording/intent.
 - Every Test Scenario ID (`S1`, `S2`, …) a Test Case maps to actually exists in `test_scenarios_<slug>.md`.
-- Terminology (field names, object names, status values, message wording) is spelled and cased the same way across the Test Basis, Test Scenarios, and Test Cases.
-- Every message wording used in a Test Case matches what the Source BA Doc/Test Basis actually states — not a paraphrase.
+- Terminology (field names, object names, status values, message wording) is spelled and cased the same way across the Investigation, Test Scenarios, and Test Cases.
+- Every message wording used in a Test Case matches what the Source BA Doc/Investigation actually states — not a paraphrase.
 
 Record each mismatch found as a Consistency Issue (see `framework/styles/style_review.md`), citing both sides of the mismatch.
 
@@ -125,9 +125,9 @@ Record each mismatch found as a Consistency Issue (see `framework/styles/style_r
 
 This is a different comparison than the one above: not the generated artifacts against each other, but the finished spec against where it came from. Check:
 
-- Every business rule, validation, flow step, and permission the Source BA Doc states is reflected somewhere in the Test Basis and, from there, in Test Scenarios/Test Cases coverage — flag anything silently dropped during distillation.
-- Nothing in the Test Basis, Test Scenarios, or Test Cases contradicts the Source BA Doc (e.g. a message wording, default value, or permission constant that doesn't match).
+- Every business rule, validation, flow step, and permission the Source BA Doc states is reflected somewhere in the Investigation and, from there, in Test Scenarios/Test Cases coverage — flag anything silently dropped during distillation.
+- Nothing in the Investigation, Test Scenarios, or Test Cases contradicts the Source BA Doc (e.g. a message wording, default value, or permission constant that doesn't match).
 - Every scenario/case that should reuse a convention in `project/reference/test-scenarios/principles/`, `test-scenarios/shared-references/`, `test-cases/principles/`, or `test-cases/shared-references/` actually does — flag any place the spec re-derives something from scratch instead of reusing the shared definition, or deviates from a principle without the source stating a specific reason to.
-- Any fact in `project/context/` (module map, user stories, other known features) that the Test Basis or generated scenarios/cases contradict.
+- Any fact in `project/context/` (module map, user stories, other known features) that the Investigation or generated scenarios/cases contradict.
 
 Record each mismatch found as a Source & Project Consistency Issue (see `framework/styles/style_review.md`), citing the source side (Source BA Doc / the specific `project/context/` or `project/reference/` file) and the spec side. When resolving, the spec should normally be corrected to match the source/project ground truth — deviate only when the user gives a specific, feature-level reason to.

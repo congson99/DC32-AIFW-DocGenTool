@@ -22,9 +22,9 @@ Used as part of the regular per-feature QA document generation flow.
 | Command | Purpose |
 |---|---|
 | `/start <Feature Name>` | Initialize feature folder, env file, and context file |
-| `/investigate <Feature Name>` | Read the feature's Source BA Doc and distill it into a Test Basis file, asking the user for anything missing |
-| `/resolve-assumptions <Feature Name>` | Identify unclear points in the Test Basis/Source BA Doc and get the user to confirm or resolve every one of them before any generation begins |
-| `/gen-test-scenarios <Feature Name>` | Generate Test Scenarios from the Test Basis |
+| `/investigate <Feature Name>` | Read the feature's Source BA Doc and distill it into an Investigation file, asking the user for anything missing |
+| `/resolve-assumptions <Feature Name>` | Identify unclear points in the Investigation/Source BA Doc and get the user to confirm or resolve every one of them before any generation begins |
+| `/gen-test-scenarios <Feature Name>` | Generate Test Scenarios from the Investigation |
 | `/gen-test-cases <Feature Name>` | Generate Test Cases from the Test Scenarios |
 | `/package <Feature Name>` | Package Test Scenarios and Test Cases into a single QA Doc |
 | `/review <Feature Name>` | Review AC, Business Rules, Flow, and Test Scenarios for quality, completeness, and coverage — shown in chat, with every finding resolved before publishing |
@@ -78,8 +78,8 @@ project/                        ← project-level context
 
 workspace/                      ← per-feature working area (not committed)
   <feature-name>/
-    input/                      ← env_<slug>.md, context_<slug>.md, test_basis_<slug>.md, assumptions_<slug>.md
-    docs/                       ← generated QA doc sections (Test Scenarios, Test Cases, Spec Review)
+    input/                      ← env_<slug>.md, context_<slug>.md, investigation_<slug>.md
+    docs/                       ← generated QA doc sections (Assumptions & Gaps, Test Scenarios, Test Cases, Spec Review)
     qa_doc_<slug>.md            ← final packaged document
 ```
 

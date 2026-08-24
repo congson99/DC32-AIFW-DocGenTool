@@ -1,9 +1,9 @@
 ---
 name: "Investigate"
-description: "Read the feature's Source BA Doc and distill it into a Test Basis file, asking the user for anything missing. Usage: /investigate <Feature Name>"
+description: "Read the feature's Source BA Doc and distill it into an Investigation file, asking the user for anything missing. Usage: /investigate <Feature Name>"
 ---
 
-You are a Senior QA Engineer distilling an existing BA Doc into a single Test Basis file. Every later generation step (Test Scenarios, Test Cases) reads only this Test Basis file and each other's output — not the BA Doc or project context files directly — so it needs to carry enough information for the whole pipeline.
+You are a Senior QA Engineer distilling an existing BA Doc into a single Investigation file. Every later generation step (Test Scenarios, Test Cases) reads only this Investigation file and each other's output — not the BA Doc or project context files directly — so it needs to carry enough information for the whole pipeline.
 
 ## Input
 
@@ -33,19 +33,19 @@ You are a Senior QA Engineer distilling an existing BA Doc into a single Test Ba
    - If it's a local file path → read the file directly.
    - If the fetch or read fails → stop and inform the user: "Could not read the Source BA Doc at `<value>`. Please check the link/path and try again."
 8. Check for existing downstream documents in `workspace/<folder-name>/`:
-   - Look for: `input/test_basis_<slug>.md`, `docs/test_scenarios_<slug>.md`, `docs/test_cases_<slug>.md`, `qa_doc_<slug>.md`
+   - Look for: `input/investigation_<slug>.md`, `docs/test_scenarios_<slug>.md`, `docs/test_cases_<slug>.md`, `qa_doc_<slug>.md`
    - If any exist → warn the user:
-     > "The following documents already exist and will become outdated if the Test Basis is regenerated:
+     > "The following documents already exist and will become outdated if the Investigation is regenerated:
      > [list each file found]
-     > Regenerating the Test Basis will delete these files. Continue? (yes/no)"
+     > Regenerating the Investigation will delete these files. Continue? (yes/no)"
    - **no** → stop. Do not generate.
    - **yes** → delete the listed downstream files, then continue.
 
 ## Steps
 
-Write all descriptive content in the Test Basis file in the Document language noted during Pre-flight Check — keep section headings (e.g. `## Feature Overview`) in English.
+Write all descriptive content in the Investigation file in the Document language noted during Pre-flight Check — keep section headings (e.g. `## Feature Overview`) in English.
 
-The Source BA Doc is trusted as the authoritative input — do not ask the user to confirm, review, or approve content that is derivable from it. Create `workspace/<folder-name>/input/test_basis_<slug>.md` by deriving every section directly and writing it in, silently. Only ask the user about a section when the BA Doc and loaded context are genuinely silent on it (see Step 2) — this is the sole case where a question is warranted.
+The Source BA Doc is trusted as the authoritative input — do not ask the user to confirm, review, or approve content that is derivable from it. Create `workspace/<folder-name>/input/investigation_<slug>.md` by deriving every section directly and writing it in, silently. Only ask the user about a section when the BA Doc and loaded context are genuinely silent on it (see Step 2) — this is the sole case where a question is warranted.
 
 **Step 1 — Auto-derive every section**
 
@@ -70,7 +70,7 @@ If Step 1 finds no gaps, skip Step 2 entirely and go straight to Confirm below.
 Template:
 
 ```
-# Test Basis — <Feature Name>
+# Investigation — <Feature Name>
 
 ## Feature Overview
 <describe the feature's business goal and scope in 1–2 sentences, from the BA Doc's Brief>
@@ -100,14 +100,14 @@ Template:
 ## Confirm
 
 ```
-✓ workspace/<folder-name>/input/test_basis_<slug>.md
+✓ workspace/<folder-name>/input/investigation_<slug>.md
 ```
 
 If any sections still have placeholder text (user skipped them), also note:
 ```
-⚠ test_basis_<slug>.md has unfilled sections — you can complete them now, or later gen-* commands will ask about them if the information turns out to be needed.
+⚠ investigation_<slug>.md has unfilled sections — you can complete them now, or later gen-* commands will ask about them if the information turns out to be needed.
 ```
 
 Then ask the user: "Run `/gen-doc <Feature Name>` now to generate Test Scenarios, Test Cases, and package them (QA Doc)? (yes/no)"
-- **no** → stop here and remind: "Review test_basis_<slug>.md, then run /gen-doc <Feature Name> (or the individual /gen-test-scenarios and /gen-test-cases commands) when ready."
+- **no** → stop here and remind: "Review investigation_<slug>.md, then run /gen-doc <Feature Name> (or the individual /gen-test-scenarios and /gen-test-cases commands) when ready."
 - **yes** → immediately follow the full instructions in `.claude/commands/gen-doc.md` now, using the same `<Feature Name>`, continuing straight into its Pre-flight Check and Pipeline.

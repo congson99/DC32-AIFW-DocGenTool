@@ -20,15 +20,15 @@ This review produces no file. Every finding is shown directly in the chat and mu
 3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment."
    - Read it and note the `**Document language:**` value — if missing, default to English.
-4. Check `workspace/<folder-name>/input/test_basis_<slug>.md` exists:
-   - If missing → stop and inform user: "Test Basis not found. Run `/investigate <Feature Name>` first to generate it."
+4. Check `workspace/<folder-name>/input/investigation_<slug>.md` exists:
+   - If missing → stop and inform user: "Investigation not found. Run `/investigate <Feature Name>` first to generate it."
    - Read it before proceeding.
-5. Check `workspace/<folder-name>/input/assumptions_<slug>.md` exists:
+5. Check `workspace/<folder-name>/docs/assumptions_<slug>.md` exists:
    - If missing → stop and inform user: "Assumptions & Gaps not found. Run `/resolve-assumptions <Feature Name>` first."
    - Read it before proceeding — this is the already-confirmed Section 1 starting point, not something to re-derive from scratch.
 6. Check `workspace/<folder-name>/docs/test_scenarios_<slug>.md` and `workspace/<folder-name>/docs/test_cases_<slug>.md` exist — if either is missing, stop: "`<file>` not found. Run `/package <Feature Name>` first to generate it and package the QA Doc."
 7. Read both before proceeding.
-8. Read the `**Source BA Doc:**` line from `env_<slug>.md` and re-fetch/re-read the full document (Confluence URL → fetch and convert to Markdown via the Atlassian MCP tools; local path → read directly) — this is the ground-truth check for whether the Test Basis drifted from it. If it can no longer be fetched or read, continue with the Test Basis alone and note this as a finding needing the user's confirmation that reviewing without it is acceptable.
+8. Read the `**Source BA Doc:**` line from `env_<slug>.md` and re-fetch/re-read the full document (Confluence URL → fetch and convert to Markdown via the Atlassian MCP tools; local path → read directly) — this is the ground-truth check for whether the Investigation drifted from it. If it can no longer be fetched or read, continue with the Investigation alone and note this as a finding needing the user's confirmation that reviewing without it is acceptable.
 9. Read `workspace/<folder-name>/input/context_<slug>.md` and load every file it lists — same as `/investigate` does.
 10. Check each of these `project/reference/` subfolders for `.md` files and read any found — this is project-wide ground truth/conventions to check the spec against, not new content to extract: `test-scenarios/principles/`, `test-scenarios/shared-references/`, `test-cases/principles/`, `test-cases/shared-references/`. Skip any subfolder that's empty or doesn't exist.
 11. Read `framework/styles/style_general.md` — general writing style rules.
@@ -41,13 +41,13 @@ Write all descriptive content (Notes, Issues, questions asked to the user, and t
 
 **Step 1 — Run all five review dimensions and build one combined findings list**
 
-Using the Test Basis, the Source BA Doc, the Test Scenarios/Test Cases, and the project context/reference material loaded in Pre-flight, together:
+Using the Investigation, the Source BA Doc, the Test Scenarios/Test Cases, and the project context/reference material loaded in Pre-flight, together:
 
 1. **Unclear points** — carry forward `assumptions_<slug>.md`'s table as already resolved (do not re-ask it). Identify any genuinely *new* unclear point per `framework/rules/rule_review.md`'s Unclear Points definition that surfaces only now (from re-reading the full Source BA Doc, or from the Test Scenarios/Test Cases themselves) — tag each `[Explicit]` / `[Assumed]` / `[Needs Clarification]`.
-2. **AC Quality** — evaluate each AC/BR item from the Test Basis's `Business Rules & Validations` and `Permissions` sections against the 7 criteria in `framework/rules/rule_review.md`'s "What Makes a Good AC" table. Reuse the original ID (e.g. `AC1`) when the Test Basis carries one from the Source BA Doc; otherwise assign a new sequential `AC-<N>`.
-3. **AC Completeness** — answer each completeness question in `framework/styles/style_review.md`'s Section 3 table, cross-referencing the Test Basis's Flow and Business Rules against the AC list from dimension 2. List missing AC candidates with their source.
+2. **AC Quality** — evaluate each AC/BR item from the Investigation's `Business Rules & Validations` and `Permissions` sections against the 7 criteria in `framework/rules/rule_review.md`'s "What Makes a Good AC" table. Reuse the original ID (e.g. `AC1`) when the Investigation carries one from the Source BA Doc; otherwise assign a new sequential `AC-<N>`.
+3. **AC Completeness** — answer each completeness question in `framework/styles/style_review.md`'s Section 3 table, cross-referencing the Investigation's Flow and Business Rules against the AC list from dimension 2. List missing AC candidates with their source.
 4. **BDD Quality & Coverage** — evaluate each Test Scenario (`S1`, `S2`, …) against the 6 criteria in `framework/rules/rule_review.md`'s "What Makes a Good Test Scenario (BDD)" table (keep its existing ID — do not renumber). Then build the BDD Coverage Matrix: for each AC from dimension 2, list which scenario(s) map to it, whether happy-path and negative/alt-flow coverage both exist, and the resulting status (`Full`/`Partial`/`Not Covered`). List missing scenario candidates for any gap found.
-5. **Cross-Document & Source/Project Consistency** — run the Cross-Document Consistency Checks and the Source & Project Consistency Checks from `framework/rules/rule_review.md`. Flag anything the Source BA Doc states that the Test Basis/Test Scenarios/Test Cases dropped or contradict, anything that ignores a `project/reference/test-scenarios/` or `project/reference/test-cases/` convention without a stated reason, and any terminology/ID mismatch between the Test Scenarios and Test Cases themselves.
+5. **Cross-Document & Source/Project Consistency** — run the Cross-Document Consistency Checks and the Source & Project Consistency Checks from `framework/rules/rule_review.md`. Flag anything the Source BA Doc states that the Investigation/Test Scenarios/Test Cases dropped or contradict, anything that ignores a `project/reference/test-scenarios/` or `project/reference/test-cases/` convention without a stated reason, and any terminology/ID mismatch between the Test Scenarios and Test Cases themselves.
 
 From all five dimensions, build one combined, ordered list of every item that needs a decision: every new unclear point row, every AC/BDD criterion marked `⚠️`/`❌`, every missing-AC/scenario candidate, every coverage gap (`Partial`/`Not Covered`), every cross-document mismatch, and every source/project consistency mismatch. A row scored fully `✅`/`Full` is not a finding and does not enter this list.
 
@@ -71,12 +71,12 @@ Write each question in plain, concrete language a QA/BA can answer without decod
 - For a source/project consistency mismatch: describe what the Source BA Doc or project context/reference material says versus what the spec currently says, then propose correcting the spec to match it (the default, since that material is the feature's own ground truth) — unless the user gives a specific, feature-level reason the deviation is intentional, in which case record that reason instead.
 
 After each answer:
-- "confirm"/"ok"/similar → apply the drafted resolution: for an unclear point, keep its Type/Notes as drafted; for a quality issue, coverage gap, or missing candidate, apply the proposed fix directly to `test_basis_<slug>.md` or `test_scenarios_<slug>.md` as appropriate; for a consistency mismatch, apply the proposed reconciliation to the side(s) that need it.
+- "confirm"/"ok"/similar → apply the drafted resolution: for an unclear point, keep its Type/Notes as drafted; for a quality issue, coverage gap, or missing candidate, apply the proposed fix directly to `investigation_<slug>.md` or `test_scenarios_<slug>.md` as appropriate; for a consistency mismatch, apply the proposed reconciliation to the side(s) that need it.
 - A correction, a different fix, or an answer to an open question → apply the user's version to the relevant file instead, or update the item's notes if no edit is implied.
 - An explicit reason the item doesn't need a change (e.g. it depends on a feature that doesn't exist yet in this project, or it's a framework-level concern out of scope for this feature) → keep the file unchanged, but record the reason — this still counts as resolved. Do not accept a bare "skip" with no reason for anything except a genuinely optional item.
 - Then move to the next item's question, until every item on the combined list has received an explicit response.
 
-No item may remain undecided once this step ends — every one must have either an applied fix or a recorded reason it was left as-is. If any Test Basis or Test Scenarios edit was applied during this step, re-check whether it affects `test_cases_<slug>.md` or `qa_doc_<slug>.md`'s consistency and note any follow-up needed in the final summary.
+No item may remain undecided once this step ends — every one must have either an applied fix or a recorded reason it was left as-is. If any Investigation or Test Scenarios edit was applied during this step, re-check whether it affects `test_cases_<slug>.md` or `qa_doc_<slug>.md`'s consistency and note any follow-up needed in the final summary.
 
 **Step 3 — Show the review in chat**
 

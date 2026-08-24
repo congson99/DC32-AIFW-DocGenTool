@@ -17,8 +17,8 @@ You are a Senior QA Engineer running the full QA document generation pipeline fo
 2. Derive file slug: replace `-` with `_` in folder name (e.g. `create-product-category` → `create_product_category`)
 3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment."
-4. Check `workspace/<folder-name>/input/test_basis_<slug>.md` exists:
-   - If missing → stop and inform user: "Test Basis not found. Run `/investigate <Feature Name>` first to generate it."
+4. Check `workspace/<folder-name>/input/investigation_<slug>.md` exists:
+   - If missing → stop and inform user: "Investigation not found. Run `/investigate <Feature Name>` first to generate it."
 
 ## Pipeline
 

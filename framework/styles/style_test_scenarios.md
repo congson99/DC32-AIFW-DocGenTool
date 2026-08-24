@@ -6,14 +6,16 @@ Applies to `test_scenarios_<slug>.md` documents.
 
 ## Output Format
 
-```md
-## 1. Test Scenarios
+`Assumptions & Gaps` is its own top-level section in this file, never nested inside `Test Scenarios` — it is the single, unified table for the whole feature: rows carried forward from `/resolve-assumptions`, plus any new row surfaced later by `/gen-test-scenarios` or `/gen-test-cases` (the latter appends directly into this same table — see `gen-test-cases.md` — so `test_cases_<slug>.md` never carries its own copy).
 
-### Assumptions & Gaps
+```md
+## 1. Assumptions & Gaps
 
 | # | Item | Type | Notes |
 |---|---|---|---|
 | 1 | <item> | [Explicit] / [Assumed] / [Needs Clarification] | <notes> |
+
+## 2. Test Scenarios
 
 ### Happy Path
 
@@ -39,14 +41,14 @@ And <supporting check>
 ### Security Scenarios
 ```
 
-Omit the `Assumptions & Gaps` table entirely if nothing was flagged during review. Omit any group heading entirely if it has no scenarios — do not print an empty group.
+Omit `## 1. Assumptions & Gaps` entirely if the table has zero rows (nothing was ever flagged, from `/resolve-assumptions` onward) — when omitted, `Test Scenarios` becomes `## 1. Test Scenarios` instead of `## 2.` (the top-level numbering always starts at `1` with whichever of the two sections is actually present). Omit any group heading entirely if it has no scenarios — do not print an empty group.
 
 ---
 
 ## Section Heading
 
-- Always use `## 1. Test Scenarios` as the top-level heading.
-- Group headings are fixed and always appear in this order when present: `### Assumptions & Gaps`, `### Happy Path`, `### Alternative Flows`, `### Validation Scenarios`, `### Business Rule Scenarios`, `### System Error Scenarios`, `### Edge Cases`, `### State-Based Scenarios`, `### Security Scenarios`.
+- `Assumptions & Gaps`, when present, is always `## 1. Assumptions & Gaps` and always comes first. `Test Scenarios` is `## 2. Test Scenarios` when `Assumptions & Gaps` is present, or `## 1. Test Scenarios` when it's omitted — see Output Format above.
+- Group headings inside `Test Scenarios` are fixed and always appear in this order when present: `### Happy Path`, `### Alternative Flows`, `### Validation Scenarios`, `### Business Rule Scenarios`, `### System Error Scenarios`, `### Edge Cases`, `### State-Based Scenarios`, `### Security Scenarios`.
 
 ---
 
@@ -54,7 +56,7 @@ Omit the `Assumptions & Gaps` table entirely if nothing was flagged during revie
 
 - Number scenarios sequentially across all groups: `S1`, `S2`, `S3`…
 - Do not restart numbering per group.
-- Number `Assumptions & Gaps` rows independently, starting at `1`.
+- Number `Assumptions & Gaps` rows independently, starting at `1`, and never renumber a row that was already assigned earlier in the pipeline — new rows (from `/gen-test-scenarios` or appended later by `/gen-test-cases`) just continue from the current highest `#`.
 
 ---
 

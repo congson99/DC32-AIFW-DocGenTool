@@ -1,6 +1,6 @@
 ---
 name: "Resolve Assumptions & Gaps"
-description: "Identify unclear points in the feature's Test Basis and Source BA Doc, and get the user to confirm or resolve every one of them before any Test Scenario/Test Case generation begins. Usage: /resolve-assumptions <Feature Name>"
+description: "Identify unclear points in the feature's Investigation and Source BA Doc, and get the user to confirm or resolve every one of them before any Test Scenario/Test Case generation begins. Usage: /resolve-assumptions <Feature Name>"
 ---
 
 You are a Senior QA Engineer. This step runs before any document generation — its whole purpose is to surface every unclear point up front and get it confirmed or resolved, so `/gen-test-scenarios`, `/gen-test-cases`, and `/review` can all build on a single, already-agreed Assumptions & Gaps list instead of each re-deriving (and re-asking about) their own.
@@ -17,12 +17,12 @@ You are a Senior QA Engineer. This step runs before any document generation — 
 2. Derive file slug: replace `-` with `_` in folder name (e.g. `create-product-category` → `create_product_category`)
 3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment."
-4. Check `workspace/<folder-name>/input/test_basis_<slug>.md` exists:
-   - If missing → stop and inform user: "Test Basis not found. Run `/investigate <Feature Name>` first to generate it."
-5. Read `workspace/<folder-name>/input/test_basis_<slug>.md` before proceeding.
-6. Read the `**Source BA Doc:**` line from `env_<slug>.md` and re-fetch/re-read the full document (Confluence URL → fetch and convert to Markdown via the Atlassian MCP tools; local path → read directly) — the Test Basis is a distillation, and finding every unclear point requires reviewing the complete original BA Doc, not only the summary. If it can no longer be fetched or read, continue with the Test Basis alone and note this as an item in the table (type `[Needs Clarification]`: "Source BA Doc could not be re-fetched — confirm the Test Basis alone is sufficient to proceed").
+4. Check `workspace/<folder-name>/input/investigation_<slug>.md` exists:
+   - If missing → stop and inform user: "Investigation not found. Run `/investigate <Feature Name>` first to generate it."
+5. Read `workspace/<folder-name>/input/investigation_<slug>.md` before proceeding.
+6. Read the `**Source BA Doc:**` line from `env_<slug>.md` and re-fetch/re-read the full document (Confluence URL → fetch and convert to Markdown via the Atlassian MCP tools; local path → read directly) — the Investigation is a distillation, and finding every unclear point requires reviewing the complete original BA Doc, not only the summary. If it can no longer be fetched or read, continue with the Investigation alone and note this as an item in the table (type `[Needs Clarification]`: "Source BA Doc could not be re-fetched — confirm the Investigation alone is sufficient to proceed").
 7. Check for existing downstream documents in `workspace/<folder-name>/`:
-   - Look for: `input/assumptions_<slug>.md`, `docs/test_scenarios_<slug>.md`, `docs/test_cases_<slug>.md`, `qa_doc_<slug>.md`
+   - Look for: `docs/assumptions_<slug>.md`, `docs/test_scenarios_<slug>.md`, `docs/test_cases_<slug>.md`, `qa_doc_<slug>.md`
    - If any exist → warn the user:
      > "The following documents already exist and will become outdated if Assumptions & Gaps is regenerated:
      > [list each file found]
@@ -34,7 +34,7 @@ You are a Senior QA Engineer. This step runs before any document generation — 
 
 **Step 1 — Identify every unclear point**
 
-Using the Test Basis and the full Source BA Doc together, identify unclear points per `framework/rules/rule_test_scenarios.md`'s Unclear Points definition (missing detail needed for deterministic testing, conflicting descriptions, ambiguous wording, an unconfirmed implicit business rule, or behavior not fully testable without clarification). Build a working table with columns `#`, `Item`, `Type` (`[Explicit]` / `[Assumed]` / `[Needs Clarification]`), `Notes` — same tagging convention used everywhere else in this framework.
+Using the Investigation and the full Source BA Doc together, identify unclear points per `framework/rules/rule_test_scenarios.md`'s Unclear Points definition (missing detail needed for deterministic testing, conflicting descriptions, ambiguous wording, an unconfirmed implicit business rule, or behavior not fully testable without clarification). Build a working table with columns `#`, `Item`, `Type` (`[Explicit]` / `[Assumed]` / `[Needs Clarification]`), `Notes` — same tagging convention used everywhere else in this framework.
 
 If this step finds zero unclear points, skip Step 2 entirely and go straight to Step 3 with an empty table.
 
@@ -56,7 +56,7 @@ After each answer:
 
 **Step 3 — Write the resolved list**
 
-Create `workspace/<folder-name>/input/assumptions_<slug>.md`:
+Create `workspace/<folder-name>/docs/assumptions_<slug>.md` — this lives in `docs/`, not `input/`, since it's already part of the final documentation set (its content flows directly into `test_scenarios_<slug>.md`'s `Assumptions & Gaps` section, then into the packaged QA Doc), not a working input consumed only internally:
 
 ```
 # Assumptions & Gaps — <Feature Name>
@@ -79,7 +79,7 @@ No row in this file may still carry `[Needs Clarification]` — every item must 
 ## Confirm
 
 ```
-✓ workspace/<folder-name>/input/assumptions_<slug>.md
+✓ workspace/<folder-name>/docs/assumptions_<slug>.md
 
 All items confirmed/resolved. Run /gen-test-scenarios <Feature Name> to continue.
 ```

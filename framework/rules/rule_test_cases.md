@@ -2,13 +2,13 @@
 
 ## Main Principle
 
-Generate a complete, detailed Test Case package strictly from the Test Basis, the Test Scenarios, and the original Source BA Doc. Every Test Case must trace back to exactly one Test Scenario.
+Generate a complete, detailed Test Case package strictly from the Investigation, the Test Scenarios, and the original Source BA Doc. Every Test Case must trace back to exactly one Test Scenario.
 
 ---
 
 ## What to Do
 
-- Base everything strictly on the provided source — Test Basis, Test Scenarios, Source BA Doc, and any UI references.
+- Base everything strictly on the provided source — Investigation, Test Scenarios, Source BA Doc, and any UI references.
 - One clear validation objective per Test Case.
 - Cover Happy Path, Alternative Flows, Negative Scenarios, and Edge Cases (mirroring whatever Test Scenario groups exist).
 - Group similar boundary and invalid data into Test Data variations within one Test Case, instead of creating separate Test Cases for each value.
@@ -65,7 +65,7 @@ Same definition and tagging as Test Scenarios (`[Explicit]` / `[Assumed]` / `[Ne
 
 ## UI Coverage Rules
 
-Applies when UI screenshots, mockups, or UI references are available. Cover only visible UI elements or behavior the source (Test Basis / BA Doc) actually supports:
+Applies when UI screenshots, mockups, or UI references are available. Cover only visible UI elements or behavior the source (Investigation / BA Doc) actually supports:
 
 - Page title, table columns, search input, filter controls, sort indicators, pagination controls, status badges, buttons, links, dialogs, empty states, loading states, error states, validation message locations.
 
@@ -78,7 +78,7 @@ Rules:
 
 ## Common System Page Rules
 
-If the project has configured shared UI references (`### Test Cases — UI References` in `project_config.md`, read live via Figma MCP — commonly Error Page, No Permission Page, 404 Page), reuse them whenever the corresponding state is explicitly defined in the source, instead of redefining that page's behavior inline. Use these pages only for UI flows — keep API-only validations API-focused. If no UI Reference is configured or Figma isn't connected, do not invent the page's appearance — describe only what the Test Basis/Source BA Doc states.
+If the project has configured shared UI references (`### Test Cases — UI References` in `project_config.md`, read live via Figma MCP — commonly Error Page, No Permission Page, 404 Page), reuse them whenever the corresponding state is explicitly defined in the source, instead of redefining that page's behavior inline. Use these pages only for UI flows — keep API-only validations API-focused. If no UI Reference is configured or Figma isn't connected, do not invent the page's appearance — describe only what the Investigation/Source BA Doc states.
 
 ---
 
@@ -97,8 +97,8 @@ If the project has configured shared UI references (`### Test Cases — UI Refer
 
 - **Preconditions** — only case-specific preconditions (record status, prior data setup); do not restate generic environment setup (e.g. "user is logged in") unless the case specifically depends on it.
 - **Steps** — numbered, imperative, concrete ("Enter '0' in the Quantity field", not "Enter an invalid quantity").
-- **Test Data** — concrete sample values, never placeholders; reuse sample values from the Test Basis's Data Definition when available.
-- **Expected Result** — split into **Functional** (system behavior, feedback, state change) and **UI** (what is displayed), omitting UI when not applicable. Wording must match the exact message text from the Test Basis's Messages section when the case is about a specific message.
+- **Test Data** — concrete sample values, never placeholders; reuse sample values from the Investigation's Data Definition when available.
+- **Expected Result** — split into **Functional** (system behavior, feedback, state change) and **UI** (what is displayed), omitting UI when not applicable. Wording must match the exact message text from the Investigation's Messages section when the case is about a specific message.
 
 ---
 
