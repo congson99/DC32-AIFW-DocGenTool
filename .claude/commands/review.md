@@ -1,9 +1,9 @@
 ---
 name: "Review"
-description: "Review the packaged BA Doc for unclear points, AC/Business Rule quality, completeness, cross-document consistency, and consistency against the Idea file and project context/reference material — shown directly in chat, with every finding resolved with the user (doc edited, or explicitly confirmed as-is) before the feature can move on to /publish. Usage: /review <Feature Name>"
+description: "Review the packaged BA Doc for unclear points, AC/Business Rule quality, completeness, cross-document consistency, and consistency against the Investigation file and project context/reference material — shown directly in chat, with every finding resolved with the user (doc edited, or explicitly confirmed as-is) before the feature can move on to /publish. Usage: /review <Feature Name>"
 ---
 
-You are a Senior Business Analyst reviewing the feature's fully generated BA Doc for quality, completeness, cross-document consistency, and fidelity to its own source (the Idea file and the project's context/reference material) — this is a review pass over already-generated artifacts, not a regeneration of them. It runs after `/package` and before `/publish`, as the final quality gate before the doc goes out.
+You are a Senior Business Analyst reviewing the feature's fully generated BA Doc for quality, completeness, cross-document consistency, and fidelity to its own source (the Investigation file and the project's context/reference material) — this is a review pass over already-generated artifacts, not a regeneration of them. It runs after `/package` and before `/publish`, as the final quality gate before the doc goes out.
 
 This review produces no file. Every finding is shown directly in the chat and must be resolved with the user, one at a time, before the command finishes — `/publish` will refuse to run until it has.
 
@@ -20,8 +20,8 @@ This review produces no file. Every finding is shown directly in the chat and mu
 3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment."
    - Read it and note the `**Document language:**` value — if missing, default to English.
-4. Check `workspace/<folder-name>/input/idea_<slug>.md` exists:
-   - If missing → stop and inform user: "Idea file not found. Run `/investigate <Feature Name>` first to generate it."
+4. Check `workspace/<folder-name>/input/investigation_<slug>.md` exists:
+   - If missing → stop and inform user: "Investigation file not found. Run `/investigate <Feature Name>` first to generate it."
    - Read it before proceeding — this is the source of truth for scope and intent, alongside the nine generated sections below.
 5. Check all nine files exist under `workspace/<folder-name>/docs/`: `brief_<slug>.md`, `dependencies_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` — if any are missing, stop: "`<file>` not found. Run `/package <Feature Name>` first to generate it and package the BA Doc."
 6. Read all nine files before proceeding.
@@ -37,13 +37,13 @@ Write all descriptive content (Notes, Issues, questions asked to the user, and t
 
 **Step 1 — Run all five review dimensions and build one combined findings list**
 
-Using the Idea file, all nine generated sections, and the project context/reference material loaded in Pre-flight, together:
+Using the Investigation file, all nine generated sections, and the project context/reference material loaded in Pre-flight, together:
 
 1. **Unclear points** — identify per `framework/rules/rule_review.md`'s Unclear Points definition (missing detail, conflicting descriptions across sections, ambiguous wording, an unconfirmed implicit business rule, or a cross-document reference that doesn't resolve to anything). Tag each `[Explicit]` / `[Assumed]` / `[Needs Clarification]`.
 2. **AC Quality** — evaluate each AC in `ac_<slug>.md` against the 7 criteria in `framework/rules/rule_review.md`'s "What Makes a Good AC" table. Reuse its existing `AC<N>` ID — do not renumber.
 3. **Business Rules Quality** — evaluate each rule in `business_rule_<slug>.md` against the 7 criteria in `framework/rules/rule_review.md`'s "What Makes a Good Business Rule" table. Reuse its existing `R<N>` ID — do not renumber.
 4. **Completeness & Cross-Document Consistency** — answer each completeness question in `framework/styles/style_review.md`'s findings table, cross-referencing `flow_<slug>.md`, `data_definition_<slug>.md`, `business_rule_<slug>.md`, and `messages_<slug>.md` against the AC list. List missing AC/Business Rule candidates with their source. Then run the Cross-Document Consistency Checks from `framework/rules/rule_review.md`: confirm every field, permission, page, and message referenced across sections actually exists — and matches — in the section that owns it.
-5. **Source & Project Consistency** — run the Source & Project Consistency Checks from `framework/rules/rule_review.md`: compare all nine sections against the Idea file and against the context/reference material read in Pre-flight (steps 7–8). Flag anything the Idea file states that no section reflects, anything a section states that contradicts the Idea file, and anything that ignores or contradicts project-wide ground truth or conventions (an entity's field definitions in `data-definition/shared-references/`, a convention in `business-rules/`, `ui-behavior/`, `navigation/`, `flow/`, or `messages/`, or a fact from `project/context/`) without a stated reason.
+5. **Source & Project Consistency** — run the Source & Project Consistency Checks from `framework/rules/rule_review.md`: compare all nine sections against the Investigation file and against the context/reference material read in Pre-flight (steps 7–8). Flag anything the Investigation file states that no section reflects, anything a section states that contradicts the Investigation file, and anything that ignores or contradicts project-wide ground truth or conventions (an entity's field definitions in `data-definition/shared-references/`, a convention in `business-rules/`, `ui-behavior/`, `navigation/`, `flow/`, or `messages/`, or a fact from `project/context/`) without a stated reason.
 
 From all five dimensions, build one combined, ordered list of every item that needs a decision: every unclear point row, every AC/Business Rule criterion marked `⚠️`/`❌`, every missing-AC/Business-Rule candidate, every consistency mismatch, and every source/project consistency mismatch. A row scored fully `✅` is not a finding and does not enter this list.
 
@@ -64,7 +64,7 @@ Write each question in plain, concrete language a BA/stakeholder can answer with
 - For an AC/Business Rule quality issue: describe what's wrong in plain terms and propose the specific rewrite. The user may reply "confirm"/"ok" to apply the proposed rewrite, give a different wording, or say this one doesn't need fixing (only when there's a real reason it doesn't apply here — record that reason).
 - For a missing AC/Business Rule candidate: describe the gap and propose the specific AC/Business Rule to add. The user may confirm, adjust the wording, or explain why it's not actually needed for this feature.
 - For a consistency mismatch: describe both sides in plain terms and propose which side should change (or how both should be reconciled). The user may confirm, pick the other side, or give a different resolution.
-- For a source/project consistency mismatch: describe what the Idea file or project context/reference material says versus what the doc currently says, then propose correcting the doc to match it (the default, since that material is the feature's own ground truth) — unless the user gives a specific, feature-level reason the deviation is intentional, in which case record that reason instead.
+- For a source/project consistency mismatch: describe what the Investigation file or project context/reference material says versus what the doc currently says, then propose correcting the doc to match it (the default, since that material is the feature's own ground truth) — unless the user gives a specific, feature-level reason the deviation is intentional, in which case record that reason instead.
 
 Example of the difference — do NOT write "Question 1/4: Default value of Status field [Assumed] — Data Definition sets it to Draft but no AC states this." INSTEAD write "Question 1/4: **Trạng thái mặc định khi tạo Purchase Order** — Data Definition đang định nghĩa Status mặc định là `Draft` khi tạo mới, nhưng chưa có AC nào phát biểu rõ điều này. Mình đang giả định hành vi đúng là hệ thống luôn set Status = Draft khi tạo — bạn đồng ý, hay muốn giá trị mặc định khác?"
 

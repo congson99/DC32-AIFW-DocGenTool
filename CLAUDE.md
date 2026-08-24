@@ -24,8 +24,8 @@ Run in this order to produce a complete BA Doc for one feature.
 | Command | Purpose |
 |---|---|
 | `/start <Feature Name>` | Initialize feature folder, env file, and context file |
-| `/investigate <Feature Name>` | Generate the Idea file from project context, asking the user for anything missing |
-| `/gen-brief <Feature Name>` | Generate Brief from the Idea file |
+| `/investigate <Feature Name>` | Generate the Investigation file from project context, asking the user for anything missing |
+| `/gen-brief <Feature Name>` | Generate Brief from the Investigation file |
 | `/gen-dependencies <Feature Name>` | Generate Dependencies |
 | `/gen-ac <Feature Name>` | Generate Acceptance Criteria |
 | `/gen-business-rule <Feature Name>` | Generate Business Rules |
@@ -98,7 +98,7 @@ project/                        ← project-level context
 
 workspace/                      ← per-feature working area (not committed)
   <feature-name>/
-    input/                      ← env_<slug>.md, context_<slug>.md, idea_<slug>.md
+    input/                      ← env_<slug>.md, context_<slug>.md, investigation_<slug>.md
     docs/                       ← generated BA doc sections (Brief through Messages)
     ba_doc_<slug>.md            ← final packaged document
 ```

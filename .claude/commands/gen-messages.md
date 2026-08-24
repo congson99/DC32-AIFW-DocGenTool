@@ -17,9 +17,9 @@ You are a Senior Business Analyst.
 2. Derive file slug: replace `-` with `_` in folder name (e.g. `create-product-category` → `create_product_category`)
 3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment."
-4. Check `workspace/<folder-name>/input/idea_<slug>.md` exists:
-   - If missing → stop and inform user: "Idea file not found. Run `/investigate <Feature Name>` first to generate it."
-5. Read `workspace/<folder-name>/input/idea_<slug>.md` before proceeding.
+4. Check `workspace/<folder-name>/input/investigation_<slug>.md` exists:
+   - If missing → stop and inform user: "Investigation file not found. Run `/investigate <Feature Name>` first to generate it."
+5. Read `workspace/<folder-name>/input/investigation_<slug>.md` before proceeding.
 6. Check `workspace/<folder-name>/docs/brief_<slug>.md` exists:
    - If missing → stop and inform user: "Brief not found. Run `/gen-brief <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
@@ -51,7 +51,7 @@ You are a Senior Business Analyst.
 
 ## Steps
 
-1. Analyze all loaded source (idea file, brief, AC, business rules, data definition, navigation, flow, UI Behavior) to identify message cases. If information needed is missing from all loaded sources, ask the user a focused question rather than inventing it:
+1. Analyze all loaded source (investigation file, brief, AC, business rules, data definition, navigation, flow, UI Behavior) to identify message cases. If information needed is missing from all loaded sources, ask the user a focused question rather than inventing it:
 
    - Permission errors (from Access Control in AC)
    - Validation errors (required fields, invalid references, format, range, attachment, item list)

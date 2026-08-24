@@ -17,9 +17,9 @@ You are a Senior Business Analyst.
 2. Derive file slug: replace `-` with `_` in folder name (e.g. `create-product-category` → `create_product_category`)
 3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment."
-4. Check `workspace/<folder-name>/input/idea_<slug>.md` exists:
-   - If missing → stop and inform user: "Idea file not found. Run `/investigate <Feature Name>` first to generate it."
-5. Read `workspace/<folder-name>/input/idea_<slug>.md` before proceeding.
+4. Check `workspace/<folder-name>/input/investigation_<slug>.md` exists:
+   - If missing → stop and inform user: "Investigation file not found. Run `/investigate <Feature Name>` first to generate it."
+5. Read `workspace/<folder-name>/input/investigation_<slug>.md` before proceeding.
 6. Check `workspace/<folder-name>/docs/brief_<slug>.md` exists:
    - If missing → stop and inform user: "Brief not found. Run `/gen-brief <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
@@ -49,7 +49,7 @@ You are a Senior Business Analyst.
 
 ## Steps
 
-1. Analyze all loaded context (idea file, brief, AC, Business Rules) to identify. For any object that matches an entity defined in `project/reference/data-definition/shared-references/`, use that entity's field definitions as ground truth rather than re-deriving them from the idea file alone. If information needed is missing from all of these sources, ask the user a focused question rather than inventing it:
+1. Analyze all loaded context (investigation file, brief, AC, Business Rules) to identify. For any object that matches an entity defined in `project/reference/data-definition/shared-references/`, use that entity's field definitions as ground truth rather than re-deriving them from the investigation file alone. If information needed is missing from all of these sources, ask the user a focused question rather than inventing it:
 
    - All data objects involved in this feature
    - Parent-child relationships between objects
@@ -83,7 +83,7 @@ You are a Senior Business Analyst.
    - Do not include unrelated fields from the full object definition.
    - Infer `Editable` from the source; if unclear, apply the Editable Column Rules
    - Leave cells blank when the source provides no information for that column
-   - **Completeness check before moving on**: go back to the idea file's own Entities & Fields section and confirm every field listed there for this object — both "User-provided" and "System-generated" — has its own row here. System-generated fields (audit fields like Created/Updated By/At, status defaults, etc.) are easy to drop since they're routine, but the idea file already named them explicitly; don't omit one just because it's implicit or a "given."
+   - **Completeness check before moving on**: go back to the investigation file's own Entities & Fields section and confirm every field listed there for this object — both "User-provided" and "System-generated" — has its own row here. System-generated fields (audit fields like Created/Updated By/At, status defaults, etc.) are easy to drop since they're routine, but the investigation file already named them explicitly; don't omit one just because it's implicit or a "given."
 
 4. For each object, build the Field Validation Rules section:
    - Group rules under each field name

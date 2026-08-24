@@ -17,9 +17,9 @@ You are a Senior Business Analyst.
 2. Derive file slug: replace `-` with `_` in folder name (e.g. `create-product-category` → `create_product_category`)
 3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment."
-4. Check `workspace/<folder-name>/input/idea_<slug>.md` exists:
-   - If missing → stop and inform user: "Idea file not found. Run `/investigate <Feature Name>` first to generate it."
-5. Read `workspace/<folder-name>/input/idea_<slug>.md` before proceeding.
+4. Check `workspace/<folder-name>/input/investigation_<slug>.md` exists:
+   - If missing → stop and inform user: "Investigation file not found. Run `/investigate <Feature Name>` first to generate it."
+5. Read `workspace/<folder-name>/input/investigation_<slug>.md` before proceeding.
 6. Check `workspace/<folder-name>/docs/brief_<slug>.md` exists:
    - If missing → stop and inform user: "Brief not found. Run `/gen-brief <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
@@ -42,7 +42,7 @@ You are a Senior Business Analyst.
 
 ## Steps
 
-1. Analyze all loaded context (idea file, brief) to identify. If information needed for a section below is missing from both, ask the user a focused question rather than inventing it:
+1. Analyze all loaded context (investigation file, brief) to identify. If information needed for a section below is missing from both, ask the user a focused question rather than inventing it:
    - Feature scope and business rules
    - User roles and permission levels
    - Input fields and validation requirements
@@ -50,12 +50,12 @@ You are a Senior Business Analyst.
    - Data that must be saved or updated
    - Expected system responses (success and error)
 
-   This step runs before `/gen-business-rule` and `/gen-data-definition` in the pipeline, so don't rely on either to surface something the idea file already states — cross-check directly against the idea file's own **Entities & Fields** and **Business Rules & Validation** sections now:
-   - **Every field listed as "User-provided"** in Entities & Fields gets its own required-field Validation AC by default (grouped per `rule_ac.md`'s Granularity Rules where the same-type check applies), unless the idea file explicitly marks that field optional. Do not skip a field just because Business Rules & Validation didn't separately restate it as required.
+   This step runs before `/gen-business-rule` and `/gen-data-definition` in the pipeline, so don't rely on either to surface something the investigation file already states — cross-check directly against the investigation file's own **Entities & Fields** and **Business Rules & Validation** sections now:
+   - **Every field listed as "User-provided"** in Entities & Fields gets its own required-field Validation AC by default (grouped per `rule_ac.md`'s Granularity Rules where the same-type check applies), unless the investigation file explicitly marks that field optional. Do not skip a field just because Business Rules & Validation didn't separately restate it as required.
    - **Every field listed as "System-generated"** in Entities & Fields gets a matching Processing AC that sets it (grouped only when the values are always identical at the same time, per `rule_ac.md`'s Granularity Rules — otherwise keep them separate, e.g. "sets X to the current user" and "sets Y to the current timestamp" are two ACs, not one).
    - **Every uniqueness or duplicate-prevention constraint** mentioned in Business Rules & Validation gets its own rejection AC in the Validation group (e.g. "The system rejects the request when another `<Entity>` already has the same `<Field>`") — don't let it live only in the eventual Business Rule or Message.
 
-2. **Mandatory Notification & Audit/History check — do not skip this step, and do not fold it into Step 1's silent analysis.** Regardless of what the idea file and brief say (including if they say nothing at all), explicitly ask the user two separate yes/no questions before moving on:
+2. **Mandatory Notification & Audit/History check — do not skip this step, and do not fold it into Step 1's silent analysis.** Regardless of what the investigation file and brief say (including if they say nothing at all), explicitly ask the user two separate yes/no questions before moving on:
    - "Does this feature need to send a Notification to any role/user when it completes? If yes, who gets notified and on what event?"
    - "Does this feature need to record an entry in an activity/audit log? If yes, what fields should it capture (e.g. actor, timestamp, before/after values)?"
 

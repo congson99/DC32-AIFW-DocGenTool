@@ -87,7 +87,7 @@ Applies to the chat message `/review` shows once every finding has been resolved
 
 | # | Source | Doc Section | Mismatch | Resolution |
 |---|---|---|---|---|
-| 1 | Idea file / `project/reference/<path>` | <e.g. Data Definition — Manager field> | <what the source/project material says vs. what the doc currently says> | <doc corrected to match the source, or the user's specific, feature-level reason to keep the deviation> |
+| 1 | Investigation file / `project/reference/<path>` | <e.g. Data Definition — Manager field> | <what the source/project material says vs. what the doc currently says> | <doc corrected to match the source, or the user's specific, feature-level reason to keep the deviation> |
 
 ### Section 5: Overall Summary
 

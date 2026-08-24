@@ -4,12 +4,12 @@
 
 Review the fully generated BA Doc for a feature — Acceptance Criteria (AC), Business Rules (R), Data Definition, Navigation, Flow, UI Behavior, and Messages — to assess:
 
-1. Whether every unclear point in the source (Idea file, project context, and the generated sections themselves) has been surfaced and resolved with the user.
+1. Whether every unclear point in the source (Investigation file, project context, and the generated sections themselves) has been surfaced and resolved with the user.
 2. Whether each AC is well-written.
 3. Whether each Business Rule is well-written.
 4. Whether the ACs and Business Rules are complete relative to the feature intent (Brief, Dependencies, Flow, Data Definition).
 5. Whether the nine sections are internally consistent with each other — the same field, message, page, or permission referenced in one section must actually exist, and mean the same thing, in the section that owns it.
-6. Whether the nine sections are still faithful to the feature's own source (the Idea file and the context files loaded through `context_<slug>.md`) and to the project's shared context/reference material (`project/context/`, `project/reference/`) — nothing silently dropped from the source, nothing invented that contradicts it, and nothing that ignores project-wide ground truth or conventions without a stated reason.
+6. Whether the nine sections are still faithful to the feature's own source (the Investigation file and the context files loaded through `context_<slug>.md`) and to the project's shared context/reference material (`project/context/`, `project/reference/`) — nothing silently dropped from the source, nothing invented that contradicts it, and nothing that ignores project-wide ground truth or conventions without a stated reason.
 
 This is a review pass over already-generated artifacts (Brief through Messages, and the packaged `ba_doc_<slug>.md`) — it does not regenerate them wholesale. It runs after `/package` and before `/publish`, as the final quality gate on the whole document set. Unlike a normal generation step, every finding from all five checks above must be resolved with the user before the review finishes — not just recorded for later. The review itself is shown in chat, not written to a file.
 
@@ -17,7 +17,7 @@ This is a review pass over already-generated artifacts (Brief through Messages, 
 
 ## What To Do
 
-- Base all judgments strictly on the Idea file, the nine generated sections, and the project context/reference material they were built from.
+- Base all judgments strictly on the Investigation file, the nine generated sections, and the project context/reference material they were built from.
 - Evaluate each AC and each Business Rule individually and holistically.
 - Flag missing coverage, ambiguity, contradictions, and cross-document inconsistencies.
 - Group related findings where possible — do not repeat the same issue multiple times.
@@ -89,7 +89,7 @@ Derived from `framework/rules/rule_business_rule.md`'s scope boundary and writin
 | In-scope for Business Rules | Describes a business policy/constraint (permission enforcement, numbering, uniqueness, status/state transition, calculation, cross-field/cross-entity, concurrency) — not a field validation, search behavior, response, persistence, or UI behavior already owned by AC. |
 | Consistent terminology | Uses the same field/object names as Data Definition. |
 | Non-duplicative | Doesn't restate an AC's own wording (the same rejection/response sentence copy-pasted) — but a Business Rule stating the *policy* (e.g. a uniqueness or numbering constraint) alongside an AC stating the *testable enforcement/response* for that same policy is the expected pair, not duplication. Only flag it as duplicate when both sides say the same thing from the same angle. |
-| Sourced | Traceable to the Idea file / project context — not invented. |
+| Sourced | Traceable to the Investigation file / project context — not invented. |
 
 **Common Business Rule anti-patterns:**
 - "Product Name is required." — this is a field validation; belongs to AC, not Business Rules.
@@ -111,7 +111,7 @@ Derived from `framework/rules/rule_business_rule.md`'s scope boundary and writin
 - **Messages** — from `messages_<slug>.md`: one row per message case.
 - **Brief** — from `brief_<slug>.md`: the "In scope" / "Out of scope" boundary, used to catch out-of-scope findings before they're raised.
 - **Dependencies** — from `dependencies_<slug>.md`: used only to check that a finding isn't actually the responsibility of a dependency, not re-reviewed itself.
-- **Idea file** — from `idea_<slug>.md`: the feature's own original source of truth for scope, entities/fields, flow, and business rules — used to check the final doc set didn't drift from, drop, or contradict it during generation.
+- **Investigation file** — from `investigation_<slug>.md`: the feature's own original source of truth for scope, entities/fields, flow, and business rules — used to check the final doc set didn't drift from, drop, or contradict it during generation.
 - **Project Context/Reference** — from every file `context_<slug>.md` lists (mirrors `project/context/`) and every `project/reference/` subfolder relevant to this doc set (`business-rules/principles/`, `business-rules/shared-references/`, `data-definition/shared-references/`, `ui-behavior/principles/`, `ui-behavior/shared-references/`, `navigation/`, `flow/`, `messages/`) — the project-wide ground truth and conventions, used to check the final doc set doesn't ignore or contradict them without a stated reason.
 
 ---
@@ -136,10 +136,10 @@ Record each mismatch found as a Consistency Issue (see `framework/styles/style_r
 
 This is a different comparison than the one above: not the nine sections against each other, but the finished doc set against where it came from. Check:
 
-- Every entity, field, business rule, permission, and flow step the Idea file states is reflected somewhere in the nine sections — flag anything silently dropped.
-- Nothing in the nine sections contradicts the Idea file (e.g. a default value, flow step order, or permission constant that doesn't match what the Idea file says).
+- Every entity, field, business rule, permission, and flow step the Investigation file states is reflected somewhere in the nine sections — flag anything silently dropped.
+- Nothing in the nine sections contradicts the Investigation file (e.g. a default value, flow step order, or permission constant that doesn't match what the Investigation file says).
 - Every object/field that matches an entity defined in `project/reference/data-definition/shared-references/` uses that entity's field definitions as ground truth (type, required-ness, allowed values) — flag any doc field that was re-derived differently instead.
 - Every rule, UI behavior, navigation pattern, flow step, or message that should follow a convention in `project/reference/business-rules/`, `ui-behavior/`, `navigation/`, `flow/`, or `messages/` actually aligns with it — flag any place the doc deviates without the source stating a specific reason to.
 - Any fact in `project/context/` (module map, user stories, other known features) that a generated section contradicts (e.g. an entity relationship, a naming convention, a permission-constant pattern used elsewhere in the project).
 
-Record each mismatch found as a Source & Project Consistency Issue (see `framework/styles/style_review.md`), citing the source side (Idea file / the specific `project/context/` or `project/reference/` file) and the doc side, e.g. "Idea file's Entities & Fields lists `Manager` with no type given; `project/reference/data-definition/shared-references/entity-glossary.md` defines `Manager: reference: User`; Data Definition currently has it as `string`." When resolving, the doc should normally be corrected to match the source/project ground truth — deviate only when the user gives a specific, feature-level reason to.
+Record each mismatch found as a Source & Project Consistency Issue (see `framework/styles/style_review.md`), citing the source side (Investigation file / the specific `project/context/` or `project/reference/` file) and the doc side, e.g. "Investigation file's Entities & Fields lists `Manager` with no type given; `project/reference/data-definition/shared-references/entity-glossary.md` defines `Manager: reference: User`; Data Definition currently has it as `string`." When resolving, the doc should normally be corrected to match the source/project ground truth — deviate only when the user gives a specific, feature-level reason to.

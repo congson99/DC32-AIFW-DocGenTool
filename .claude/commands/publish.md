@@ -61,6 +61,8 @@ Read the `**Platforms:**` line in `env_<slug>.md` — this always contains a rea
 | FE | `AI Doc for FE - <Feature Name>` | Brief, Dependencies, Acceptance Criteria, Business Rules, Data Definition, Navigation, Flow, UI Behavior, Messages |
 | Mobile | `AI Doc for Mobile - <Feature Name>` | Brief, Dependencies, Acceptance Criteria, Business Rules, Data Definition, Navigation, Flow, UI Behavior, Messages |
 
+`Auto Test` may also appear in `**Platforms:**`, but it is QA-only — BA never creates, updates, or touches an `AI Doc for Auto Test - <Feature Name>` page even when it's listed. That page (Test Scenarios + Test Cases) is created/updated entirely by `/publish` on `dev/QA`. Skip it silently here — do not add a row for it in the Summary.
+
 Do not touch a role's page at all if that role isn't listed in `**Platforms:**` — don't create it, and don't delete or update it if one happens to already exist from an earlier, differently-scoped run of this feature (leave it exactly as-is; note its existence in the Summary as a "not targeted by current Platforms — left untouched" remark rather than silently ignoring it).
 
 For each included role page:

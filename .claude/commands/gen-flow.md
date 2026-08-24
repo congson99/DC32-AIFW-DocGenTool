@@ -17,9 +17,9 @@ You are a Senior Business Analyst.
 2. Derive file slug: replace `-` with `_` in folder name (e.g. `create-product-category` → `create_product_category`)
 3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment."
-4. Check `workspace/<folder-name>/input/idea_<slug>.md` exists:
-   - If missing → stop and inform user: "Idea file not found. Run `/investigate <Feature Name>` first to generate it."
-5. Read `workspace/<folder-name>/input/idea_<slug>.md` before proceeding.
+4. Check `workspace/<folder-name>/input/investigation_<slug>.md` exists:
+   - If missing → stop and inform user: "Investigation file not found. Run `/investigate <Feature Name>` first to generate it."
+5. Read `workspace/<folder-name>/input/investigation_<slug>.md` before proceeding.
 6. Check `workspace/<folder-name>/docs/brief_<slug>.md` exists:
    - If missing → stop and inform user: "Brief not found. Run `/gen-brief <Feature Name>` first to generate it."
    - If exists → read it before proceeding.
@@ -45,7 +45,7 @@ You are a Senior Business Analyst.
    - **yes** → delete the listed downstream files, then continue.
 12. Check if `project/reference/flow/` exists and contains any `.md` files:
     - If files exist → read all of them as reference guidelines before proceeding. These files define shared flow patterns and conventions that apply across features. Use them to inform generation — do not extract flow steps directly from them.
-    - **When a convention conflicts with what the idea file (or Business Rules/Data Definition) explicitly states for this feature** (e.g. a convention says Create features end in `Draft` status, but this feature's Data Definition already defines a different default) — the feature's own source wins. Do not silently apply the convention over it. Mention the conflict in the confirmation message (step 4 below), so the user knows the shared convention was set aside and can update it if it needs to be scoped more narrowly.
+    - **When a convention conflicts with what the investigation file (or Business Rules/Data Definition) explicitly states for this feature** (e.g. a convention says Create features end in `Draft` status, but this feature's Data Definition already defines a different default) — the feature's own source wins. Do not silently apply the convention over it. Mention the conflict in the confirmation message (step 4 below), so the user knows the shared convention was set aside and can update it if it needs to be scoped more narrowly.
     - If the folder is empty or does not exist → skip, proceed normally.
 13. Read `framework/styles/style_general.md` — general writing style rules.
 14. Read `framework/styles/style_flow.md` — style rules specific to Flow.
@@ -56,7 +56,7 @@ You are a Senior Business Analyst.
 
 ## Steps
 
-1. Analyze the feature source (idea file, brief, AC, business rules, data definition, navigation) to identify. If information needed is missing from all loaded sources, ask the user a focused question rather than inventing it:
+1. Analyze the feature source (investigation file, brief, AC, business rules, data definition, navigation) to identify. If information needed is missing from all loaded sources, ask the user a focused question rather than inventing it:
 
    - How the feature is triggered (user action, external event, or scheduled/system event explicitly described)
    - Preconditions that must be true before the feature can proceed

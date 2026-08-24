@@ -15,10 +15,10 @@ Writing quality standards for Feature Dependencies content.
 
 ## Identifying Dependencies
 
-- Derive dependencies from the idea file's Overview, Process Flow, and Entities & Fields sections, and from the loaded context files (domain overview, module map, user stories).
+- Derive dependencies from the investigation file's Overview, Process Flow, and Entities & Fields sections, and from the loaded context files (domain overview, module map, user stories).
 - A dependency exists when this feature cannot function, or cannot be entered, without a prerequisite feature, module, external system, or configuration already being in place (e.g. a "View X" feature depends on the "Create X" feature since X must exist first; a payment feature depends on a payment gateway being configured).
 - Do not infer a dependency from a shared entity alone — the dependency must be a genuine precondition, not just a related feature.
-- If the idea file and context do not clearly indicate whether a prerequisite exists, ask the user directly rather than assuming either way — do not skip this check silently, and do not invent a dependency that isn't supported by the source.
+- If the investigation file and context do not clearly indicate whether a prerequisite exists, ask the user directly rather than assuming either way — do not skip this check silently, and do not invent a dependency that isn't supported by the source.
 
 ---
 

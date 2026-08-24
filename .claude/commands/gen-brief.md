@@ -1,6 +1,6 @@
 ---
 name: "Generate Brief"
-description: "Generate Brief for a feature from its Idea file. Usage: /gen-brief <Feature Name>"
+description: "Generate Brief for a feature from its Investigation file. Usage: /gen-brief <Feature Name>"
 ---
 
 You are a Senior Business Analyst.
@@ -10,7 +10,7 @@ You are a Senior Business Analyst.
 `$ARGUMENTS` is the **Feature name** exactly as typed by the user.
 
 - If `$ARGUMENTS` is empty → ask the user: "What is the feature name?"
-- If the idea file doesn't contain enough information to determine In Scope / Out of Scope → ask one focused clarifying question before generating.
+- If the investigation file doesn't contain enough information to determine In Scope / Out of Scope → ask one focused clarifying question before generating.
 
 ## Pre-flight Check
 
@@ -19,9 +19,9 @@ You are a Senior Business Analyst.
 3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment, then fill in the placeholders before running /gen-brief."
    - If exists but still contains unfilled placeholders (e.g. `<jira-ticket-url>`) → warn the user but continue generating.
-4. Check `workspace/<folder-name>/input/idea_<slug>.md` exists:
-   - If missing → stop and inform user: "Idea file not found. Run `/investigate <Feature Name>` first to generate it."
-5. Read `workspace/<folder-name>/input/idea_<slug>.md` before proceeding. If it still has unfilled placeholder sections needed to write the Brief (e.g. Overview, Scope), ask the user a focused question for that information rather than inventing content.
+4. Check `workspace/<folder-name>/input/investigation_<slug>.md` exists:
+   - If missing → stop and inform user: "Investigation file not found. Run `/investigate <Feature Name>` first to generate it."
+5. Read `workspace/<folder-name>/input/investigation_<slug>.md` before proceeding. If it still has unfilled placeholder sections needed to write the Brief (e.g. Overview, Scope), ask the user a focused question for that information rather than inventing content.
 6. Check for existing downstream documents in `workspace/<folder-name>/`:
    - Look for: `docs/dependencies_<slug>.md`, `docs/ac_<slug>.md`, `docs/business_rule_<slug>.md`, `docs/data_definition_<slug>.md`, `docs/navigation_<slug>.md`, `docs/flow_<slug>.md`, `docs/ui_behavior_<slug>.md`, `docs/messages_<slug>.md`, `ba_doc_<slug>.md`
    - If any exist → warn the user:
@@ -41,9 +41,9 @@ You are a Senior Business Analyst.
 
 1. Create `workspace/<folder-name>/docs/brief_<slug>.md` using the format defined in `framework/styles/style_brief.md`, filling in:
    - **Feature name** — from `$ARGUMENTS` directly (no modification)
-   - **Goal** — one sentence derived from the idea file's Overview
-   - **In Scope** — derived from the idea file's Scope section
-   - **Out of Scope** — derived from the idea file's Scope section
+   - **Goal** — one sentence derived from the investigation file's Overview
+   - **In Scope** — derived from the investigation file's Scope section
+   - **Out of Scope** — derived from the investigation file's Scope section
 
    Apply any matching section loaded from `project/reference/sample-doc/` as a style/tone reference — match its phrasing conventions and level of detail, but do not copy its wording verbatim, and let `framework/styles/style_brief.md` govern the structural format.
 
