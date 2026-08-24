@@ -72,14 +72,13 @@ Run in this order to produce a complete QA Doc for one feature.
 | `/resolve-assumptions <Feature Name>` | Identify unclear points in the Investigation/Source BA Doc and get the user to confirm or resolve every one of them before any generation begins |
 | `/gen-test-scenarios <Feature Name>` | Generate Test Scenarios from the Investigation |
 | `/gen-test-cases <Feature Name>` | Generate Test Cases from the Test Scenarios |
-| `/gen-doc <Feature Name>` | Shortcut: run resolve-assumptions, gen-test-scenarios, gen-test-cases, package, and review back-to-back |
 | `/package <Feature Name>` | Package Test Scenarios and Test Cases into a single QA Doc |
 | `/review <Feature Name>` | Review AC, Business Rules, Flow, and Test Scenarios for quality, completeness, and coverage — shown in chat, with every finding resolved before publishing |
 | `/publish <Feature Name>` | Publish QA Doc to Confluence and update Jira status |
 
-### Not in the flow — project setup & maintenance
+> `/gen-doc <Feature Name>` is not a step in this sequence — it's a shortcut that runs `/resolve-assumptions` → `/gen-test-scenarios` → `/gen-test-cases` → `/package` → `/review` back-to-back, pausing only where those steps themselves always pause (Assumptions & Gaps, Review). Use it instead of running those five commands one at a time.
 
-Not generation steps themselves — call `/check` any time during the flow above to see where a feature stands; the rest operate on the whole project rather than a single feature. Run any of these as needed, independent of where any feature is in the flow above.
+### Not in the flow — project setup & maintenance
 
 | Command | Purpose |
 |---|---|
@@ -129,3 +128,5 @@ DC32-AIFW-DocGenTool/
         ├── docs/                          ← generated QA doc sections (Assumptions & Gaps, Test Scenarios, Test Cases, Spec Review)
         └── qa_doc_<slug>.md               ← final packaged document
 ```
+
+> `/gen-test-scenarios`/`/gen-test-cases` read `test-scenarios/principles/`, `test-scenarios/shared-references/`, `test-cases/principles/`, and `test-cases/shared-references/` if present, but `/config` on `dev/config` has no matching Context Sync category for any of them, so these four currently have no supported way to get populated.

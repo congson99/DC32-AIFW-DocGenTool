@@ -13,9 +13,9 @@ You are a Senior QA Engineer reviewing documentation progress for a feature.
 
 ## Feature Name Normalization
 
-1. Apply title case and uppercase known acronyms: `PO`, `PR`, `IR`, `SI`, `BA`, `SKU`, `ID`.
-2. Derive folder name: kebab-case (e.g. "Update PO" → `update-po`)
-3. Derive file slug: replace `-` with `_` (e.g. `update-po` → `update_po`)
+1. Apply the same acronym normalization as `/start`'s Feature Name Normalization (`.claude/commands/start.md`) — preserve any acronym already written in full uppercase within `project/context/`, otherwise plain title case. Do not hardcode or restate the acronym list here.
+2. Derive folder name: kebab-case (e.g. "Update User Profile" → `update-user-profile`)
+3. Derive file slug: replace `-` with `_` (e.g. `update-user-profile` → `update_user_profile`)
 
 ## Steps
 

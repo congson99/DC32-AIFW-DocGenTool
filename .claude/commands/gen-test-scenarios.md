@@ -23,14 +23,14 @@ You are a Senior QA Engineer.
    - If missing → stop and inform user: "Assumptions & Gaps not found. Run `/resolve-assumptions <Feature Name>` first — every unclear point must be confirmed or resolved before generating Test Scenarios."
 5. Read `workspace/<folder-name>/input/investigation_<slug>.md` and `workspace/<folder-name>/docs/assumptions_<slug>.md` before proceeding.
 6. Read the `**Source BA Doc:**` line from `env_<slug>.md` and re-fetch/re-read the full document (Confluence URL → fetch and convert to Markdown via the Atlassian MCP tools; local path → read directly) — the Investigation is a distillation, and full scenario coverage requires reviewing the complete original BA Doc, not only the summary. If it can no longer be fetched or read, continue with the Investigation alone.
-7. Check for existing downstream documents in `workspace/<folder-name>/`:
-   - Look for: `docs/test_cases_<slug>.md`, `qa_doc_<slug>.md`
+7. Check whether `docs/test_scenarios_<slug>.md` already exists (this run would overwrite it), and for existing downstream documents in `workspace/<folder-name>/`:
+   - Look for: `docs/test_scenarios_<slug>.md` (itself), `docs/test_cases_<slug>.md`, `qa_doc_<slug>.md`
    - If any exist → warn the user:
-     > "The following downstream documents already exist and will become outdated if Test Scenarios is regenerated:
+     > "The following file(s) already exist and will be overwritten or become outdated if Test Scenarios is regenerated:
      > [list each file found]
-     > Regenerating Test Scenarios will delete these files. Continue? (yes/no)"
+     > Regenerating Test Scenarios will overwrite/delete these files. Continue? (yes/no)"
    - **no** → stop. Do not generate.
-   - **yes** → delete the listed downstream files, then continue.
+   - **yes** → delete `docs/test_cases_<slug>.md` and `qa_doc_<slug>.md` if present — `test_scenarios_<slug>.md` itself will simply be overwritten by this run — then continue.
 8. Check `project/reference/test-scenarios/principles/` for `.md` files:
    - If files exist → read all of them. Apply these principles when analyzing the feature (Steps 1-2 below). Do not copy principle content into the output.
    - If the folder is empty or does not exist → skip.

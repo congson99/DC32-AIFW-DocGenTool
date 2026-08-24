@@ -24,14 +24,14 @@ You are a Senior QA Engineer.
    - If missing → stop and inform user: "Test Scenarios not found. Run `/gen-test-scenarios <Feature Name>` first to generate it."
    - If exists → read it before proceeding, including its `## 1. Assumptions & Gaps` section if present (the unified table — see `framework/styles/style_test_scenarios.md`).
 7. Re-read the `**Source BA Doc:**` referenced in `env_<slug>.md` (same fetch/read approach as `/gen-test-scenarios`) for exact wording (messages, field names, entry points) when writing concrete steps and expected results. If it can no longer be fetched or read, continue with the Investigation and Test Scenarios alone and note this in Assumptions & Gaps.
-8. Check for existing downstream documents in `workspace/<folder-name>/`:
-   - Look for: `qa_doc_<slug>.md`
+8. Check whether `docs/test_cases_<slug>.md` already exists (this run would overwrite it), and for existing downstream documents in `workspace/<folder-name>/`:
+   - Look for: `docs/test_cases_<slug>.md` (itself), `qa_doc_<slug>.md`
    - If any exist → warn the user:
-     > "The following downstream documents already exist and will become outdated if Test Cases is regenerated:
+     > "The following file(s) already exist and will be overwritten or become outdated if Test Cases is regenerated:
      > [list each file found]
-     > Regenerating Test Cases will delete these files. Continue? (yes/no)"
+     > Regenerating Test Cases will overwrite/delete these files. Continue? (yes/no)"
    - **no** → stop. Do not generate.
-   - **yes** → delete the listed downstream files, then continue.
+   - **yes** → delete `qa_doc_<slug>.md` if present — `test_cases_<slug>.md` itself will simply be overwritten by this run — then continue.
 9. Check `project/reference/test-cases/principles/` for `.md` files:
    - If files exist → read all of them. Apply these principles when writing Test Cases (Steps below). Do not copy principle content into the output.
    - If the folder is empty or does not exist → skip.
@@ -51,7 +51,7 @@ You are a Senior QA Engineer.
 
 2. For each Test Scenario (`S1`, `S2`, …) in `test_scenarios_<slug>.md`, write at least one Test Case using concrete steps and data drawn from the Investigation and the Source BA Doc (exact message wording, real field names/sample values, BA-defined entry points per the Entry Point Rules). Group multiple data variations of the same scenario into Test Data rows within one Test Case rather than separate Test Cases, per the Duplicate Prevention rules.
 
-3. Assign `Priority` (P0–P3) and `Automatable` (Yes/No/Partial) per `framework/rules/rule_test_cases.md`'s guidelines, and `Test Focus` per the applicable category.
+3. Assign `Priority` (P0–P3), `Automatable` (Yes/No/Partial), and `Scope` (a comma-separated subset of `BE`, `FE`, `Mobile`) per `framework/rules/rule_test_cases.md`'s guidelines (Scope specifically per its Scope Guideline's two-step check), and `Test Focus` per the applicable category.
 
 4. Order Test Cases to match the Test Scenario order (`S1`, `S2`, …), grouping multiple Test Cases under the same scenario together.
 

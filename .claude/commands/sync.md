@@ -86,11 +86,17 @@ Skipped (no URL): <count> entries
    - `project/context/`
    - `project/reference/business-rules/principles/`
    - `project/reference/business-rules/shared-references/`
+   - `project/reference/data-definition/shared-references/`
    - `project/reference/ui-behavior/principles/`
    - `project/reference/ui-behavior/shared-references/`
    - `project/reference/navigation/`
+   - `project/reference/flow/`
    - `project/reference/messages/`
+   - `project/reference/sample-doc/`
    - `project/reference/test-scenarios/principles/`
+   - `project/reference/test-scenarios/shared-references/`
+   - `project/reference/test-cases/principles/`
+   - `project/reference/test-cases/shared-references/`
 
    If orphaned files are found → ask the user:
    ```

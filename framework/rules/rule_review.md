@@ -2,12 +2,12 @@
 
 ## Main Principle
 
-Review the fully generated QA spec for a feature — Acceptance Criteria/Business Rules (derived from the Investigation), and the BDD-style Test Scenarios and Test Cases — to assess:
+Review the fully generated QA spec for a feature — Acceptance Criteria (derived from the Investigation's Business Rules & Validations and Permissions sections), and the BDD-style Test Scenarios and Test Cases — to assess:
 
 1. Whether every unclear point in the source (Investigation, Source BA Doc, Test Scenarios, Test Cases) has been surfaced and resolved with the user.
 2. Whether each AC is well-written.
 3. Whether each Test Scenario (BDD) is well-written.
-4. Whether the ACs are complete and correct relative to the feature intent, and the Test Scenarios fully cover all ACs.
+4. Whether the ACs are complete and correct relative to the feature intent — including full coverage of every Business Rule listed in the Investigation (checked as part of AC Completeness; Business Rules are not scored as their own quality dimension the way ACs and Test Scenarios are) — and whether the Test Scenarios fully cover all ACs.
 5. Whether the spec is faithful to its own source — the Source BA Doc, the Investigation, and the project's shared context/reference material (`project/context/`, `project/reference/test-scenarios/`, `project/reference/test-cases/`).
 
 This is a review pass over already-generated artifacts (Investigation, Test Scenarios, Test Cases, and the packaged `qa_doc_<slug>.md`) — it does not regenerate them wholesale. It runs after `/package`, as the final quality gate before publishing. Every finding from all five checks above must be resolved with the user before the review finishes — not just recorded for later. The review itself is shown in chat, not written to a file.

@@ -28,8 +28,9 @@ Used as part of the regular per-feature QA document generation flow.
 | `/gen-test-cases <Feature Name>` | Generate Test Cases from the Test Scenarios |
 | `/package <Feature Name>` | Package Test Scenarios and Test Cases into a single QA Doc |
 | `/review <Feature Name>` | Review AC, Business Rules, Flow, and Test Scenarios for quality, completeness, and coverage — shown in chat, with every finding resolved before publishing |
-| `/gen-doc <Feature Name>` | Run resolve-assumptions, gen-test-scenarios, gen-test-cases, package, and review back-to-back |
 | `/publish <Feature Name>` | Publish QA Doc to Confluence and update Jira status |
+
+`/gen-doc <Feature Name>` is not a step in this sequence — it's a shortcut that runs resolve-assumptions, gen-test-scenarios, gen-test-cases, package, and review back-to-back, in place of running those five commands one at a time.
 | `/check <Feature Name>` | Show doc status and suggest next step |
 | `/clear-workspace` | Delete all feature folders in workspace/ |
 | `/reset` | Delete all synced context/reference files, reset project_config.md to its unconfigured state, and clear all feature folders in workspace/ |

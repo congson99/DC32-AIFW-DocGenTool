@@ -33,7 +33,7 @@ You are a Senior QA Engineer distilling an existing BA Doc into a single Investi
    - If it's a local file path → read the file directly.
    - If the fetch or read fails → stop and inform the user: "Could not read the Source BA Doc at `<value>`. Please check the link/path and try again."
 8. Check for existing downstream documents in `workspace/<folder-name>/`:
-   - Look for: `input/investigation_<slug>.md`, `docs/test_scenarios_<slug>.md`, `docs/test_cases_<slug>.md`, `qa_doc_<slug>.md`
+   - Look for: `input/investigation_<slug>.md`, `docs/assumptions_<slug>.md`, `docs/test_scenarios_<slug>.md`, `docs/test_cases_<slug>.md`, `qa_doc_<slug>.md`
    - If any exist → warn the user:
      > "The following documents already exist and will become outdated if the Investigation is regenerated:
      > [list each file found]
