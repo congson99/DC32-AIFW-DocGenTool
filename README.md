@@ -90,20 +90,13 @@ Run in this order to produce a complete BA Doc for one feature.
 | `/review <Feature Name>` | Review the packaged BA Doc for unclear points, AC/Business Rule quality, completeness, and cross-document consistency — shown in chat, with every finding resolved before publishing |
 | `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status |
 
-### Flow helper
+### Not in the flow — project setup & maintenance
 
-Not a generation step itself — call it any time during the flow above to see where a feature stands.
+Not generation steps themselves — call `/check` any time during the flow above to see where a feature stands; the rest operate on the whole project rather than a single feature. Run any of these as needed, independent of where any feature is in the flow above.
 
 | Command | Purpose |
 |---|---|
 | `/check <Feature Name>` | Show which BA documents have been generated for a feature and suggest the next step |
-
-### Not in the flow — project setup & maintenance
-
-Operate on the whole project rather than a single feature. Run as needed, independent of where any feature is in the flow above.
-
-| Command | Purpose |
-|---|---|
 | `/sync [project-config-confluence-url]` | Fetch the latest content from Confluence into project/context/ and project/reference/ based on project/project_config.md — optionally pass the Confluence URL project_config.md was published to, to pull/refresh it first |
 | `/connect-mcp` | Connect to the MCP servers (Atlassian, Figma) listed in project/project_config.md |
 | `/connect-local-mcp` | Set up a project-scoped Atlassian MCP server (separate from the global one), for one or more Jira/Confluence instances |
