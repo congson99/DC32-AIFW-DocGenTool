@@ -37,14 +37,14 @@ The flow now runs as 4 macro steps — the second, third, and fourth steps each 
 |---|---|---|---|
 | 1 | Start | `/start` | `input/env_<slug>.md`, `input/context_<slug>.md` |
 | 2 | Investigate | `/investigate` | `input/investigation_<slug>.md` |
-| 3 | Generate & Package | `/gen-doc` (resolve-assumptions → gen-test-scenarios → gen-test-cases → package → review, run automatically in sequence) | `qa_doc_<slug>.md`, plus the `**Review:**` line in `input/env_<slug>.md` |
+| 3 | Generate & Package | `/gen-doc` (resolve-assumptions → gen-test-scenarios → gen-test-cases → review, run automatically in sequence — review creates/refreshes `qa_doc_<slug>.md` itself, so `/package` isn't a separate sub-step here) | `qa_doc_<slug>.md`, plus the `**Review:**` line in `input/env_<slug>.md` |
 | 4 | Publish | `/publish` | — (no local file marks this; see below) |
 
 For each step, determine status:
 
 - **Step 1 — Start**: ✓ Ready if both `env_<slug>.md` and `context_<slug>.md` exist and neither still contains an unfilled placeholder (pattern `<...>`). ⚠ "has unfilled placeholders" if either exists but still has one. ✗ Missing if either file doesn't exist.
 - **Step 2 — Investigate**: ✓ Ready if `investigation_<slug>.md` exists. ⚠ "has unfilled sections" if it exists but still contains placeholder text (pattern `<...>`) in any section — this does not block progress; later steps will ask about it if the information turns out to be needed. ✗ Missing if it doesn't exist. Do not check this step if Step 1 is not ✓ Ready.
-- **Step 3 — Generate & Package**: ✓ Ready if `qa_doc_<slug>.md` exists AND `env_<slug>.md` contains a `**Review:** ✓ Completed` line. ⚠ "Packaged but not yet reviewed — run /review" if `qa_doc_<slug>.md` exists but that line is missing. ✗ Missing if `qa_doc_<slug>.md` doesn't exist. Do not check this step if Step 2 is not ✓ Ready. Do not inspect the intermediate docs (`docs/assumptions_<slug>.md`, `test_scenarios_<slug>.md`, `test_cases_<slug>.md`) individually — `qa_doc_<slug>.md` existing is proof `/package` already required them.
+- **Step 3 — Generate & Package**: ✓ Ready if `qa_doc_<slug>.md` exists AND `env_<slug>.md` contains a `**Review:** ✓ Completed` line. ⚠ "Packaged but not yet reviewed — run /review" if `qa_doc_<slug>.md` exists but that line is missing. ✗ Missing if `qa_doc_<slug>.md` doesn't exist. Do not check this step if Step 2 is not ✓ Ready. Do not inspect the intermediate docs (`docs/assumptions_<slug>.md`, `test_scenarios_<slug>.md`, `test_cases_<slug>.md`) individually — `qa_doc_<slug>.md` existing is proof `/gen-test-cases` (which `/package` or `/review` both require) already produced them.
 - **Step 4 — Publish**: there is no local artifact that marks a feature as published (`/publish` doesn't write one, and its optional folder-clear step means a fully-published feature may simply no longer have a folder at all — which step 1 already handles by reporting "not found"). Report this step as "○ Ready to publish" once Step 3 is ✓ Ready, otherwise "✗ Not yet".
 
 ### 3. Determine the next step

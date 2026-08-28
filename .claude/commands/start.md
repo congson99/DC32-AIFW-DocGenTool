@@ -52,11 +52,13 @@ Before any steps, normalize the feature name:
    - **no** → stop. Do not change anything.
    - **yes** → delete all files and subfolders in `workspace/<folder-name>/`, then continue to step 4.
 4. Create folders `workspace/<folder-name>/input/` and `workspace/<folder-name>/docs/` if they do not exist.
-5. Read `project/project_config.md` and locate the `### Language` subsection under `## 1. Project Setup`. Resolve the "Document language" value — if missing, unset, or still a placeholder, resolve it as `English`. This is resolved once here and cached into `env_<slug>.md` (step below) so that `/investigate` and every `/gen-*` command can read it straight from the feature's own env file instead of re-reading `project/project_config.md` every time.
+5. Read `project/project_config.md` once and extract two things from it in this same pass:
+   - **Document language**: the `### Language` subsection under `## 1. Project Setup` — if missing, unset, or still a placeholder, resolve it as `English`.
+   - **QA task environment template**: the `### 3.2 QA` subsection under `## 3. Task Environment`, which contains a single fenced code block.
 
-6. Read `project/project_config.md` and locate the `### 3.2 QA` subsection under `## 3. Task Environment`. It contains a single fenced code block.
+   Both are cached into `env_<slug>.md` in the next step so that `/investigate` and every `/gen-*` command can read them straight from the feature's own env file instead of re-reading `project/project_config.md` every time.
 
-   Create `workspace/<folder-name>/input/env_<slug>.md` with:
+6. Create `workspace/<folder-name>/input/env_<slug>.md` with:
    - Line 1: `**Feature name:** <normalized Feature name>`
    - Line 2: blank
    - Line 3: `**Document language:** <resolved Document language from step 5>`

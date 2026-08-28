@@ -76,7 +76,7 @@ Run in this order to produce a complete QA Doc for one feature.
 | `/review <Feature Name>` | Review Test Scenarios and Test Cases for BDD quality, Test Case quality, AC coverage, and consistency against the Source BA Doc and project context — shown in chat, with every finding resolved before publishing |
 | `/publish <Feature Name>` | Publish QA Doc to Confluence and update Jira status |
 
-> `/gen-doc <Feature Name>` is not a step in this sequence — it's a shortcut that runs `/resolve-assumptions` → `/gen-test-scenarios` → `/gen-test-cases` → `/package` → `/review` back-to-back, pausing only where those steps themselves always pause (Assumptions & Gaps, Review). Use it instead of running those five commands one at a time.
+> `/gen-doc <Feature Name>` is not a step in this sequence — it's a shortcut that runs `/resolve-assumptions` → `/gen-test-scenarios` → `/gen-test-cases` → `/review` back-to-back, pausing only where those steps themselves always pause (Assumptions & Gaps, Review). It skips `/package` — `/review` creates/refreshes the packaged QA Doc itself. Use it instead of running those commands one at a time.
 
 ### Not in the flow — project setup & maintenance
 

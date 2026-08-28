@@ -17,7 +17,7 @@ You are a Senior QA Engineer distilling an existing BA Doc into a single Investi
 2. Derive file slug: replace `-` with `_` in folder name (e.g. `create-product-category` → `create_product_category`)
 3. Check `workspace/<folder-name>/input/env_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment."
-   - Read it and note the `**Document language:**` value (cached there by `/start`) — if missing, default to English.
+   - Read it once now and keep its content for step 6 below (`**Source BA Doc:**` line), so that step doesn't need to re-read this file. Note the `**Document language:**` value (cached there by `/start`) — if missing, default to English.
 4. Check `workspace/<folder-name>/input/context_<slug>.md` exists:
    - If missing → stop and inform user: "Run `/start <Feature Name>` first to set up the environment."
    - If any line still contains an unfilled placeholder (e.g. `<additional-context-file-or-confluence-url>`) → stop and inform user: "`context_<slug>.md` still has unfilled placeholders. Either fill them in or remove the placeholder lines, then re-run /investigate."
@@ -26,12 +26,14 @@ You are a Senior QA Engineer distilling an existing BA Doc into a single Investi
    - A local file path → read it directly.
    - A Confluence URL → fetch the page and convert it to clean Markdown (same approach as `/sync-project`).
    - A Figma URL → read it via the Figma MCP tools (e.g. `get_screenshot` for the visual, `get_design_context` for structured content) — only if a `Figma` entry exists and is connected under `### MCP Config`; if not connected, note this entry as unreadable rather than failing the whole step.
-6. Read `workspace/<folder-name>/input/env_<slug>.md` and locate the `**Source BA Doc:**` line:
+   - After resolving all entries, write their resolved content to `workspace/<folder-name>/input/context_content_<slug>.md` — one section per entry (`## <path>` heading, then its resolved content, or `_Unreadable: <reason>_` if it couldn't be read). This caches the fetched content so later steps (e.g. `/review`) can reuse it instead of re-fetching each Confluence/Figma entry again.
+6. Using `env_<slug>.md`'s content already read in step 3, locate the `**Source BA Doc:**` line:
    - If it is missing or still a placeholder (e.g. `<confluence-page-url>`) → ask the user: "What's the Source BA Doc for this feature — a Confluence page link or a local file path?" Once answered, update the `**Source BA Doc:**` line in `env_<slug>.md` with the value before continuing.
 7. Fetch the Source BA Doc content:
    - If it's a Confluence URL → fetch the page content via the Atlassian MCP tools and convert it to clean Markdown (same approach as `/sync-project`).
    - If it's a local file path → read the file directly.
    - If the fetch or read fails → stop and inform the user: "Could not read the Source BA Doc at `<value>`. Please check the link/path and try again."
+   - Write the fetched/read content, as converted, to `workspace/<folder-name>/input/ba_doc_<slug>.md`. This caches the full Source BA Doc so `/resolve-assumptions`, `/gen-test-scenarios`, and `/gen-test-cases` can read it from this file instead of re-fetching Confluence each time. (`/review` still re-fetches live — its whole purpose there is catching drift between this cache and the source's current state.)
    - Look for a `**Platforms:**` line in the fetched doc's `## 1. Brief` section (BA's confirmed per-feature platform scope, added there by `/gen-brief` on `dev/BA`). Write or update a `**Platforms:**` line in `env_<slug>.md` with that value, placed right after the `**Source BA Doc:**` line — this caches it so every later step (`/gen-test-cases`, `/publish`) can read the feature's platform scope straight from `env_<slug>.md` instead of re-fetching the BA Doc each time. If the fetched doc has no such line (e.g. an older BA Doc predating this field), leave `env_<slug>.md` without a Platforms line — downstream steps fall back to `project/project_config.md`'s project-wide default in that case.
 8. Check for existing downstream documents in `workspace/<folder-name>/`:
    - Look for: `input/investigation_<slug>.md`, `docs/assumptions_<slug>.md`, `docs/test_scenarios_<slug>.md`, `docs/test_cases_<slug>.md`, `qa_doc_<slug>.md`

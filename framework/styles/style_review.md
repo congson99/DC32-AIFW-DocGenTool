@@ -59,7 +59,7 @@ Applies to the chat message `/review` shows once every finding has been resolved
 - <what was wrong>
 
 **Resolution (if an issue was found):**
-> <the fix actually applied to `test_cases_<slug>.md` (and `qa_doc_<slug>.md`), or the user's explicit reason for leaving it as-is>
+> <the fix actually applied to `test_cases_<slug>.md`, or the user's explicit reason for leaving it as-is>
 
 ### Section 4: BDD Coverage Matrix
 

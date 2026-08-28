@@ -23,7 +23,7 @@ You are a Senior QA Engineer.
 6. Check `workspace/<folder-name>/docs/test_scenarios_<slug>.md` exists:
    - If missing → stop and inform user: "Test Scenarios not found. Run `/gen-test-scenarios <Feature Name>` first to generate it."
    - If exists → read it before proceeding, including its `## 1. Assumptions & Gaps` section if present (the unified table — see `framework/styles/style_test_scenarios.md`).
-7. Re-read the `**Source BA Doc:**` referenced in `env_<slug>.md` (same fetch/read approach as `/gen-test-scenarios`) for exact wording (messages, field names, entry points) when writing concrete steps and expected results. If it can no longer be fetched or read, continue with the Investigation and Test Scenarios alone and note this in Assumptions & Gaps.
+7. Read `workspace/<folder-name>/input/ba_doc_<slug>.md` — the full Source BA Doc cached by `/investigate` (same cache-first approach as `/gen-test-scenarios`) — for exact wording (messages, field names, entry points) when writing concrete steps and expected results. If that cache file doesn't exist, fall back to reading the `**Source BA Doc:**` line from `env_<slug>.md` and fetching/reading it directly. If it can be neither read from cache nor fetched, continue with the Investigation and Test Scenarios alone and note this in Assumptions & Gaps.
 8. Check whether `docs/test_cases_<slug>.md` already exists (this run would overwrite it), and for existing downstream documents in `workspace/<folder-name>/`:
    - Look for: `docs/test_cases_<slug>.md` (itself), `qa_doc_<slug>.md`
    - If any exist → warn the user:
@@ -39,8 +39,17 @@ You are a Senior QA Engineer.
     - If files exist → read all of them (reusable test data/steps, written conventions). Reuse them instead of redefining the same behavior inline.
     - If the folder is empty or does not exist → skip.
 11. Read `project/project_config.md` and locate `## 2. Context Sync` → `### Test Cases — UI References`. Parse its entries (format: `- <name>: <figma-url>`):
-    - If any entries exist and a `Figma` entry is present and connected under `### MCP Config` → fetch each one live via the Figma MCP tools (`get_screenshot` for the visual, `get_design_context` for structured content), per `framework/rules/rule_test_cases.md`'s Common System Page Rules. Use these for any Test Case that needs a standardized system page (e.g. Error Page, No Permission Page, 404 Page) instead of inventing that page's appearance.
-    - If the section has no entries, or Figma isn't configured/connected → skip; write UI-related Test Cases from the Investigation/Source BA Doc alone, without inventing screen details not stated there.
+    - These entries are project-wide (shared across every feature, not feature-specific), so check `project/reference/test-cases/shared-references/common_system_pages.md` first: if it already has a `## <name>` section whose `Figma:` line matches this entry's `<figma-url>` exactly, reuse its cached description instead of fetching Figma again.
+    - For any entry with no matching cached section (new name, or its `<figma-url>` no longer matches what's cached) — if a `Figma` entry is present and connected under `### MCP Config` → fetch it live via the Figma MCP tools (`get_screenshot` for the visual, `get_design_context` for structured content), derive a description of the page's appearance, states, and exact message text, then write (or replace) its section in `project/reference/test-cases/shared-references/common_system_pages.md`, creating the file if it doesn't exist yet:
+      ```
+      ## <name>
+      Figma: <figma-url>
+
+      <derived description of the page's appearance, states, and exact message text>
+      ```
+      Once written, every later `/gen-test-cases` run — for this feature or any other — reuses it without re-fetching Figma. `/sync` is the designated place to refresh this cache (it offers to delete the file so the next run re-fetches current designs) — don't rely on manually deleting it here.
+    - Use these cached/freshly-derived descriptions for any Test Case that needs a standardized system page (e.g. Error Page, No Permission Page, 404 Page) instead of inventing that page's appearance, per `framework/rules/rule_test_cases.md`'s Common System Page Rules.
+    - If the section has no entries, or Figma isn't configured/connected and nothing is cached for it → skip; write UI-related Test Cases from the Investigation/Source BA Doc alone, without inventing screen details not stated there.
 12. Read `framework/styles/style_general.md` — general writing style rules.
 13. Read `framework/styles/style_test_cases.md` — style rules specific to Test Cases.
 14. Read `framework/rules/rule_test_cases.md` — writing quality rules for Test Cases content.

@@ -35,7 +35,7 @@ You are syncing project context files from Confluence into the local `project/` 
 1. Check whether `project/status.md` exists and contains a `Latest MCP connect:` line with a real timestamp:
    - If not found → run `/connect-mcp` yourself (follow `.claude/commands/connect-mcp.md` in full, including its report) to connect the MCP servers first — don't ask the user to run it separately — then continue to step 2.
 
-2. Read `project/project_config.md` and scan for unfilled placeholders (pattern `<...>`) only within `## 2. Context Sync` section. Stop scanning at `## 3.`. Ignore placeholders inside code blocks (fenced with ` ``` `).
+2. Read `project/project_config.md` once and locate the `## 2. Context Sync` section (stop at the next `## ` heading, i.e. `## 3.`) — keep its content for step 3 below, so that step doesn't need to re-read this file. Scan it for unfilled placeholders (pattern `<...>`), ignoring any inside code blocks (fenced with ` ``` `):
    - If any placeholders are found → stop and inform the user:
      ```
      project/project_config.md has unfilled placeholders:
@@ -45,12 +45,11 @@ You are syncing project context files from Confluence into the local `project/` 
      This branch doesn't edit project_config.md — these sections need to be completed first, then run /sync again.
      ```
 
-3. Read `project/project_config.md` and locate the `## 2. Context Sync` section. Parse only the entries within that section. Each entry has this format:
+3. Parse only the entries within the `## 2. Context Sync` section already read in step 2. Each entry has this format:
    ```
    - <local-file-path>
      url: <page-url>
    ```
-   Stop parsing at the next `## ` heading (i.e. `## 3.`) — do not read entries from other sections.
 
 4. For each valid entry, branch on the entry URL's hostname:
 
@@ -82,7 +81,12 @@ Sync complete:
 Skipped (no URL): <count> entries
 ```
 
-6. After syncing, scan the following folders for **orphaned files** — `.md` files that exist locally but have no matching entry in `project/project_config.md`:
+6. Check whether `project/reference/test-cases/shared-references/common_system_pages.md` exists. This is a cache `/gen-test-cases` builds from live Figma fetches (Common System Pages — Error Page, No Permission Page, 404 Page, etc.) and reuses across every feature afterward — `/sync` doesn't populate it, but a `/sync` run is the natural checkpoint for catching upstream changes, since it exists specifically to refresh stale local content. Ask the user: "Found a cached Common System Pages file (`common_system_pages.md`) that `/gen-test-cases` reuses across features — refresh it so the next `/gen-test-cases` run re-fetches the current Figma designs instead of possibly outdated ones? (yes/no)"
+   - **yes** → delete the file, confirm: `✓ Deleted common_system_pages.md — /gen-test-cases will re-derive it fresh next time it needs a Common System Page.`
+   - **no** → leave it untouched.
+   - If the file doesn't exist → skip this step silently.
+
+7. After syncing, scan the following folders for **orphaned files** — `.md` files that exist locally but have no matching entry in `project/project_config.md`:
    - `project/context/`
    - `project/reference/business-rules/principles/`
    - `project/reference/business-rules/shared-references/`
@@ -96,7 +100,7 @@ Skipped (no URL): <count> entries
    - `project/reference/test-scenarios/principles/`
    - `project/reference/test-scenarios/shared-references/`
    - `project/reference/test-cases/principles/`
-   - `project/reference/test-cases/shared-references/`
+   - `project/reference/test-cases/shared-references/` (skip `common_system_pages.md` here — handled separately in step 6 above, not a project_config-mapped orphan)
 
    If orphaned files are found → ask the user:
    ```
@@ -111,7 +115,7 @@ Skipped (no URL): <count> entries
 
    If no orphaned files are found → skip this step silently.
 
-7. Update `project/status.md`. This file is local bookkeeping only (gitignored, never shared or published) — separate from `project/project_config.md`, which is also gitignored but is the one meant to be shared with the team:
+8. Update `project/status.md`. This file is local bookkeeping only (gitignored, never shared or published) — separate from `project/project_config.md`, which is also gitignored but is the one meant to be shared with the team:
    - Get the current date and time at the moment sync completes, for `Latest sync:`.
    - If pre-flight actually pulled `project_config.md` using a source URL this run (cases A, A′-yes, B, C-given, or D above) → that URL is the value for `Project config source:`. If pre-flight skipped the pull (cases A′-no or C-declined) → leave `Project config source:` exactly as it already is (don't add or remove it).
    - `Project config source:` always sits immediately before `Latest sync:`, both before any `Latest MCP connect:` block.

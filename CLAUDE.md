@@ -30,7 +30,7 @@ Used as part of the regular per-feature QA document generation flow.
 | `/review <Feature Name>` | Review Test Scenarios and Test Cases for BDD quality, Test Case quality, AC coverage, and consistency against the Source BA Doc and project context — shown in chat, with every finding resolved before publishing |
 | `/publish <Feature Name>` | Publish QA Doc to Confluence and update Jira status |
 
-`/gen-doc <Feature Name>` is not a step in this sequence — it's a shortcut that runs resolve-assumptions, gen-test-scenarios, gen-test-cases, package, and review back-to-back, in place of running those five commands one at a time.
+`/gen-doc <Feature Name>` is not a step in this sequence — it's a shortcut that runs resolve-assumptions, gen-test-scenarios, gen-test-cases, and review back-to-back, in place of running those commands one at a time. It skips `/package` — `/review` creates/refreshes the packaged QA Doc itself.
 | `/check <Feature Name>` | Show doc status and suggest next step |
 | `/clear-workspace` | Delete all feature folders in workspace/ |
 | `/reset` | Delete all synced context/reference files, reset project_config.md to its unconfigured state, and clear all feature folders in workspace/ |
