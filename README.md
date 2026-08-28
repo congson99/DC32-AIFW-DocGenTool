@@ -69,11 +69,11 @@ Run in this order to produce a complete QA Doc for one feature.
 |---|---|
 | `/start <Feature Name>` | Initialize feature folder, env file, and context file |
 | `/investigate <Feature Name>` | Read the feature's Source BA Doc and distill it into an Investigation file, asking the user for anything missing |
-| `/resolve-assumptions <Feature Name>` | Identify unclear points in the Investigation/Source BA Doc and get the user to confirm or resolve every one of them before any generation begins |
+| `/resolve-assumptions <Feature Name>` | Identify unclear points in the Investigation/Source BA Doc, evaluate the quality and completeness of its Acceptance Criteria, and get the user to confirm or resolve every one of them before any generation begins |
 | `/gen-test-scenarios <Feature Name>` | Generate Test Scenarios from the Investigation |
 | `/gen-test-cases <Feature Name>` | Generate Test Cases from the Test Scenarios |
 | `/package <Feature Name>` | Package Test Scenarios and Test Cases into a single QA Doc |
-| `/review <Feature Name>` | Review AC, Business Rules, Flow, and Test Scenarios for quality, completeness, and coverage — shown in chat, with every finding resolved before publishing |
+| `/review <Feature Name>` | Review Test Scenarios and Test Cases for BDD quality, Test Case quality, AC coverage, and consistency against the Source BA Doc and project context — shown in chat, with every finding resolved before publishing |
 | `/publish <Feature Name>` | Publish QA Doc to Confluence and update Jira status |
 
 > `/gen-doc <Feature Name>` is not a step in this sequence — it's a shortcut that runs `/resolve-assumptions` → `/gen-test-scenarios` → `/gen-test-cases` → `/package` → `/review` back-to-back, pausing only where those steps themselves always pause (Assumptions & Gaps, Review). Use it instead of running those five commands one at a time.

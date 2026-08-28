@@ -40,20 +40,19 @@ Rules while running the pipeline:
 
 ## Final Report
 
-Once all 5 steps complete:
+Step 4 (`review.md`) ends by showing the full review, the Overall Summary, and its own `## Confirm` block — which already asks "Run `/publish <Feature Name>` now? (yes/no)" and, on "yes", chains straight into `publish.md` itself. Do not ask that question again here; `review.md` owns the publish decision so that publishing can only follow a completed review.
+
+Once Steps 0–3 are done and Step 4's review content (Sections 1–5 and the Overall Summary) has been shown — but before `review.md`'s own `## Confirm` block fires — display this checklist:
 
 ```
 ✓ assumptions_<slug>.md
 ✓ test_scenarios_<slug>.md
 ✓ test_cases_<slug>.md
 ✓ qa_doc_<slug>.md
-✓ Review — all findings resolved (see review above)
 
 Feature "<Feature Name>" fully generated, packaged, and reviewed.
 ```
 
-If any questions were asked mid-pipeline, note which sections were affected before the final report.
+If any questions were asked mid-pipeline, note which sections were affected before this checklist.
 
-Then ask the user: "Run `/publish <Feature Name>` now? (yes/no)"
-- **no** → stop here and remind: "Review qa_doc_<slug>.md, then run /publish <Feature Name> when ready."
-- **yes** → immediately follow the full instructions in `.claude/commands/publish.md` now, using the same `<Feature Name>`, continuing straight into its Pre-flight Check and Steps.
+Then let `review.md`'s own `## Confirm` block run as normal (its findings-resolution summary line, then the "Run `/publish <Feature Name>` now?" question and its yes/no handling).

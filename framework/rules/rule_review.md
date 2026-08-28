@@ -2,22 +2,22 @@
 
 ## Main Principle
 
-Review the fully generated QA spec for a feature — Acceptance Criteria (derived from the Investigation's Business Rules & Validations and Permissions sections), and the BDD-style Test Scenarios and Test Cases — to assess:
+Review the fully generated QA spec for a feature — the BDD-style Test Scenarios and Test Cases — to assess:
 
-1. Whether every unclear point in the source (Investigation, Source BA Doc, Test Scenarios, Test Cases) has been surfaced and resolved with the user.
-2. Whether each AC is well-written.
-3. Whether each Test Scenario (BDD) is well-written.
-4. Whether the ACs are complete and correct relative to the feature intent — including full coverage of every Business Rule listed in the Investigation (checked as part of AC Completeness; Business Rules are not scored as their own quality dimension the way ACs and Test Scenarios are) — and whether the Test Scenarios fully cover all ACs.
+1. Whether every unclear point in the source (Investigation, Source BA Doc, Test Scenarios, Test Cases) that surfaces only now (i.e. not already resolved by `/resolve-assumptions`) has been surfaced and resolved with the user.
+2. Whether each Test Scenario (BDD) is well-written.
+3. Whether each Test Case is well-written — concrete steps, deterministic expected results, and correct Scope/Priority/Automatable assignment per `framework/rules/rule_test_cases.md`.
+4. Whether the Test Scenarios fully cover all ACs — the AC list itself comes from the Investigation as already-resolved ground truth (its quality and completeness were evaluated and resolved earlier, in `/resolve-assumptions` — see `framework/rules/rule_resolve_assumptions.md`); this review does not re-evaluate AC quality or re-run AC completeness checks, only whether Test Scenarios map to every AC.
 5. Whether the spec is faithful to its own source — the Source BA Doc, the Investigation, and the project's shared context/reference material (`project/context/`, `project/reference/test-scenarios/`, `project/reference/test-cases/`).
 
-This is a review pass over already-generated artifacts (Investigation, Test Scenarios, Test Cases, and the packaged `qa_doc_<slug>.md`) — it does not regenerate them wholesale. It runs after `/package`, as the final quality gate before publishing. Every finding from all five checks above must be resolved with the user before the review finishes — not just recorded for later. The review itself is shown in chat, not written to a file.
+This is a review pass over already-generated artifacts (Investigation, Test Scenarios, Test Cases, and the packaged `qa_doc_<slug>.md`) — it does not regenerate them wholesale. It runs after `/package`, as the final quality gate before publishing. Every finding from all four checks above must be resolved with the user before the review finishes — not just recorded for later. The review itself is shown in chat, not written to a file.
 
 ---
 
 ## What To Do
 
 - Base all judgments strictly on the Investigation, the Source BA Doc, the generated Test Scenarios/Test Cases, and the project context/reference material they were built from.
-- Evaluate each AC and each Test Scenario individually and holistically.
+- Evaluate each Test Scenario individually and holistically.
 - Flag missing coverage, ambiguity, contradictions, and quality issues.
 - Group related findings where possible — do not repeat the same issue multiple times.
 - For every finding (not only unclear points), propose a specific fix and get the user's explicit decision before applying it or moving on.
@@ -28,11 +28,11 @@ This is a review pass over already-generated artifacts (Investigation, Test Scen
 ## What NOT To Do
 
 - Do not invent business rules, scenarios, or test data not stated or strongly implied by the source.
-- Do not rewrite AC, Test Scenarios, or Test Cases without the user's explicit decision on that specific finding first — propose the fix, then apply only what they confirm (or their alternative).
+- Do not rewrite Test Scenarios or Test Cases without the user's explicit decision on that specific finding first — propose the fix, then apply only what they confirm (or their alternative).
 - Do not treat your own assumptions as confirmed facts.
 - Do not raise issues that are clearly out of scope for this feature.
 - Do not let a finding go unresolved with a bare "skip" — every finding needs either an applied fix or an explicit, recorded reason it was left as-is.
-- Do not re-litigate `assumptions_<slug>.md`'s already-resolved rows from `/resolve-assumptions` — carry them forward as-is; only a genuinely new unclear point surfacing during this review gets added to the working list.
+- Do not re-litigate `assumptions_<slug>.md`'s already-resolved rows, or the Investigation's AC quality/completeness already resolved, from `/resolve-assumptions` — carry them forward as-is; only a genuinely new unclear point surfacing during this review gets added to the working list.
 
 ---
 
@@ -52,26 +52,6 @@ Every unclear point goes into the combined findings list with a tag:
 - `[Needs Clarification]` — cannot be finalized without an answer.
 
 For every `[Needs Clarification]` item, ask the user directly — one focused question at a time, in plain language — and resolve it before finalizing any finding that depends on it. Do not invent an answer and do not silently proceed. `[Explicit]` and `[Assumed]` items still need an explicit confirmation from the user, not just a record.
-
----
-
-## What Makes a Good AC
-
-| Criterion | Description |
-|---|---|
-| Testable | Can be verified objectively — has a clear pass/fail condition. |
-| Atomic | Covers exactly one behavior or rule — not bundled with others. |
-| Unambiguous | No vague terms (e.g. equivalents of "fast", "easy", "appropriate", "should work"). |
-| Bounded | States specific conditions, limits, or constraints — not open-ended. |
-| Actor-aware | Clear who does what (user, system, admin, etc.). |
-| Result-clear | States what the system does in response — not just what the user does. |
-| In-scope | Belongs to this feature — not a different feature or epic. |
-
-**Common AC anti-patterns** (illustrated in English for pattern recognition only — judge the actual AC in the Document language it's written in):
-- "The system should be user-friendly" — not testable.
-- "Users can create and edit and delete X" — not atomic.
-- "The form validates correctly" — vague, no specifics.
-- "It works on mobile" — needs an explicit constraint (which breakpoints? which behaviors?).
 
 ---
 
@@ -96,9 +76,29 @@ For every `[Needs Clarification]` item, ask the user directly — one focused qu
 
 ---
 
+## What Makes a Good Test Case
+
+| Criterion | Description |
+|---|---|
+| Maps to one scenario | References exactly one existing `S<N>` ID, with one clear validation objective. |
+| Steps are concrete | Numbered, imperative, concrete actions — not vague ("navigate to X" only via a BA-defined entry point). |
+| Test Data is concrete | Real sample values, reusing the Investigation's Data Definition where available — never placeholders. |
+| Expected Result is deterministic | Observable, testable pass/fail; message wording matches the Source BA Doc/Investigation exactly when the case is about a specific message. |
+| Scope/Priority/Automatable correctly assigned | Scope follows the Scope Guideline's two-step check; Priority and Automatable follow their guidelines — all in `framework/rules/rule_test_cases.md`. |
+| No duplicate intent | Doesn't re-test a behavior or data variation already covered by another Test Case. |
+
+**Common Test Case anti-patterns** (illustrated in English for pattern recognition only):
+- Steps: "Enter an invalid quantity" — not concrete; should state the exact value used.
+- Test Data: `<value>` left as a placeholder instead of a real sample.
+- Expected Result: "Shows an error" — not deterministic; should state the exact message.
+- Scope marked `BE, FE` for a case whose trigger has no valid UI path (should be `BE` only per the Scope Guideline).
+- A second Test Case that only changes one data value from an existing case with the same trigger and outcome — should be a Test Data row instead.
+
+---
+
 ## Source Mapping
 
-- **AC** — from the Investigation's `Business Rules & Validations` section (validation-style items) and `Permissions` section, cross-referenced against the original AC IDs when the Source BA Doc carries them.
+- **AC** — from the Investigation's `Business Rules & Validations` section (validation-style items) and `Permissions` section, cross-referenced against the original AC IDs when the Source BA Doc carries them. Taken as already-resolved ground truth (`/resolve-assumptions` already evaluated its quality and completeness) — used here only to build the BDD Coverage Matrix, not re-evaluated.
 - **BR** — from the Investigation's `Business Rules & Validations` section (policy-style items).
 - **Flow** — from the Investigation's `Flow` section (Main Flow / Alternate Flows).
 - **BDD / Test Scenarios** — from `test_scenarios_<slug>.md`.
