@@ -85,7 +85,7 @@ Run in this order to produce a complete BA Doc for one feature.
 | `/gen-flow <Feature Name>` | Generate Flow |
 | `/gen-ui-behavior <Feature Name>` | Generate UI Behavior |
 | `/gen-messages <Feature Name>` | Generate Messages |
-| `/gen-doc <Feature Name>` | Shortcut: run gen-brief through gen-messages, package, and review back-to-back, without pausing for review between steps |
+| `/gen-doc <Feature Name>` | Shortcut: run gen-brief through gen-messages and review back-to-back, without pausing for review between steps. Skips `/package` — `/review` creates/refreshes the packaged BA Doc itself |
 | `/package <Feature Name>` | Package all nine sections (Brief through Messages) into a single BA Doc |
 | `/review <Feature Name>` | Review the packaged BA Doc for unclear points, AC/Business Rule quality, completeness, and cross-document consistency — shown in chat, with every finding resolved before publishing |
 | `/publish <Feature Name>` | Publish BA Doc to Confluence and update Jira status |

@@ -35,7 +35,7 @@ You are syncing project context files from Confluence into the local `project/` 
 1. Check whether `project/status.md` exists and contains a `Latest MCP connect:` line with a real timestamp:
    - If not found → run `/connect-mcp` yourself (follow `.claude/commands/connect-mcp.md` in full, including its report) to connect the MCP servers first — don't ask the user to run it separately — then continue to step 2.
 
-2. Read `project/project_config.md` and scan for unfilled placeholders (pattern `<...>`) only within `## 2. Context Sync` section. Stop scanning at `## 3.`. Ignore placeholders inside code blocks (fenced with ` ``` `).
+2. Read `project/project_config.md` once and locate the `## 2. Context Sync` section (stop at the next `## ` heading, i.e. `## 3.`) — keep its content for step 3 below, so that step doesn't re-read this file. Scan it for unfilled placeholders (pattern `<...>`), ignoring any inside code blocks (fenced with ` ``` `):
    - If any placeholders are found → stop and inform the user:
      ```
      project/project_config.md has unfilled placeholders:
@@ -45,12 +45,11 @@ You are syncing project context files from Confluence into the local `project/` 
      This branch doesn't edit project_config.md — these sections need to be completed first, then run /sync again.
      ```
 
-3. Read `project/project_config.md` and locate the `## 2. Context Sync` section. Parse only the entries within that section. Each entry has this format:
+3. Parse only the entries within the `## 2. Context Sync` section already read in step 2. Each entry has this format:
    ```
    - <local-file-path>
      url: <page-url>
    ```
-   Stop parsing at the next `## ` heading (i.e. `## 3.`) — do not read entries from other sections.
 
 4. For each valid entry, branch on the entry URL's hostname:
 

@@ -3,7 +3,7 @@ name: "Review"
 description: "Review the packaged BA Doc for unclear points, AC/Business Rule quality, completeness, cross-document consistency, and consistency against the Investigation file and project context/reference material — shown directly in chat, with every finding resolved with the user (doc edited, or explicitly confirmed as-is) before the feature can move on to /publish. Usage: /review <Feature Name>"
 ---
 
-You are a Senior Business Analyst reviewing the feature's fully generated BA Doc for quality, completeness, cross-document consistency, and fidelity to its own source (the Investigation file and the project's context/reference material) — this is a review pass over already-generated artifacts, not a regeneration of them. It runs after `/package` and before `/publish`, as the final quality gate before the doc goes out.
+You are a Senior Business Analyst reviewing the feature's fully generated BA Doc for quality, completeness, cross-document consistency, and fidelity to its own source (the Investigation file and the project's context/reference material) — this is a review pass over already-generated artifacts, not a regeneration of them. It runs as the final quality gate before publishing, directly over the nine `docs/*.md` sections — `/package` does not need to have run first; this step creates or refreshes the packaged `ba_doc_<slug>.md` itself (Step 2a).
 
 This review produces no file. Every finding is shown directly in the chat and must be resolved with the user, one at a time, before the command finishes — `/publish` will refuse to run until it has.
 
@@ -23,7 +23,7 @@ This review produces no file. Every finding is shown directly in the chat and mu
 4. Check `workspace/<folder-name>/input/investigation_<slug>.md` exists:
    - If missing → stop and inform user: "Investigation file not found. Run `/investigate <Feature Name>` first to generate it."
    - Read it before proceeding — this is the source of truth for scope and intent, alongside the nine generated sections below.
-5. Check all nine files exist under `workspace/<folder-name>/docs/`: `brief_<slug>.md`, `dependencies_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` — if any are missing, stop: "`<file>` not found. Run `/package <Feature Name>` first to generate it and package the BA Doc."
+5. Check all nine files exist under `workspace/<folder-name>/docs/`: `brief_<slug>.md`, `dependencies_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md` — if any are missing, stop and name the missing file(s) together with the exact command that produces each: `brief_<slug>.md` → `/gen-brief`, `dependencies_<slug>.md` → `/gen-dependencies`, `ac_<slug>.md` → `/gen-ac`, `business_rule_<slug>.md` → `/gen-business-rule`, `data_definition_<slug>.md` → `/gen-data-definition`, `navigation_<slug>.md` → `/gen-navigation`, `flow_<slug>.md` → `/gen-flow`, `ui_behavior_<slug>.md` → `/gen-ui-behavior`, `messages_<slug>.md` → `/gen-messages`.
 6. Read all nine files before proceeding.
 7. Check `workspace/<folder-name>/input/context_<slug>.md` exists and read it — load every file it lists under `# Context Files` (same as `/investigate` does). This is the feature's own source context, used later to check the doc set didn't drift from it.
 8. Check each of these `project/reference/` subfolders for `.md` files and read any found — this is project-wide ground truth/conventions to check the doc set against, not new content to extract: `business-rules/principles/`, `business-rules/shared-references/`, `data-definition/shared-references/`, `ui-behavior/principles/`, `ui-behavior/shared-references/`, `navigation/`, `flow/`, `messages/`. Skip any subfolder that's empty or doesn't exist.
@@ -74,7 +74,11 @@ After each answer:
 - An explicit reason the item doesn't need a doc change (e.g. it depends on a feature that doesn't exist yet in this project, or it's a framework-level concern out of scope for this feature) → keep the doc unchanged, but record the reason — this still counts as resolved, since a decision was made and explained. Do not accept a bare "skip" with no reason for anything except a genuinely optional item.
 - Then move to the next item's question, until every item on the combined list has received an explicit response.
 
-No item may remain undecided once this step ends — every one must have either an applied doc edit or a recorded reason it was left as-is.
+No item may remain undecided once this step ends — every one must have either an applied doc edit or a recorded reason it was left as-is. Apply every fix directly to its source file only (the relevant `docs/*.md` file) — do not also hand-edit `ba_doc_<slug>.md` per item; Step 2a below regenerates it once, in full, from the updated source files.
+
+**Step 2a — Create or refresh the packaged BA Doc**
+
+Create `workspace/<folder-name>/ba_doc_<slug>.md` if it doesn't exist yet, or overwrite it if it does, from the current nine `docs/*.md` files — same copy-and-structure procedure as `.claude/commands/package.md`'s own Step 1. Always run this step, regardless of whether Step 2 found any findings: this is what guarantees `ba_doc_<slug>.md` exists and reflects every fix from Step 2, whether `/package` already ran before this (manual, one-command-at-a-time flow) or not (`/gen-doc`, which no longer calls `/package` separately for this exact reason).
 
 **Step 3 — Show the review in chat**
 

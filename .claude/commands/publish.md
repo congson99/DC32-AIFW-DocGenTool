@@ -13,7 +13,7 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 
 ## Pre-flight
 
-1. Scan the `### 4.1 BA` subsection under `## 4. Task Automation` in `project/project_config.md` for unfilled placeholders (pattern `<...>`):
+1. Read `project/project_config.md` once and locate the `### 4.1 BA` subsection under `## 4. Task Automation`. Keep its parsed action entries (within `#### Jira` and `#### Confluence`, stopping at the next `### ` heading or end of file) for Step 3 below, so that step doesn't need to re-read this file. Scan this same subsection for unfilled placeholders (pattern `<...>`):
    - If any placeholders are found → stop and inform the user:
      ```
      project/project_config.md — Task Automation (4.1 BA) has unfilled placeholders:
@@ -24,25 +24,25 @@ You are a Senior Business Analyst completing a feature task. Execute each step i
 
 2. Derive folder name: kebab-case of Feature name (e.g. "Create PO" → `create-po`)
 3. Derive file slug: replace `-` with `_` (e.g. `create-po` → `create_po`)
-4. Read `workspace/<folder-name>/input/env_<slug>.md` — if missing, stop: "Environment file not found. Run `/start <Feature Name>` first."
-5. Scan `workspace/<folder-name>/input/env_<slug>.md` for unfilled placeholders (pattern `<...>`):
-   - If any placeholders are found → stop and inform the user:
-     ```
-     env_<slug>.md has unfilled placeholders:
-       - <placeholder 1>
-       ...
-     Please fill these in before running /publish.
-     ```
-6. Check `workspace/<folder-name>/ba_doc_<slug>.md` exists — if missing, stop: "BA Doc not found. Run `/package <Feature Name>` first."
-7. Check all nine files under `workspace/<folder-name>/docs/` exist (`brief_<slug>.md`, `dependencies_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md`) — if any are missing, stop: "`<file>` not found. Run `/package <Feature Name>` again to regenerate the BA Doc and its source files."
-8. Check `workspace/<folder-name>/input/env_<slug>.md` for a `**Review:** ✓ Completed` line — if missing (never reviewed) or present but not marked completed, stop: "Doc review not completed for this feature. Run `/review <Feature Name>` first and resolve every finding before publishing."
-9. Read `workspace/<folder-name>/input/env_<slug>.md` and check for an "AI Doc folder" entry under "Confluence output pages" — if missing or still a placeholder, stop: "`AI Doc folder` is not set in env_<slug>.md. Add a Confluence page link to publish role-specific AI Docs under."
+4. Read `workspace/<folder-name>/input/env_<slug>.md` once — if missing, stop: "Environment file not found. Run `/start <Feature Name>` first." Keep its content for every check below and for Step 1 (Confluence output page link) and Step 2 (Platforms line, AI Doc folder page) so none of them need to re-read this file:
+   - Scan it for unfilled placeholders (pattern `<...>`):
+     - If any found → stop and inform the user:
+       ```
+       env_<slug>.md has unfilled placeholders:
+         - <placeholder 1>
+         ...
+       Please fill these in before running /publish.
+       ```
+   - Check `workspace/<folder-name>/ba_doc_<slug>.md` exists — if missing, stop: "BA Doc not found. Run `/package <Feature Name>` or `/review <Feature Name>` first."
+   - Check all nine files under `workspace/<folder-name>/docs/` exist (`brief_<slug>.md`, `dependencies_<slug>.md`, `ac_<slug>.md`, `business_rule_<slug>.md`, `data_definition_<slug>.md`, `navigation_<slug>.md`, `flow_<slug>.md`, `ui_behavior_<slug>.md`, `messages_<slug>.md`) — if any are missing, stop and name the missing file(s) together with the exact command that produces each: `brief_<slug>.md` → `/gen-brief`, `dependencies_<slug>.md` → `/gen-dependencies`, `ac_<slug>.md` → `/gen-ac`, `business_rule_<slug>.md` → `/gen-business-rule`, `data_definition_<slug>.md` → `/gen-data-definition`, `navigation_<slug>.md` → `/gen-navigation`, `flow_<slug>.md` → `/gen-flow`, `ui_behavior_<slug>.md` → `/gen-ui-behavior`, `messages_<slug>.md` → `/gen-messages`.
+   - Check for a `**Review:** ✓ Completed` line — if missing (never reviewed) or present but not marked completed, stop: "Doc review not completed for this feature. Run `/review <Feature Name>` first and resolve every finding before publishing."
+   - Check for an "AI Doc folder" entry under "Confluence output pages" — if missing or still a placeholder, stop: "`AI Doc folder` is not set in env_<slug>.md. Add a Confluence page link to publish role-specific AI Docs under."
 
 ---
 
 ## Step 1 — Publish BA Doc
 
-Publish the contents of `workspace/<folder-name>/ba_doc_<slug>.md` to the Confluence page listed under "Confluence output pages: BA Doc" in `env_<slug>.md`. This always runs — it is not configurable via Task Automation.
+Publish the contents of `workspace/<folder-name>/ba_doc_<slug>.md` to the Confluence page listed under "Confluence output pages: BA Doc" in `env_<slug>.md` (already read in Pre-flight). This always runs — it is not configurable via Task Automation.
 
 Before the converted content, insert a native Confluence Table of Contents macro so the page opens with a full-level heading outline, no bullets or numbers. Use `contentFormat: "html"` and prepend this node ahead of the rest of the body:
 ```html
@@ -53,7 +53,7 @@ Before the converted content, insert a native Confluence Table of Contents macro
 
 ## Step 2 — Publish Role-Specific AI Docs
 
-Read the `**Platforms:**` line in `env_<slug>.md` — this always contains a real, validated value (`/start` requires it, per-feature). Only the roles listed there get a page; this is the one part of Step 2 that Platforms makes configurable per feature — everything else about how each listed page is built is fixed, not configurable via Task Automation. For each role listed, create or update its child page under the "AI Doc folder" page (from `env_<slug>.md`), assembled from the already-generated files in `workspace/<folder-name>/docs/`:
+Use the `**Platforms:**` line in `env_<slug>.md` (already read in Pre-flight) — this always contains a real, validated value (`/start` requires it, per-feature). Only the roles listed there get a page; this is the one part of Step 2 that Platforms makes configurable per feature — everything else about how each listed page is built is fixed, not configurable via Task Automation. For each role listed, create or update its child page under the "AI Doc folder" page (from `env_<slug>.md`), assembled from the already-generated files in `workspace/<folder-name>/docs/`:
 
 | Role | Page title | Sections included, in order |
 |---|---|---|
@@ -77,9 +77,9 @@ For each included role page:
 
 ## Step 3 — Execute Task Automation
 
-Read `project/project_config.md` and locate the `### 4.1 BA` subsection under `## 4. Task Automation`. Parse all action entries within its `#### Jira` and `#### Confluence` subsections (stop at the next `### ` heading or end of file) — do not execute anything listed under `### 4.2 QA`.
+Use the `### 4.1 BA` action entries already parsed in Pre-flight — do not re-read `project/project_config.md`.
 
-For each action listed, execute it using the appropriate MCP tools and any relevant values from `env_<slug>.md`. Track the result of each action for the Summary.
+For each action listed, execute it using the appropriate MCP tools and any relevant values from `env_<slug>.md` (already read in Pre-flight). Track the result of each action for the Summary.
 
 **Section numbering on split pages:** When an action publishes only a subset of BA Doc sections (e.g. "Publish sections Navigation, Flow, UI Behavior, Messages ... to Flow confluence output page") to its own standalone Confluence page, renumber the section headings sequentially starting from `1` in the order they appear on that page — do not carry over their original BA Doc numbering (e.g. `5. Navigation` becomes `1. Navigation`, `6. Flow` becomes `2. Flow`, etc.). This applies only to the heading number published to Confluence; the numbering inside `workspace/<folder-name>/` source files and the full `ba_doc_<slug>.md` stays unchanged.
 
