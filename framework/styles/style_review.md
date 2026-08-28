@@ -49,6 +49,7 @@ Applies to the chat message `/review` shows once every finding has been resolved
 | Maps to one scenario | ✅ / ⚠️ / ❌ | <notes> |
 | Steps are concrete | ✅ / ⚠️ / ❌ | <notes> |
 | Test Data is concrete | ✅ / ⚠️ / ❌ | <notes> |
+| Preconditions are concrete | ✅ / ⚠️ / ❌ | <notes> |
 | Expected Result is deterministic | ✅ / ⚠️ / ❌ | <notes> |
 | Scope/Priority/Automatable correctly assigned | ✅ / ⚠️ / ❌ | <notes> |
 | No duplicate intent | ✅ / ⚠️ / ❌ | <notes> |

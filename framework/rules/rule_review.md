@@ -83,6 +83,7 @@ For every `[Needs Clarification]` item, ask the user directly — one focused qu
 | Maps to one scenario | References exactly one existing `S<N>` ID, with one clear validation objective. |
 | Steps are concrete | Numbered, imperative, concrete actions — not vague ("navigate to X" only via a BA-defined entry point). |
 | Test Data is concrete | Real sample values, reusing the Investigation's Data Definition where available — never placeholders. |
+| Preconditions are concrete | Names specific identifying values or exact setup steps for any prerequisite record/state — never a bare description the tester has to interpret or invent data for. |
 | Expected Result is deterministic | Observable, testable pass/fail; message wording matches the Source BA Doc/Investigation exactly when the case is about a specific message. |
 | Scope/Priority/Automatable correctly assigned | Scope follows the Scope Guideline's two-step check; Priority and Automatable follow their guidelines — all in `framework/rules/rule_test_cases.md`. |
 | No duplicate intent | Doesn't re-test a behavior or data variation already covered by another Test Case. |
@@ -90,6 +91,7 @@ For every `[Needs Clarification]` item, ask the user directly — one focused qu
 **Common Test Case anti-patterns** (illustrated in English for pattern recognition only):
 - Steps: "Enter an invalid quantity" — not concrete; should state the exact value used.
 - Test Data: `<value>` left as a placeholder instead of a real sample.
+- Preconditions: "A Draft PO exists" — not concrete; should name the specific PO or the exact steps to create one.
 - Expected Result: "Shows an error" — not deterministic; should state the exact message.
 - Scope marked `BE, FE` for a case whose trigger has no valid UI path (should be `BE` only per the Scope Guideline).
 - A second Test Case that only changes one data value from an existing case with the same trigger and outcome — should be a Test Data row instead.

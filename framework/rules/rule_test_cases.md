@@ -110,7 +110,7 @@ If the project has configured shared UI references (`### Test Cases — UI Refer
 
 ## Test Case Fields
 
-- **Preconditions** — only case-specific preconditions (record status, prior data setup); do not restate generic environment setup (e.g. "user is logged in") unless the case specifically depends on it.
+- **Preconditions** — only case-specific preconditions (record status, prior data setup); do not restate generic environment setup (e.g. "user is logged in") unless the case specifically depends on it. Must be concrete enough to set up independently, without reading any other Test Case first: name the specific identifying value(s) of the prerequisite record (e.g. "PO-2024-00123, Status = Draft", not "a Draft PO exists"), or state the exact step(s) needed to create that state when no such record is assumed to already exist. Never leave a precondition as a bare description of a state with nothing concrete to act on.
 - **Steps** — numbered, imperative, concrete ("Enter '0' in the Quantity field", not "Enter an invalid quantity").
 - **Test Data** — concrete sample values, never placeholders; reuse sample values from the Investigation's Data Definition when available.
 - **Expected Result** — split into **Functional** (system behavior, feedback, state change) and **UI** (what is displayed), omitting UI when not applicable. Wording must match the exact message text from the Investigation's Messages section when the case is about a specific message.
@@ -123,6 +123,7 @@ If the project has configured shared UI references (`### Test Cases — UI Refer
 - One clear validation objective per Test Case
 - Steps are numbered and concrete, not vague
 - Test Data uses real sample values, not placeholders
+- Preconditions name concrete identifying values or exact setup steps — never a bare state description a tester would have to interpret or invent data for
 - Expected Result is observable, deterministic, and matches source wording where applicable
 - UI and API behavior are kept separate
 - No duplicated Test Cases for the same data variation of the same scenario

@@ -26,7 +26,7 @@ Applies to `test_cases_<slug>.md` documents.
 
 **Preconditions:**
 - User role: <role + permission scope>
-- Data state: <what must exist before this test>
+- Data state: <concrete pre-existing record — specific ID/name or field values — or the exact step(s) to create it; never a bare description like "a Draft PO exists">
 
 **Steps:**
 1. <action>
