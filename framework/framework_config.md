@@ -2,4 +2,4 @@
 
 > Do not modify this file.
 
-- edit_framework: YES
+- edit_framework: NO
